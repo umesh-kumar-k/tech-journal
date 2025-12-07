@@ -125,6 +125,92 @@ const subscription = observable.subscribe((x) => console.log(x));
 
 - call subscription.unsubscribe() 
 
+
+#### Hot vs Cold Observable
+
+- cold 
+	- standard observables in rxjs
+	- New producer per subscriber
+	- Data producer (code inside the subscription function in the observer that generates the values) is created inside the observable & activated only upon subscription
+	- Each subscriber gets its own independent execution context , starting from the beginning 
+	- Unicast (one to one ) & replayable for every subscriber 
+	- Resource intensive e.g in ng multiple http requests if the get method is subscribed multiple times 
+
+- hot
+	- Producer outside subscribe
+	- Data producer is created outside of the observable & starts emitted immediately or on demand (connect) regardless of the subscription 
+	- Multicast - multiple subscribers share the same producer 
+	- Late subscribers get only partial data 
+	- fromEvent() , subjects etc
+
+- cold observable can be made to hot 
+	- share() , shareReplay() - uses ReplaySubject, shareRepeat(n, refCount)
+
+- cold observable 
+
+```
+const cold$ = of(1, 2, 3).pipe(
+  map(x => {
+    console.log('Processing:', x);  // Logs per subscription
+    return x * 2;
+  })
+);
+
+cold$.subscribe(val => console.log('Sub1:', val));  // Processing:1,2,3 → Sub1:2,4,6
+cold$.subscribe(val => console.log('Sub2:', val));  // Processing:1,2,3 → Sub2:2,4,6 (re-executes!)
+```
+
+- convert cold to hot 
+
+```
+const shared$ = of(1, 2, 3).pipe(
+  map(x => {
+    console.log('Processing:', x);  // Logs only once
+    return x * 2;
+  }),
+  shareReplay(1)  // Multicasts; replays last value to late subs
+);
+
+shared$.subscribe(val => console.log('Sub1:', val));  // Processing:1,2,3 → Sub1:2,4,6
+shared$.subscribe(val => console.log('Sub2:', val));  // Sub2:6 (last value only)
+```
+
+- ng notes 
+	- HttpClient observables are cold—always pipe with shareReplay(1) for services used in multiple components to prevent multiple requests. Event emitters (e.g., @Output()) are hot
+
+
+#### Sharing Observables
+
+#####  Problem
+- HttpClient observables are cold  by default - ensures fresh data per request & lazy loading - but in shared scenarios leads to duplicates
+- Each subscription creates a new execution of the producer 
+- If multiple subscribers (multiple components) both subscribe to the same observable it will trigger multiple http requests to the server
+- 
+
+```
+Injectable({ providedIn: 'root' }) export class UserService { constructor(private http: HttpClient) {}
+	getUsers(): Observable { // Cold observable: No sharing console.log('HTTP Request Initiated'); // Logs per subscription return 
+	this.http.get('/api/users'); // Fires on each subscribe 
+	} 
+}
+
+```
+
+##### Solution
+```
+@Injectable({ providedIn: 'root' }) export class UserService { constructor(private http: HttpClient) {}
+
+	getUsers(): Observable { // Now shared and replaying console.log('HTTP Request Initiated (only once)'); // Logs only once return 
+	this.http.get('/api/users').pipe( shareReplay(1) // Multicasts: One request, replays last value to late subs ); 
+	} 
+}
+
+```
+- first subscription (getUsers() call) triggers http get 
+- second subscription gets the cached value 
+- when unsubscribed(component is destroyed) - refCount (implicit in shareReplay) keeps the subscription alive as long as any subscriber exists.
+
+
 ### Observer
 
 - consumer of values delivered by Observable - set of CBs 
@@ -262,12 +348,113 @@ observable.subscribe(subject);
 		- only the last value of the Observable execution is sent to its observers, and only when the execution completes
 
 
----
+### Schedulers
+- Control Execution Context & timing of tasks within observables
+- Determine when (execution inside subscription function) & how notifications (next, error & complete) are delivered to observers
+	- observeOn - when
+	- subscribeOn - how 
+- By default RxJS uses efficient scheduler automatically 
+- Explicitly provider scheduler through observeOn & subscribeOn 
+- Each RxJS Scheduler maps to the JS execution context 
 
+| JS Execution Context                    | RxJS Scheduler          | Notes |
+| --------------------------------------- | ----------------------- | ----- |
+| Synchronous                             | null                    |       |
+| Queued on current thread                | queueScheduler          |       |
+| Microtask Queue - Promise()             | asapScheduler           |       |
+| Macrotask Queue - setTimeout()          | asyncScheduler          |       |
+| Browser Repaint cycle - Animation Frame | animationFrameScheduler |       |
+
+
+#### subscribeOn & observeOn
+
+- observeOn(scheduler)
+	- controls the scheduler for delivering notifications 
+	- it affects the downstream - observer/subscriber 
+	- affects the operators in the chain
+- subscribeOn(scheduler)
+	- controls the scheduler (execution context) for the subscription process 
+	- it affects the logic where the observable's creation logic run & propogates upstream
+	
+
+```
+import { of, delay, asyncScheduler, asapScheduler } from 'rxjs';
+import { observeOn, subscribeOn, map } from 'rxjs/operators';
+
+// Simulate heavy upstream work: "Fetch" data with delay (like I/O)
+const source$ = of('data1', 'data2', 'data3').pipe(
+  delay(1000, asyncScheduler),  // Upstream delay on async scheduler (background)
+  map(value => `Processed: ${value}`)  // Some transformation
+);
+
+const observable$ = source$.pipe(
+  subscribeOn(asyncScheduler),  // Run subscription/upstream (delay + map) on async (background)
+  observeOn(asapScheduler)      // Deliver emissions to observer on microtask (after sync, before macrotask)
+);
+
+console.log('Before subscribe (main context)');
+observable$.subscribe(value => {
+  console.log(`Received on ${asapScheduler.now()}: ${value}`);  // Logs after subscribe, non-blocking
+});
+console.log('After subscribe (main context)');
+// Output timing:
+// Before subscribe (main context)
+// After subscribe (main context)
+// [~1s later] Received on [timestamp]: Processed: data1
+// [immediate after] Received on [timestamp]: Processed: data2
+// [immediate after] Received on [timestamp]: Processed: data3
+
+```
+
+#### RxJs schedulers over JS APIs
+- Abstraction & Composability 
+- Performance & Browser Specific Optimizations
+
+#### Use Cases
+- Return the cached value async 
+
+```
+```
+```
+@Injectable({providedIn: 'root'})
+export class MovieService {
+  private cache: Map<number, Movie> = new Map<number, Movie>();
+  constructor(private readonly http: HttpClient) {}
+  // ...
+  public getById(id: number): Observable<Movie> {
+    if (this.cache.has(id)) {
+      return scheduled(of(this.cache.get(id)), asyncScheduler);
+    }
+    return this.http.get<Movie>(...);
+  }
+
+```
+
+
+- this fixes the zalgo problem
+	- zalgo is building a function which could be resolved async/sync without the caller having any clear signal about what happened.
+
+```
+function getUsers(callback) {  
+	if (cache.users) {  
+		callback(null, cache.users); // synchronous callback  
+	} else {  
+		ajax('/api/users', callback); // asynchronous callback  
+	}  
+}
+```
+
+- zalgo can result in 
+	- unexpeced race-conditions
+	- makes the function less easy to reason about 
+
+
+---
 
 ## 🧠 Summary
 > After reviewing your notes, write a brief summary of the key takeaways in your own words.
 
-- [Summary paragraph or bullet points]
+- [[https://dev.to/this-is-learning/rxjs-schedulers-2fhl](https://dev.to/this-is-learning/rxjs-schedulers-2fhl)]
+- [[https://rxjs.dev/guide/overview](https://rxjs.dev/guide/overview)]
 
 ---

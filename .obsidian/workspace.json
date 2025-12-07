@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Front-End/Angular/Reactive Programming/RxJs.md",
+                "file": "Front-End/Angular/Reactive Programming/RxJs operators.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "RxJs"
+              "title": "RxJs operators"
             }
           }
         ],
@@ -186,12 +186,13 @@
   },
   "active": "8f7587297dece328",
   "lastOpenFiles": [
-    "Front-End/JS/Fundamentals/Event Loop.md",
-    "Front-End/Angular/Reactive Programming/RxJs.md",
     "Front-End/Cornell-Method.md",
+    "Front-End/Angular/Reactive Programming/RxJs operators.md",
+    "Front-End/Angular/Reactive Programming/RxJs.md",
+    "Front-End/JS/Fundamentals/scope , closure , hoisting.md",
+    "Front-End/JS/Fundamentals/Event Loop.md",
     "Front-End/Deepseek.md",
     "Front-End/Journal.md",
-    "Front-End/JS/Fundamentals/scope , closure , hoisting.md",
     "Front-End/Angular/Reactive Programming",
     "Front-End/Grok.md"
   ]
