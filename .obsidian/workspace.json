@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "d01d360a7e72c7b4",
+        "id": "bfa9f43ead67a2b9",
         "type": "tabs",
         "children": [
           {
-            "id": "a1231bbcc891f43b",
+            "id": "50ec13a341808634",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Front-End/Cornell-Method.md",
+                "file": "Architecture/System Design/Reverse Proxy.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Cornell-Method"
-            }
-          },
-          {
-            "id": "8f7587297dece328",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Front-End/Angular/Reactive Programming/RxJs operators.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "RxJs operators"
+              "title": "Reverse Proxy"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -184,16 +169,39 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "8f7587297dece328",
+  "active": "50ec13a341808634",
   "lastOpenFiles": [
-    "Front-End/Cornell-Method.md",
-    "Front-End/Angular/Reactive Programming/RxJs operators.md",
-    "Front-End/Angular/Reactive Programming/RxJs.md",
-    "Front-End/JS/Fundamentals/scope , closure , hoisting.md",
-    "Front-End/JS/Fundamentals/Event Loop.md",
-    "Front-End/Deepseek.md",
-    "Front-End/Journal.md",
-    "Front-End/Angular/Reactive Programming",
-    "Front-End/Grok.md"
+    "Architecture/System Design/Load Balancer.md",
+    "Architecture/System Design/Reverse Proxy.md",
+    "Architecture/System Design/Scalability.md",
+    "Architecture/System Design/Nginx.md",
+    "Architecture/System Design/CDN.md",
+    "Architecture/System Design/DNS.md",
+    "Architecture/System Design/Background jobs.md",
+    "Architecture/System Design/Availability.md",
+    "Architecture/System Design/Consistency Patterns.md",
+    "Architecture/System Design/Consistency vs Availability.md",
+    "Architecture/System Design/Latency vs Throughput.md",
+    "Architecture/System Design/Performance vs Scalability.md",
+    "Architecture/Architecture Styles/Event-Driven.md",
+    "Architecture/System Design",
+    "Architecture/Architecture Styles/N-tier.md",
+    "Architecture/Architecture Styles/Web Queue Worker.md",
+    "Architecture/Architecture Styles/Serverless.md",
+    "Architecture/MicroServices/Azure/Design/Design Patterns.md",
+    "Architecture/Architecture Styles",
+    "Architecture/MicroServices/Azure/Design/Container Orchestration.md",
+    "Architecture/MicroServices/Azure/Design/Data considerations.md",
+    "Architecture/MicroServices/Azure/Design/API-gateway.md",
+    "Architecture/MicroServices/Azure/Design/API-design.md",
+    "Architecture/MicroServices/Azure/Design/Inter-service Communication.md",
+    "Architecture/MicroServices/Azure/Design/Compute Options.md",
+    "Architecture/MicroServices/Azure/Design/Intro.md",
+    "Architecture/MicroServices/Azure/CI-CD.md",
+    "Architecture/MicroServices/Azure/Design",
+    "Architecture/MicroServices/Azure/Domain Modelling.md",
+    "Architecture/MicroServices/Azure",
+    "Architecture/MicroServices",
+    "Front-End/Angular/Reactive Programming"
   ]
 }
