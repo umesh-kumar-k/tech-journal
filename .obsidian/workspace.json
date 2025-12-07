@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Architecture/System Design/Patterns/Anti Corruption.md",
+                "file": "Architecture/Java/Spring/High Impact Topics.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Anti Corruption"
+              "title": "High Impact Topics"
             }
           }
         ],
@@ -186,8 +186,27 @@
   },
   "active": "caac0f2ee84a223b",
   "lastOpenFiles": [
-    "Architecture/System Design/Patterns/BFF.md",
+    "Architecture/Java/Reactive Programming.md",
+    "Architecture/Java/Profiling.md",
+    "Architecture/Java/Memory Model.md",
+    "Architecture/Java/Memory Leaks.md",
+    "Architecture/Java/JVM Tuning.md",
+    "Architecture/Java/Concurrency.md",
+    "Architecture/Java/Spring/High Impact Topics.md",
+    "Architecture/Java/Hibernate/High Impact Topics.md",
+    "Architecture/Java/Hibernate",
+    "Architecture/Java/Spring/Spring Boot.md",
+    "Architecture/Java/Spring/Security.md",
+    "Architecture/Java/Spring/Observability.md",
+    "Architecture/Java/Spring/ORM.md",
+    "Architecture/Java/Spring/Transaction.md",
+    "Architecture/Java/Spring/AOP.md",
+    "Architecture/Java/Spring",
+    "Architecture/Java/JVM/Performance Tuning Playbook.md",
     "Architecture/System Design/Patterns/Anti Corruption.md",
+    "Architecture/Java/JVM",
+    "Architecture/Java",
+    "Architecture/System Design/Patterns/BFF.md",
     "Architecture/System Design/Patterns/Health End Point Monitoring.md",
     "Architecture/System Design/Patterns/Valet Key.md",
     "Architecture/System Design/Patterns/Strangler Fig.md",
@@ -197,30 +216,11 @@
     "Architecture/System Design/Patterns/Pub Sub.md",
     "Architecture/System Design/Patterns/Overview.md",
     "Architecture/System Design/Patterns/Materialized View.md",
-    "Architecture/System Design/Patterns/Materialized View.md",
-    "Architecture/System Design/Patterns/CQRS.md",
-    "Architecture/System Design/Patterns/Circuit Breaker.md",
-    "Architecture/System Design/Patterns/Bulkhead.md",
-    "Architecture/System Design/Patterns/Cache Aside.md",
-    "Architecture/System Design/Patterns/Event Sourcing.md",
-    "Architecture/System Design/Asynchronous Message Patterns/Message Queues.md",
-    "Architecture/System Design/Sync vs Async Communication.md",
-    "Architecture/System Design/Asynchronous Message Patterns/Overview.md",
-    "Architecture/System Design/Asynchronous Message Patterns/Event Driven - Kafka.md",
-    "Architecture/System Design/Asynchronous Message Patterns/Message Brokers.md",
-    "Architecture/System Design/Asynchronous Message Patterns/Message bus vs Queue.md",
-    "Architecture/System Design/Asynchronous Message Patterns/Message Queues vs Brokers.md",
-    "Architecture/System Design/Asynchronous Message Patterns/Kafka vs RabbitMQ.md",
     "Architecture/System Design/Patterns",
     "Architecture/System Design/Asynchronous Message Patterns",
-    "Architecture/System Design/Distributed Transactions.md",
     "Architecture/System Design/DB/Nosql",
     "Architecture/System Design/DB",
     "Architecture/System Design",
-    "Architecture/Architecture Styles",
-    "Architecture/MicroServices/Azure/Design",
-    "Architecture/MicroServices/Azure",
-    "Architecture/MicroServices",
-    "Front-End/Angular/Reactive Programming"
+    "Architecture/Architecture Styles"
   ]
 }
