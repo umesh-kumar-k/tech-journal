@@ -1,3 +1,61 @@
+
+## Materialized View Pattern
+
+Materialized Views precompute and store query results from complex or poorly-structured source data, enabling fast access without expensive joins or transformations.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view)​
+
+- Disposable cache rebuilt from source data; optimized for specific queries/reporting
+    
+- Updated via events (CQRS/ES), schedules, or triggers; eventual consistency common
+    
+- Denormalized, indexed for read perf; supports microservices data consolidation[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view)​
+    
+
+## Tools and Frameworks
+
+|Platform/Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|SQL Databases|PostgreSQL Materialized Views, SQL Server Indexed Views|Refresh-on-commit sales summary from orders/customers|
+|NoSQL|Azure Cosmos DB Change Feed → materialized docs, MongoDB Aggregation Pipelines|Denormalized product analytics from event streams|
+|Big Data|Apache Kafka Streams, Spark Structured Streaming|Real-time dashboards from partitioned event data|
+|Cloud|Azure Synapse materialized views, AWS Redshift Materialized Views|Cross-partition sales totals from Azure Table Storage|
+|CQRS/ES|EventStoreDB projections, Axon projections|Read models from event sourcing streams|
+
+## Interview Checklist
+
+- Define: Precomputed, stored query results; rebuilt from source (never directly updated)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view)​
+    
+- When: Complex joins, NoSQL aggregates, poor source query perf, reporting dashboards
+    
+- Update: Event-driven (CQRS), scheduled, manual; eventual consistency tradeoff
+    
+- Storage: Same/different store as source; cache (transient) vs durable; indexing
+    
+- Benefits: Query perf (no recompute), simplified client queries, security (subset exposure)
+    
+- Gotchas: Storage cost (multiple views), staleness, rebuild overhead/frequency
+    
+- Microservices: Consolidate bounded context data across services
+    
+- Alternatives: CQRS read models, database views (non-materialized), caching layers
+    
+
+## 60-Second Recap
+
+- **Core**: Pre-build query results as disposable store/cache; rebuild from source[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view)​
+    
+- **Why**: Fast reads from complex/partitioned/NoSQL data; no expensive joins per request
+    
+- **Ex**: Sales summary from Orders+Customers+Items → single denormalized table
+    
+- **Tools**: Postgres mat views, Cosmos Change Feed, Kafka Streams, SQL indexed views
+    
+- **Sync**: Event-driven updates; eventual consistency; snapshots for ES/CQRS
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view](https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view](https://learn.microsoft.com/en-us/azure/architecture/patterns/materialized-view)
+2. [https://learn.microsoft.com](https://learn.microsoft.com/)
 # **Materialized View Pattern**
 
 ## **Core Thesis**

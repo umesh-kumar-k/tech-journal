@@ -1,3 +1,76 @@
+
+## Anti-Corruption Layer Pattern
+
+The Anti-Corruption Layer (ACL) pattern implements a facade or adapter between subsystems with mismatched semantics, like modern apps and legacy systems, to prevent design contamination during migrations.[learn.microsoft+1](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​
+
+- Translates requests from one system's data model/API to another's without altering either core subsystem
+    
+- Protects new/microservices architectures from legacy constraints (e.g., obsolete schemas, protocols)
+    
+- Enables gradual strangler fig migrations by routing calls transparently[aws.amazon](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/acl.html)​
+    
+- Often temporary; decommission after full migration to avoid technical debt[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​
+    
+
+## Tools and Frameworks
+
+|Cloud/Provider|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|AWS|API Gateway, Lambda, DynamoDB (with .NET ACL facade)|Monolith calls Lambda microservice via ACL translator class [github+1](https://github.com/aws-samples/anti-corruption-layer-pattern)​|
+|Azure|Logic Apps, API Management|Facade for legacy-to-cloud integration [learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​|
+|.NET|Dependency Injection (e.g., ServiceCollection.AddBookInfoAcl())|Console app switching legacy vs ACL ports [github](https://github.com/rafaeldalsenter/dotnet-anticorruptionlayer-sample)​|
+|Java|Spring Adapters/Facades|Decoupling subsystems in enterprise apps [java-design-patterns](https://java-design-patterns.com/patterns/anti-corruption-layer/)​|
+
+## Interview Checklist
+
+- Define ACL: Façade/adapter isolating mismatched semantics (e.g., monolith → microservice)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​
+    
+- Explain context: Legacy migrations, external systems with poor APIs/schemas[aws.amazon](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/acl.html)​
+    
+- Tradeoffs: Latency overhead, scaling needs, ops burden (monitoring/CI/CD), single failure point (use circuit breakers)[github](https://github.com/aws-samples/anti-corruption-layer-pattern)​
+    
+- When to use: Semantic diffs in staged migrations; avoid if minor mismatches[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​
+    
+- Implementation: In-app class (e.g., UserServiceACL.cs) or service; translate models (e.g., UserDetails → UserMicroserviceModel)[aws.amazon](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/acl.html)​
+    
+- Alternatives: Strangler Fig (full replacement), Adapter (simpler cases)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​
+    
+
+## 60-Second Recap
+
+- **Core**: ACL = protective translator layer for semantic mismatches (monolith/legacy → modern/microservices)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​
+    
+- **Why**: Zero-downtime migrations, no caller changes, reduced risk/debt[github](https://github.com/aws-samples/anti-corruption-layer-pattern)​
+    
+- **Tools**: AWS (API Gateway/Lambda), Azure Logic Apps, .NET DI facades[aws.amazon](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/acl.html)​
+    
+- **Gotchas**: Latency, scaling, transient debt—plan decommissioning[aws.amazon](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/acl.html)​
+    
+- **Interview Win**: Draw diagram (monolith → ACL → microservice); cite AWS sample[github](https://github.com/aws-samples/anti-corruption-layer-pattern)​
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer)
+2. [https://github.com/aws-samples/anti-corruption-layer-pattern](https://github.com/aws-samples/anti-corruption-layer-pattern)
+3. [https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/acl.html](https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/acl.html)
+4. [https://github.com/rafaeldalsenter/dotnet-anticorruptionlayer-sample](https://github.com/rafaeldalsenter/dotnet-anticorruptionlayer-sample)
+5. [https://java-design-patterns.com/patterns/anti-corruption-layer/](https://java-design-patterns.com/patterns/anti-corruption-layer/)
+6. [https://www.linkedin.com/pulse/anti-corruption-layer-adapter-patterns-subbu-mahadevan](https://www.linkedin.com/pulse/anti-corruption-layer-adapter-patterns-subbu-mahadevan)
+7. [https://www.swiftorial.com/archview/system-design-patterns/anti-corruption-layer](https://www.swiftorial.com/archview/system-design-patterns/anti-corruption-layer)
+8. [https://dev.to/asarnaout/the-anti-corruption-layer-pattern-pcd](https://dev.to/asarnaout/the-anti-corruption-layer-pattern-pcd)
+9. [https://docs.aws.amazon.com/pdfs/prescriptive-guidance/latest/cloud-design-patterns/cloud-design-patterns.pdf](https://docs.aws.amazon.com/pdfs/prescriptive-guidance/latest/cloud-design-patterns/cloud-design-patterns.pdf)
+10. [https://palospublishing.com/creating-patterns-for-anti-corruption-layers/](https://palospublishing.com/creating-patterns-for-anti-corruption-layers/)
+11. [https://learn.microsoft.com/en-gb/azure/architecture/patterns/anti-corruption-layer](https://learn.microsoft.com/en-gb/azure/architecture/patterns/anti-corruption-layer)
+12. [https://learn.microsoft.com/uk-ua/azure/architecture/patterns/anti-corruption-layer?view=azurermps-6.2.0](https://learn.microsoft.com/uk-ua/azure/architecture/patterns/anti-corruption-layer?view=azurermps-6.2.0)
+13. [https://www.youtube.com/watch?v=gGDu4FdUk7I](https://www.youtube.com/watch?v=gGDu4FdUk7I)
+14. [https://microservices.io/patterns/refactoring/anti-corruption-layer.html](https://microservices.io/patterns/refactoring/anti-corruption-layer.html)
+15. [https://www.ekascloud.com/live-projects/anti-corruption-layer-pattern](https://www.ekascloud.com/live-projects/anti-corruption-layer-pattern)
+16. [https://www.linkedin.com/posts/avinash-dhumal_anti-corruption-layer-acl-pattern-innet-activity-7310356073696133120-NmWt](https://www.linkedin.com/posts/avinash-dhumal_anti-corruption-layer-acl-pattern-innet-activity-7310356073696133120-NmWt)
+17. [https://blogit.michelin.io/anti-corruption-layer/](https://blogit.michelin.io/anti-corruption-layer/)
+18. [https://github.com/aws-samples/anti-corruption-layer-pattern/actions](https://github.com/aws-samples/anti-corruption-layer-pattern/actions)
+19. [https://www.youtube.com/watch?v=_oAYFR-hexg](https://www.youtube.com/watch?v=_oAYFR-hexg)
+20. [https://www.dremio.com/wiki/anti-corruption-layer/](https://www.dremio.com/wiki/anti-corruption-layer/)
 # **Anti-Corruption Layer Pattern**
 
 ## **Core Thesis**

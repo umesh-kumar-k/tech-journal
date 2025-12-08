@@ -1,4 +1,93 @@
 
+## Microservices Design Interview Checklist
+
+- **Core Principles**
+    
+    - **Independent Deployment:** Small, autonomous services with independent release cycles.
+        
+    - **Resilience & Scale:** Distributed design requires fault tolerance, horizontal scaling.
+        
+    - **Domain-Driven:** Bounded contexts define service boundaries via DDD analysis.
+        
+- **Architecture Components**
+    
+    - **Compute:** AKS (orchestration), Container Apps (serverless), Functions (code-based).
+        
+    - **API Layer:** API Gateways (routing, aggregation, offloading), Public REST APIs.
+        
+    - **Communication:** Sync (REST/gRPC) + Async (Event Hubs, Service Bus).
+        
+    - **Data:** Polyglot persistence, private datastores per service.
+        
+- **Key Design Areas**
+    
+    |Area|Key Considerations|Tools|
+    |---|---|---|
+    |**API Design**|REST vs gRPC, versioning, idempotency|OpenAPI, Swagger|
+    |**Communication**|Sync/async tradeoffs, service mesh|Istio, Linkerd|
+    |**Data**|Eventual consistency, sagas|Cosmos DB, Redis|
+    |**Orchestration**|Auto-scaling, self-healing|AKS, ArgoCD|
+    
+- **Drone Delivery Reference Architecture**
+    
+    - **Client → Ingestion → Service Bus → Workflow → Specialized Services** (Delivery, Drone Scheduler, Package).
+        
+    - Each service owns data (Redis for hot data, Cosmos DB for documents, Data Lake for analytics).
+        
+    - API Gateway hides internal services from clients.
+        
+- **Cross-Cutting Patterns**
+    
+    - **Gateway Patterns:** Routing, Aggregation, Offloading (auth, SSL).
+        
+    - **Resiliency:** Circuit breaker, bulkhead, retries.
+        
+    - **Data Patterns:** Saga, compensating transactions, event sourcing.
+        
+- **Tools & Frameworks Ecosystem**
+    
+    |Category|Azure Services|Open Source|
+    |---|---|---|
+    |**Orchestration**|AKS, Container Apps|Kubernetes, Helm|
+    |**Messaging**|Event Hubs, Service Bus|Kafka, RabbitMQ|
+    |**API Gateway**|API Management, App Gateway|Kong, Spring Cloud Gateway|
+    |**Service Mesh**|Istio (AKS)|Linkerd, Consul|
+    |**Monitoring**|Application Insights|Prometheus, Grafana|
+    
+- **Architectural Decision Framework**
+    
+    - **Start with Domain Analysis:** Bounded contexts → service boundaries.
+        
+    - **Choose Compute:** K8s ecosystem → AKS; serverless → Container Apps.
+        
+    - **Communication:** Coordination → sync; decoupling → async events.
+        
+    - **Data:** Service-specific datastores, eventual consistency.
+        
+- **Trade-offs & Gotchas**
+    
+    - **Complexity:** Distributed systems debugging, consistency tradeoffs.
+        
+    - **Operational Overhead:** Monitoring, tracing, alerting across services.
+        
+    - **Vendor Lock:** Azure-native vs portable K8s.
+        
+
+## 60-Second Recap
+
+- **Microservices Design:** Domain-driven service boundaries + polyglot persistence + async communication.
+    
+- **Architecture Stack:** AKS/Container Apps + API Gateway + Event Hubs + Cosmos/Redis.
+    
+- **Patterns:** Gateway (routing/aggregation), Saga (distributed tx), Service Mesh (resiliency).
+    
+- **Gold:** DDD first, async-by-default, API Gateway facade, comprehensive observability.
+    
+
+**Reference**: [Azure Microservices Design Guide](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/)
+
 **Source:** Microsoft Azure Architecture Center | [Designing Microservices](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/)
 
 **Main Idea:** Microservices design extends beyond code to encompass **API design, communication patterns, data management, and resilience strategies**. This section provides concrete patterns and practices for building effective microservices that are loosely coupled, independently deployable, and resilient to failure.

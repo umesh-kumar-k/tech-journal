@@ -1,3 +1,75 @@
+
+## Cloud Storage Types Interview Checklist
+
+- **Core Storage Types**
+    
+    |Type|Structure|Access Method|Best For|
+    |---|---|---|---|
+    |**Block**|Fixed-size blocks|Block device (iSCSI)|Databases, VMs, low-latency|
+    |**File**|Hierarchical (folders/files)|File path (NFS/SMB)|Shared files, collaboration|
+    |**Object**|Flat namespace + metadata|REST API (HTTP)|Unstructured data, scale|
+    
+- **Access & Performance**
+    
+    |Aspect|Block|File|Object|
+    |---|---|---|---|
+    |**Latency**|Lowest|Low|Higher|
+    |**IOPS**|Highest|Medium|Lowest|
+    |**Concurrency**|Low|High|Very High|
+    |**Scalability**|Vertical|Moderate|Horizontal (exabyte+)|
+    
+- **Data Structure Fit**
+    
+    |Data Type|Block|File|Object|
+    |---|---|---|---|
+    |**Structured**|✅ DBs|✅ Spreadsheets|❌|
+    |**Documents**|❌|✅ Word/Excel|✅|
+    |**Media**|❌|✅ Shared folders|✅ Videos/Images|
+    |**Archives**|❌|❌|✅ Backups/Logs|
+    
+- **Use Case Mapping**
+    
+    |Workload|Recommended|
+    |---|---|
+    |**Databases**|Block (EBS, Persistent Disk)|
+    |**File Sharing**|File (EFS, FSx, NetApp)|
+    |**Big Data/ML**|Object (S3, GCS, Azure Blob)|
+    |**VMs/Containers**|Block|
+    
+- **Cloud Examples**
+    
+    |Provider|Block|File|Object|
+    |---|---|---|---|
+    |**AWS**|EBS|EFS, FSx|S3|
+    |**GCP**|Persistent Disk|Filestore|Cloud Storage|
+    |**Azure**|Managed Disks|Files|Blob Storage|
+    |**IBM**|Block Storage|File Storage|Cloud Object Storage|
+    
+- **Hybrid Strategies**
+    
+    - **Databases:** Block for data + Object for backups/logs.
+        
+    - **Analytics:** Object (S3) → File (EFS) → Compute.
+        
+    - **Tiering:** Hot data (Block/File) → Cold (Object).
+        
+
+## 60-Second Recap
+
+- **Block:** Low-latency, structured (DBs/VMs) → EBS/Persistent Disk.
+    
+- **File:** Hierarchical sharing (NFS/SMB) → EFS/Filestore.
+    
+- **Object:** Massive scale, unstructured (S3/Blob) → API access.
+    
+- **Choose:** Latency/IOPS (Block) → Collaboration (File) → Scale (Object).
+    
+- **Gold:** Hybrid—Block (active) + Object (archive) + auto-tiering.
+    
+
+**Reference**: [Object vs File vs Block Storage](https://www.ibm.com/think/topics/object-vs-file-vs-block-storage)[ibm](https://www.ibm.com/think/topics/object-vs-file-vs-block-storage)​
+
+1. [https://www.ibm.com/think/topics/object-vs-file-vs-block-storage](https://www.ibm.com/think/topics/object-vs-file-vs-block-storage)
 # **Object vs File vs Block Storage - Quick Reference**
 
 **Source:** IBM Think, "Object vs File vs Block Storage"  

@@ -1,3 +1,108 @@
+## Container Orchestration Interview Checklist
+
+- **Core Challenges**
+    
+    - **Scale Management:** Deploy/load balance/restart 100s of microservice containers across nodes.
+        
+    - **State Enforcement:** Maintain desired cluster state (healthy instances, scaling).
+        
+    - **Networking:** Service discovery, inter-container communication, traffic distribution.
+        
+- **Orchestrator Advantages**
+    
+    - **Auto-Scaling:** CPU/memory/traffic-based horizontal pod autoscaling.
+        
+    - **Self-Healing:** Restart failed containers, reschedule on node failures.
+        
+    - **Service Abstraction:** Load balance across instances, abstract IPs/ports.
+        
+    - **Rolling Updates:** Zero-downtime deployments, canary/blue-green.
+        
+- **Azure Options Comparison**
+    
+    |Platform|Type|Key Strength|K8s APIs|
+    |---|---|---|---|
+    |**AKS**|Managed K8s|Full Kubernetes ecosystem|✅|
+    |**Service Fabric**|Microservices|Stateful services|❌|
+    |**Container Apps**|Serverless K8s|Zero ops containers|❌|
+    |**ACI**|Simple containers|Quick single/multi-container|❌|
+    |**Azure Spring Apps**|Spring Boot|Managed Spring lifecycle|❌|
+    |**ARO**|Managed OpenShift|Enterprise PaaS|✅|
+    
+- **Platform Deep Dive**
+    
+    - **AKS:** Elastic provisioning, managed control plane, GPU support, Istio integration.
+        
+    - **Service Fabric:** Stateful Reliable Services + containers, any language.
+        
+    - **ACI:** Docker Compose → serverless groups, AKS virtual nodes.
+        
+    - **Azure Spring Apps:** Spring Boot + B2B scaling, zero infra mgmt.
+        
+- **Key Features Matrix**
+    
+    |Feature|AKS|Service Fabric|Container Apps|
+    |---|---|---|---|
+    |**Service Discovery**|✅|✅|✅|
+    |**Auto-Scaling**|✅ HPA|✅|✅ KEDA|
+    |**Rolling Updates**|✅|✅|✅|
+    |**Stateful Support**|StatefulSets|Native|Dapr|
+    |**GPU Support**|✅|❌|Limited|
+    
+- **Architectural Patterns**
+    
+    - **Desired State Config:** YAML manifests → declarative deployments.
+        
+    - **Traffic Management:** Istio/Linkerd for advanced routing.
+        
+    - **Observability:** Prometheus + Grafana + Azure Monitor.
+        
+- **Tools & Frameworks**
+    
+    - **Deployment:** Helm, Kustomize, ArgoCD (GitOps).
+        
+    - **CI/CD:** Azure DevOps Pipelines, GitHub Actions.
+        
+    - **Service Mesh:** Istio, Linkerd.
+        
+    - **Scaling:** KEDA (event-driven), HPA (metrics-driven).
+        
+- **Decision Framework**
+    
+    - **Kubernetes Ecosystem:** AKS/ARO.
+        
+    - **Spring Boot Heavy:** Azure Spring Apps.
+        
+    - **Zero Ops Containers:** Container Apps.
+        
+    - **Stateful Services:** Service Fabric.
+        
+    - **Quick Prototypes:** ACI.
+        
+- **Trade-offs**
+    
+    - **Managed vs Self-Managed:** Platform maturity vs customization.
+        
+    - **K8s Learning Curve:** Ecosystem richness vs operational complexity.
+        
+    - **Vendor Lock:** Azure-native vs portable Kubernetes.
+        
+
+## 60-Second Recap
+
+- **Orchestration solves:** Scale, self-healing, service discovery, rolling updates for containerized microservices.
+    
+- **Azure Choices:** AKS (K8s), Service Fabric (stateful), Container Apps (serverless), ACI (simple).
+    
+- **Decision:** K8s ecosystem → AKS; Spring → Spring Apps; Zero ops → Container Apps.
+    
+- **Gold:** Declarative YAML + GitOps + service mesh + autoscaling.
+    
+
+**Reference**: [Azure Container Orchestration](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/orchestration)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/orchestration)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/orchestration](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/orchestration)
+
 **Source:** Microsoft Azure Architecture Center | [Orchestration](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/orchestration)
 
 **Main Idea:** Orchestration is a **centralized coordination pattern** for managing complex, multi-step business processes (Sagas) that span multiple microservices. An orchestrator service issues commands, sequences tasks, manages state, and handles failures, providing explicit control flow and simplifying error handling compared to choreography.

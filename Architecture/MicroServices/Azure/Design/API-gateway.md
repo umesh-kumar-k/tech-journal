@@ -1,3 +1,98 @@
+## API Gateway Interview Checklist
+
+- **Core Purpose**
+    
+    - **Single Entry Point:** Centralized reverse proxy for all client-to-service traffic; hides service decomposition from clients.
+        
+    - **Cross-Cutting Concerns:** Offloads auth, SSL termination, rate limiting, logging from individual services.
+        
+- **Key Benefits**
+    
+    - **Simplified Clients:** One endpoint vs multiple; no service discovery needed by clients.
+        
+    - **Loose Coupling:** Clients decoupled from backend changes/refactoring.
+        
+    - **Reduced Latency:** Aggregation patterns minimize chattiness (one client call → multiple service calls → aggregated response).
+        
+    - **Security:** Reduced attack surface; centralized WAF, IP filtering, mTLS.
+        
+- **Design Patterns**
+    
+    - **Gateway Routing:** L7 routing to services based on path/headers; service discovery integration.
+        
+    - **Gateway Aggregation:** Single client request → fan-out to services → aggregate responses.
+        
+    - **Gateway Offloading:** SSL, auth (OAuth/JWT), rate limiting, caching, compression, static content.
+        
+- **Implementation Options**
+    
+    - **Reverse Proxies:** **Nginx**, **HAProxy** (open-source, high-perf, L7 routing).
+        
+    - **Service Mesh Ingress:** **Istio**, **Linkerd**, **Consul Connect** (built-in with Kubernetes).
+        
+    - **Cloud Managed:** **Azure App Gateway** (WAF + L7), **Azure API Mgmt** (policy-rich), **Azure Front Door** (CDN + global routing).
+        
+    - **API-Focused:** **Kong**, **Ambassador**, **Traefik** (cloud-native, plugin ecosystems).
+        
+- **Feature Comparison**
+    
+    |Feature|Nginx/HAProxy|Istio Ingress|Azure API Mgmt|Spring Cloud Gateway|
+    |---|---|---|---|---|
+    |L7 Routing|✅|✅|✅|✅|
+    |Rate Limiting|✅ (paid)|✅|✅|✅|
+    |Auth/JWT|Plugin|✅|✅|✅|
+    |WAF|❌|❌|✅|Plugin|
+    
+- **Deployment Models**
+    
+    - **Outside Cluster:** Dedicated VMs/Ingress (isolation, simpler scaling).
+        
+    - **Inside Cluster:** DaemonSet/Ingress controller (auto-scaling with workloads).
+        
+    - **Managed PaaS:** Azure/AWS/GCP services (zero ops).
+        
+- **Architectural Trade-offs**
+    
+    - **Single Point Failure:** High availability (multi-zone), circuit breakers critical.
+        
+    - **Latency Overhead:** Minimal vs direct service calls; aggregation tradeoff.
+        
+    - **Complexity:** Centralized config vs distributed; GitOps for declarative management.
+        
+- **Tools & Integrations**
+    
+    - **Monitoring:** Prometheus + Grafana, Azure Monitor.
+        
+    - **Service Discovery:** Consul, Eureka, Kubernetes services.
+        
+    - **Security:** mTLS (Istio), OAuth2 (Keycloak), WAF rules.
+        
+    - **Circuit Breakers:** Resilience4j, Hystrix (legacy).
+        
+- **Best Practices**
+    
+    - Prefer **platform-native** gateways (AKS Istio, Azure App Gateway).
+        
+    - **Infrastructure-as-Code:** Terraform, Helm, GitOps (ArgoCD/Flux).
+        
+    - Early **load testing** for aggregation patterns.
+        
+
+## 60-Second Recap
+
+- **API Gateway** = reverse proxy + cross-cutting concerns (auth/rate-limit/SSL) + routing/aggregation.
+    
+- **Patterns:** Routing (decouple), Aggregation (reduce chattiness), Offloading (centralize concerns).
+    
+- **Choices:** Nginx/HAProxy (general), Istio (mesh), Azure API Mgmt (managed), Spring Cloud Gateway (Spring).
+    
+- **Gold:** Platform-native first, GitOps management, multi-zone HA, early perf testing.
+    
+
+**Reference**: [Azure API Gateway Design](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/gateway)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/gateway)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/gateway](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/gateway)
+
 **Source:** Microsoft Azure Architecture Center | [Gateway Design Pattern](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/gateway)
 
 **Main Idea:** A **Gateway** (or API Gateway) is a **single entry point** that sits between client applications and a collection of microservices. It handles cross-cutting concerns like routing, composition, security, and monitoring, abstracting the complexity of the backend from clients and enabling centralized management.

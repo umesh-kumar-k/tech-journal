@@ -1,3 +1,75 @@
+## NGINX Performance & Scale Interview Checklist
+
+- **Core Design Goals**
+    
+    |Goal|Description|
+    |---|---|
+    |**High Concurrency**|Support thousands of simultaneous connections|
+    |**Low Latency**|Minimal delay through efficient processing|
+    |**Resource Efficiency**|Low CPU & memory usage under load|
+    |**Scalability**|Scale horizontally & vertically|
+    
+- **Architectural Highlights**
+    
+    |Feature|Benefit|
+    |---|---|
+    |**Event-Driven, Asynchronous Model**|Efficiently handles many connections without blocking|
+    |**Master-Worker Process Model**|Allows seamless zero-downtime reloads and fault isolation|
+    |**Non-blocking I/O**|Avoids resource depletion during high load|
+    |**Modular Design**|Extensions & protocol support without performance degradation|
+    
+- **Performance Techniques**
+    
+    |Technique|Description|
+    |---|---|
+    |**Connection Pooling**|Reuse connections to backend servers|
+    |**Caching**|Static & dynamic content caching at proxy layer|
+    |**Load Balancing Algorithms**|Round robin, least connections, IP hashing|
+    |**TLS Offloading**|Terminate SSL/TLS at NGINX to relieve backend|
+    
+- **Scalability Strategies**
+    
+    |Strategy|Example|
+    |---|---|
+    |**Horizontal Scaling**|Multiple NGINX instances with DNS or LB in front|
+    |**Vertical Scaling**|Multi-worker processes matching CPU cores|
+    |**Load Distribution**|Coordinated through upstream modules|
+    |**Health Checks & Failover**|Dynamic routing to healthy backends|
+    
+- **Common Tools & Ecosystem**
+    
+    |Category|Tool/Feature|
+    |---|---|
+    |**Load Balancers**|NGINX Plus, open source NGINX|
+    |**Monitoring**|NGINX Amplify, Prometheus exporters|
+    |**Integration**|Lua modules, HTTP/2, gRPC support|
+    |**Container-ready**|Kubernetes Ingress controllers with NGINX|
+    
+- **Real-World Usage**
+    
+    - Used by Netflix, Dropbox, Zynga (350+ million sites worldwide)
+        
+    - Powers content delivery, API gateways, microservice proxies
+        
+    - Supports both edge and internal load balancing
+        
+
+## 60-Second Recap
+
+- **NGINX:** Event-driven, asynchronous worker model for massive concurrency.
+    
+- **Performance:** Non-blocking I/O + connection pooling + caching + TLS offloading.
+    
+- **Scaling:** Multi-worker per CPU + scale horizontally with DNS/LB.
+    
+- **Ecosystem:** NGINX Plus, Amplify monitoring, Lua extensibility, Kubernetes ingress.
+    
+- **Gold:** Efficient, modular, battle-tested at Netflix & Dropbox scale.
+    
+
+**Reference**: [Inside NGINX: Performance & Scale](https://blog.nginx.org/blog/inside-nginx-how-we-designed-for-performance-scale/)[aws.amazon](https://aws.amazon.com/compare/the-difference-between-throughput-and-latency/)​
+
+1. [https://aws.amazon.com/compare/the-difference-between-throughput-and-latency/](https://aws.amazon.com/compare/the-difference-between-throughput-and-latency/)
 ### **Inside NGINX: How We Designed for Performance & Scale**
 
 **Source:** NGINX Blog | [Inside NGINX: How We Designed for Performance & Scale](https://blog.nginx.org/blog/inside-nginx-how-we-designed-for-performance-scale/)

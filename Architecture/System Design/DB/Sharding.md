@@ -1,3 +1,72 @@
+
+## DB Sharding Interview Checklist
+
+- **Sharding Fundamentals**
+    
+    - **Horizontal Partitioning:** Split rows across shards (vs vertical = split columns).
+        
+    - **Shard Key:** Field determining shard assignment (high cardinality, even distribution).
+        
+    - **Distribution:** Hash-based (consistent hashing), range-based, directory-based.
+        
+- **Shard Key Selection Criteria**
+    
+    |Criteria|Good|Bad|
+    |---|---|---|
+    |**Cardinality**|user_id (millions)|is_premium (2 values)|
+    |**Distribution**|Hash(user_id)|country (90% US)|
+    |**Query Alignment**|Matches access patterns|Forces cross-shard|
+    
+- **Sharding Strategies**
+    
+    |Strategy|Pros|Cons|
+    |---|---|---|
+    |**Hash-Based**|Even distribution|Hot keys|
+    |**Range-Based**|Sequential scans|Uneven splits|
+    |**Directory**|Flexible|Central lookup|
+    
+- **Common Challenges & Solutions**
+    
+    |Problem|Impact|Mitigation|
+    |---|---|---|
+    |**Hot Shards**|Uneven load|Compound keys, replicas|
+    |**Cross-Shard**|Slow queries|Denormalize, cache aggregates|
+    |**Resharding**|Data migration|Consistent hashing, gradual split|
+    
+- **Interview Triggers**
+    
+    - Storage: >1-2TB single instance.
+        
+    - Writes: >10K writes/sec.
+        
+    - Reads: Read replicas insufficient.
+        
+- **Real-World Examples**
+    
+    |System|Shard Key|Strategy|
+    |---|---|---|
+    |**Cassandra**|Partition key|Consistent hashing + vnodes|
+    |**MongoDB**|Shard key (hashed/range)|Chunk balancer|
+    |**DynamoDB**|Partition key|Internal hashing|
+    |**Vitess (MySQL)**|Key range|Online resharding|
+    
+
+## 60-Second Recap
+
+- **Shard Key:** High cardinality, even distribution, query-aligned (user_id).
+    
+- **Strategies:** Hash (even), Range (sequential), Directory (flexible).
+    
+- **Problems:** Hot shards (compound keys), cross-shard (denorm/cache).
+    
+- **When:** Storage >2TB, writes >10K/sec, replica reads insufficient.
+    
+- **Gold:** Consistent hashing + user_id + gradual resharding.
+    
+
+**Reference**: [Hello Interview Sharding](https://www.hellointerview.com/learn/system-design/core-concepts/sharding)[hellointerview](https://www.hellointerview.com/learn/system-design/core-concepts/sharding)​
+
+1. [https://www.hellointerview.com/learn/system-design/core-concepts/sharding](https://www.hellointerview.com/learn/system-design/core-concepts/sharding)
 # **Cornell Notes: Sharding in System Design**
 
 **Source:** HelloInterview, "System Design Core Concepts: Sharding"  

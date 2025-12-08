@@ -1,3 +1,93 @@
+## RDBMS System Design Interview Checklist
+
+- **Core Architecture**
+    
+    - **Relational Model:** Tables with rows/columns, primary/foreign keys, ACID compliance.
+        
+    - **Schema:** Fixed structure, normalization (1NF-3NF) to reduce redundancy.
+        
+    - **SQL Standard:** Declarative queries with JOINs, GROUP BY, subqueries.
+        
+- **Scaling Strategies**
+    
+    |Technique|Description|Trade-offs|
+    |---|---|---|
+    |**Read Replicas**|Master for writes, slaves for reads|Eventual consistency|
+    |**Sharding**|Partition by key (user_id, time)|Cross-shard complexity|
+    |**Vertical**|Bigger servers|Hardware limits|
+    |**Connection Pooling**|Reuse DB connections|Pool exhaustion|
+    
+- **Indexing Fundamentals**
+    
+    |Type|Use Case|Cost|
+    |---|---|---|
+    |**B-Tree**|Equality/range scans|Write penalty|
+    |**Hash**|Exact matches|No ranges|
+    |**Composite**|Multi-column queries|Storage|
+    |**Covering**|Index-only reads|Faster queries|
+    
+- **Query Optimization**
+    
+    - **EXPLAIN Plans:** Analyze query execution.
+        
+    - **Avoid N+1:** Batch related queries.
+        
+    - **Pagination:** OFFSET/LIMIT → keyset pagination for scale.
+        
+- **Common Patterns**
+    
+    |Pattern|Problem Solved|Example|
+    |---|---|---|
+    |**Materialized Views**|Expensive aggregations|Daily reports|
+    |**Denormalization**|Read-heavy workloads|User feeds|
+    |**Write Sharding**|High write QPS|User-based partitioning|
+    
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**RDBMS**|PostgreSQL, MySQL, CockroachDB|
+    |**ORMs**|Prisma, Hibernate, SQLAlchemy|
+    |**Query Builders**|Knex.js, Sequelize|
+    |**Monitoring**|pgBadger, Percona Toolkit|
+    
+
+## 60-Second Recap
+
+- **RDBMS:** ACID, schemas, JOINs; scale via replicas/sharding.
+    
+- **Scaling:** Read replicas (easy), sharding (user_id), pooling.
+    
+- **Optimization:** Indexes (B-tree), EXPLAIN, keyset pagination.
+    
+- **Patterns:** Materialized views, selective denormalization.
+    
+- **Gold:** PostgreSQL + read replicas + composite indexes + ORM.
+    
+
+**Reference**: [RDBMS System Design Cheat Sheet](https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1)[gist.github](https://gist.github.com/vasanthk/485d1c25737e8e72759f)​
+
+1. [https://gist.github.com/vasanthk/485d1c25737e8e72759f](https://gist.github.com/vasanthk/485d1c25737e8e72759f)
+2. [https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1](https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1)
+3. [https://hackernoon.com/the-system-design-cheat-sheet-cache](https://hackernoon.com/the-system-design-cheat-sheet-cache)
+4. [https://www.codecademy.com/learn/fscp-designing-relational-databases/modules/fscp-designing-a-database/cheatsheet](https://www.codecademy.com/learn/fscp-designing-relational-databases/modules/fscp-designing-a-database/cheatsheet)
+5. [https://archive.stmarys-ca.edu/archive-library-703/system-design-cheat-sheet.pdf](https://archive.stmarys-ca.edu/archive-library-703/system-design-cheat-sheet.pdf)
+6. [https://cheatography.com/natalie-moore/cheat-sheets/conceptual-database-design/](https://cheatography.com/natalie-moore/cheat-sheets/conceptual-database-design/)
+7. [https://www.scribd.com/document/849413319/Cheatsheet-System-Design](https://www.scribd.com/document/849413319/Cheatsheet-System-Design)
+8. [https://www.designgurus.io/blog/system-design-cheat-sheet](https://www.designgurus.io/blog/system-design-cheat-sheet)
+9. [https://www.scribd.com/document/889651216/System-Design-CheatSheet](https://www.scribd.com/document/889651216/System-Design-CheatSheet)
+10. [https://blog.bytebytego.com/p/ep96-a-cheat-sheet-for-system-design](https://blog.bytebytego.com/p/ep96-a-cheat-sheet-for-system-design)
+11. [https://community.indian.dev/t/system-design-cheat-sheet-quick-reference/21](https://community.indian.dev/t/system-design-cheat-sheet-quick-reference/21)
+12. [https://www.scribd.com/document/521780066/Dbms-Cheat-Sheet](https://www.scribd.com/document/521780066/Dbms-Cheat-Sheet)
+13. [https://www.codecademy.com/learn/becp-22-designing-relational-databases/modules/wdcp-22-creating-an-organized-database/cheatsheet](https://www.codecademy.com/learn/becp-22-designing-relational-databases/modules/wdcp-22-creating-an-organized-database/cheatsheet)
+14. [https://www.almabetter.com/bytes/cheat-sheet/dbms-cheat-sheet](https://www.almabetter.com/bytes/cheat-sheet/dbms-cheat-sheet)
+15. [https://www.linkedin.com/posts/alexxubyte_systemdesign-coding-interviewtips-activity-7239660264894189569-EBmK](https://www.linkedin.com/posts/alexxubyte_systemdesign-coding-interviewtips-activity-7239660264894189569-EBmK)
+16. [https://www.scribd.com/document/619430915/Database-Design-Cheatsheet](https://www.scribd.com/document/619430915/Database-Design-Cheatsheet)
+17. [https://cheatsheets.one/tech/dbms](https://cheatsheets.one/tech/dbms)
+18. [https://www.mongodb.com/resources/products/fundamentals/download-the-document-schema-design-cheatsheet](https://www.mongodb.com/resources/products/fundamentals/download-the-document-schema-design-cheatsheet)
+19. [https://darrylt.me/blogs/cheat-sheets/cheatsheet-cpsc-304-relational-databases-mt1.pdf](https://darrylt.me/blogs/cheat-sheets/cheatsheet-cpsc-304-relational-databases-mt1.pdf)
+20. [https://www.geeksforgeeks.org/sql/sql-cheat-sheet/](https://www.geeksforgeeks.org/sql/sql-cheat-sheet/)
+
 You're absolutely right! Thank you for catching that. Those sections are crucial for interview preparation. Let me provide the complete Cornell Notes format with all the missing sections.
 
 # **Relational Database System Design**

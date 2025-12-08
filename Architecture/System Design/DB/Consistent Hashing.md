@@ -1,3 +1,70 @@
+## Consistent Hashing Interview Checklist
+
+- **Problem Addressed**
+    
+    - Minimizes data reshuffling when nodes are added/removed in distributed systems.
+        
+    - Avoids full data re-partitioning unlike simple modulo hashing.
+        
+- **How It Works**
+    
+    - Map nodes and data onto a fixed-size hash ring (0 to MAX hash).
+        
+    - Each data item's hash points to the nearest clockwise node on the ring.
+        
+    - Only data between the old and new nodes need relocation on topology change.
+        
+- **Virtual Nodes (Vnodes)**
+    
+    - Map each physical node to multiple virtual nodes on the ring.
+        
+    - Improves load balancing, especially when physical nodes have different capacities.
+        
+    - Enables smooth redistribution when adding/removing nodes.
+        
+- **Real-World Usage**
+    
+    - **Apache Cassandra:** Data partitioning and replication.
+        
+    - **Amazon DynamoDB:** Internal consistent hashing for scalability.
+        
+    - **Content Delivery Networks:** CDN edge server cache assignments.
+        
+    - **Distributed Caches:** Redis Cluster, Memcached consistent hashing.
+        
+- **Interview Use**
+    
+    - Distributed database design.
+        
+    - Distributed cache and message broker scaling.
+        
+    - Scalable and fault-tolerant data distribution.
+        
+- **Benefits**
+    
+    - High scalability with minimal data movement.
+        
+    - Fault tolerance by redistributing only affected data.
+        
+    - Balances load evenly across nodes with virtual nodes.
+        
+
+## 60-Second Recap
+
+- **Consistent Hashing:** Hash ring mapping keys/nodes; clockwise assignment rules.
+    
+- **Vnodes:** Multiple positions per node for better balance.
+    
+- **Avoids:** Full rehash on node changes.
+    
+- **Used In:** Cassandra, DynamoDB, Redis Cluster, CDNs.
+    
+- **Gold:** Enables scalable, balanced, fault-tolerant distributed systems.
+    
+
+**Reference**: [Hello Interview Consistent Hashing](https://www.hellointerview.com/learn/system-design/core-concepts/consistent-hashing)[hellointerview](https://www.hellointerview.com/learn/system-design/core-concepts/consistent-hashing)​
+
+1. [https://www.hellointerview.com/learn/system-design/core-concepts/consistent-hashing](https://www.hellointerview.com/learn/system-design/core-concepts/consistent-hashing)
 # **Consistent Hashing in System Design**
 
 **Source:** HelloInterview, "System Design Core Concepts: Consistent Hashing"  

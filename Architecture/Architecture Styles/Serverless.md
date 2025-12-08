@@ -1,4 +1,57 @@
 
+## Key Topics
+
+- **Core Concepts**: BaaS (third-party services like Auth0 for auth, Firebase for DB) + FaaS (ephemeral, event-triggered functions); no servers to manage, stateless code with externalized state (DB/cache/S3).
+    
+- **Tools/Frameworks Examples**:
+    
+    - FaaS: AWS Lambda (Java/JS/Python/Go), Google Cloud Functions, Azure Functions (local debug), OpenWhisk/Fission/OpenFaaS (self-hosted).
+        
+    - BaaS: Auth0/Webtask, Firebase, AWS Cognito/S3/Kinesis.
+        
+    - Tooling: Serverless Framework (multi-cloud), AWS SAM (packaging), Claudia/Zappa/Apex (Lambda helpers).[martinfowler](https://martinfowler.com/articles/serverless.html)​
+        
+- **Architectural Shifts**: Choreography over orchestration; API gateways (AWS API Gateway) for HTTP routing/auth; UI-driven (client-heavy SPA) vs message-driven (event processing).
+    
+- **Constraints**: Cold starts (ms-seconds, worse for Java), timeouts (5min Lambda), no local state, auto-scaling per request.
+    
+- **Benefits**: Pay-per-use (spiky/occasional loads), no ops (scaling/packaging), faster experimentation; greener via efficient capacity.
+    
+- **Drawbacks**: Vendor lock-in, multitenancy risks, testing/debugging challenges, security surface area, DoS via concurrency limits.
+    
+
+## Interview Checklist
+
+- Define scope: UI/message-driven? Traffic shape (spiky/steady)? State needs (externalize to DB)?
+    
+- Diagram evolution: Traditional server → BaaS (auth/DB) + FaaS (search/purchase via API gateway).
+    
+- Justify choice: Cost math (e.g., 0.1% utilization = 99.85% savings), vs PaaS/containers (FaaS finer scaling).
+    
+- Address constraints: Cold starts (test load), state (Redis/S3), timeouts (chain functions).
+    
+- Ops strategy: Monitoring (lag/cold starts), IAM/security, reserved concurrency, multi-account testing.
+    
+- Trade-offs: Flexibility/experimentation vs lock-in/debugging; hybrid with containers.
+    
+- Failure modes: Idempotency, error handling, vendor outages.
+    
+- Example: Ad clicks → Kinesis → Lambda processor → DB (vs always-on server).
+    
+
+## 60-Second Recap
+
+- Serverless: BaaS (Auth0/Firebase) + FaaS (Lambda) for no-server, event-driven, pay-per-use apps.
+    
+- Pros: Auto-scale/cost savings for bursts, no ops; cons: Cold starts/lock-in/testing.
+    
+- Architect: Choreography, external state, API gateways; test production loads.[martinfowler](https://martinfowler.com/articles/serverless.html)​
+    
+
+Reference: [https://martinfowler.com/articles/serverless.html](https://martinfowler.com/articles/serverless.html)[martinfowler](https://martinfowler.com/articles/serverless.html)​
+
+1. [https://martinfowler.com/articles/serverless.html](https://martinfowler.com/articles/serverless.html)
+
 **Source:** Martin Fowler | [Serverless Architectures](https://martinfowler.com/articles/serverless.html)
 
 **Main Idea:** Serverless is a cloud computing execution model where the cloud provider **dynamically manages the allocation and provisioning of servers**. Applications are built using **event-triggered, stateless functions** (FaaS) and managed third-party services (BaaS), eliminating the need for server management and enabling fine-grained, pay-per-use scaling.

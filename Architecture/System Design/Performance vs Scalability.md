@@ -1,3 +1,137 @@
+## Performance vs Scalability Interview Checklist
+
+- **Fundamental Differences**
+    
+    |Aspect|Performance|Scalability|
+    |---|---|---|
+    |**Definition**|Speed/responsiveness at current load|Handle growth without degradation|
+    |**Focus**|Latency, throughput, resource use|Capacity expansion, load distribution|
+    |**Scaling Type**|**Vertical** (scale up)|**Horizontal** (scale out)|
+    |**Growth Impact**|Degrades under load|Maintains perf with growth|
+    
+- **Performance Optimization Techniques**
+    
+    |Technique|Tools/Frameworks|
+    |---|---|
+    |**Code optimization**|Profilers (YourKit, JProfiler)|
+    |**Caching**|**Redis**, Memcached, Varnish|
+    |**Load balancing**|**HAProxy**, nginx, AWS ALB|
+    |**Database**|Indexing, query optimization, sharding|
+    |**Concurrency**|Async (CompletableFuture), threading|
+    
+- **Scalability Strategies**
+    
+    |Strategy|Description|Examples|
+    |---|---|---|
+    |**Horizontal**|Add instances|**Kubernetes**, ECS, Auto Scaling Groups|
+    |**Stateless design**|No session affinity|Microservices|
+    |**Microservices**|Independent scaling|Spring Cloud, Istio|
+    |**Sharding**|Data partitioning|**Cassandra**, Vitess|
+    
+- **Decision Framework**
+    
+    |Priority|Choose|Example|
+    |---|---|---|
+    |**Real-time**|Performance|Gaming servers|
+    |**High growth**|Scalability|Social media|
+    |**Budget limited**|Performance first|Internal tools|
+    |**Uncertain demand**|Scalability|E-commerce|
+    
+- **Measurement & Testing**
+    
+    |Performance|Scalability|
+    |---|---|
+    |**Load testing** (JMeter)|**Stress testing** (Locust)|
+    |Response time, RPS|Concurrent users, failure point|
+    |Profiling tools|Capacity planning|
+    
+
+## 60-Second Recap
+
+- **Performance:** Speed now → caching, optimization, vertical scaling.
+    
+- **Scalability:** Speed at 10x → horizontal, stateless, microservices.
+    
+- **Trade-off:** Perf degrades under load; scale maintains perf.
+    
+- **Tools:** Redis (perf), Kubernetes (scale), JMeter (test).
+    
+- **Gold:** Balance both—perf first, then scale; monitor growth potential.
+    
+
+**Reference**: [Performance vs Scalability](https://www.geeksforgeeks.org/system-design/performance-vs-scalability-in-system-design/)[geeksforgeeks](https://www.geeksforgeeks.org/system-design/performance-vs-scalability-in-system-design/)​
+
+1. [https://www.geeksforgeeks.org/system-design/performance-vs-scalability-in-system-design/](https://www.geeksforgeeks.org/system-design/performance-vs-scalability-in-system-design/)
+## Performance vs Scalability Interview Checklist
+
+- **Core Definitions**
+    
+    |Aspect|Performance|Scalability|
+    |---|---|---|
+    |**Focus**|Speed/responsiveness (current load)|Handle growth (more users/traffic)|
+    |**Metrics**|**Response time**, throughput, availability|Vertical (bigger servers), horizontal (more servers)|
+    |**Goal**|Fast individual experience|Maintain perf as demand grows|
+    
+- **Performance Metrics**
+    
+    |Metric|Tool|Target|
+    |---|---|---|
+    |**Response time**|Google **Lighthouse**|<3s page load|
+    |**Throughput**|JMeter, Locust|RPS capacity|
+    |**Lighthouse Score**|**Lighthouse 10**|FCP, LCP, TBT, CLS|
+    |**Availability**|Uptime monitoring|99.9%+|
+    
+- **Scalability Testing Types**
+    
+    |Test|Purpose|Tool|
+    |---|---|---|
+    |**Load**|Expected traffic|**Gatling, Artillery**|
+    |**Soak**|Long-duration stability|k6|
+    |**Spike**|Sudden traffic peaks|Locust|
+    |**Stress**|Breaking point|Apache Bench|
+    
+- **Optimization Strategies**
+    
+    |Performance|Scalability|
+    |---|---|
+    |**Image optimization** (WebP/AVIF)|**CDN** (CloudFront, Akamai)|
+    |**Code minification**|**Auto-scaling** (AWS ASG)|
+    |**DB indexing**|**Microservices** + **ELB**|
+    |**Caching** (Redis)|**Async processing** (Kafka/SQS)|
+    
+- **Scaling Approaches**
+    
+    |Type|Pros|Cons|Tools|
+    |---|---|---|---|
+    |**Vertical**|Simple|Hardware limits|Bigger EC2 instances|
+    |**Horizontal**|✅ Infinite scale|Complex|**Kubernetes**, ECS|
+    
+- **Cloud-Native Tools**
+    
+    |Category|Examples|
+    |---|---|
+    |**Performance**|**Lighthouse**, Web Vitals|
+    |**Load Testing**|**k6**, Artillery, Gatling|
+    |**Scaling**|**AWS Auto Scaling**, **EKS**|
+    |**Monitoring**|**CloudWatch**, **Datadog**|
+    
+
+## 60-Second Recap
+
+- **Performance:** Speed now (Lighthouse <3s, response time).
+    
+- **Scalability:** Speed at 10x users (horizontal > vertical).
+    
+- **Test:** Load/spike/soak/stress with k6/Gatling.
+    
+- **Optimize:** Cache/CDN/images + microservices + async.
+    
+- **Gold:** Lighthouse + horizontal scaling + CDN + auto-scaling.
+    
+
+**Reference**: [Performance vs Scalability](https://alokai.com/blog/performance-vs-scalability)[alokai](https://alokai.com/blog/performance-vs-scalability)​
+
+1. [https://alokai.com/blog/performance-vs-scalability](https://alokai.com/blog/performance-vs-scalability)
 ### Performance vs. Scalability (Alokai Blog)**
 
 **Source:** Alokai Blog | [Performance vs. Scalability](https://alokai.com/blog/performance-vs-scalability)

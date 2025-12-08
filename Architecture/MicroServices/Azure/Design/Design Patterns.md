@@ -1,4 +1,106 @@
 
+## Microservices Design Patterns Interview Checklist
+
+- **Ambassador Pattern**
+    
+    - Offloads client connectivity tasks (monitoring, logging, routing, security) to a proxy.
+        
+    - Typically deployed as a sidecar container.
+        
+    - Language agnostic, isolates infrastructure concerns from service code.
+        
+- **Anti-Corruption Layer**
+    
+    - Acts as a façade between legacy and new systems.
+        
+    - Shields new applications from legacy dependencies and inconsistencies.
+        
+- **Backends for Frontends (BFF)**
+    
+    - Provides separate backends tailored to differing client types (mobile, desktop).
+        
+    - Simplifies client implementations and decouples concerns.
+        
+- **Bulkhead**
+    
+    - Isolates critical resources (connection pools, memory, CPU) per workload/service.
+        
+    - Prevents cascading failures by limiting impact of faults within a service.
+        
+- **Gateway Aggregation**
+    
+    - Aggregates multiple microservice calls into a single client response.
+        
+    - Reduces chatty communication between clients and services.
+        
+- **Gateway Offloading**
+    
+    - Offloads common shared concerns like SSL termination, authentication, and rate limiting to a central API gateway.
+        
+    - Simplifies service implementations by consolidating cross-cutting functionality.
+        
+- **Gateway Routing**
+    
+    - Routes client requests to appropriate microservices through a single entry point.
+        
+    - Maintains client decoupling from internal service endpoints.
+        
+- **Messaging Bridge**
+    
+    - Integrates heterogeneous messaging systems across different infrastructures.
+        
+    - Supports interoperability between legacy and new messaging technologies.
+        
+- **Sidecar Pattern**
+    
+    - Deploys supportive components as separate containers alongside the main service.
+        
+    - Provides isolation, encapsulation, and independent lifecycle management.
+        
+- **Strangler Fig**
+    
+    - Facilitates incremental migration/refactoring by gradually replacing parts of a legacy application with new microservices.
+        
+    - Minimizes risk by phasing out legacy system components over time.
+        
+- **Tools & Frameworks**
+    
+    - Ambassador for API gateways and proxies.
+        
+    - Envoy or Linkerd for sidecar proxies and service mesh integration.
+        
+    - Spring Cloud Gateway, Kong for API gateways.
+        
+    - Messaging frameworks like Kafka, Azure Event Grid, RabbitMQ.
+        
+    - Monitoring and resilience with Prometheus, Grafana, and Resilience4j.
+        
+- **Architectural Insights**
+    
+    - Use patterns to increase scalability, resiliency, and maintainability.
+        
+    - Combine appropriately according to system needs and team skills.
+        
+    - Emphasize decoupling, fault isolation, and client simplicity.
+        
+
+## 60-Second Recap
+
+- Key microservices patterns: Ambassador, Anti-corruption, BFF, Bulkhead, Gateway (Routing/Aggregation/Offloading), Sidecar, Messaging Bridge, Strangler Fig.
+    
+- Patterns improve API simplicity, resiliency, and incremental evolution.
+    
+- Utilize sidecars and gateways for infrastructure concerns.
+    
+- Employ messaging bridges for system integration.
+    
+- Architect for modularity, fault isolation, and scalability.
+    
+
+**Reference**: [Azure Microservices Design Patterns](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/patterns)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/patterns)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/patterns](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/patterns)
+
 **Source:** Microsoft Azure Architecture Center | [Design Patterns](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/patterns)
 
 **Main Idea:** Microservices architecture introduces specific challenges around communication, data management, and reliability. A catalog of established design patterns provides proven solutions to these recurring problems, enabling scalable, resilient, and maintainable systems.

@@ -1,3 +1,102 @@
+## Microservices Compute Options Interview Checklist
+
+- **Core Approaches**
+    
+    - **Serverless Platforms:** Azure Container Apps, Azure Functions (consumption billing, auto-scale to zero).
+        
+    - **Orchestrated Platforms:** AKS, Container Apps (K8s-based), Service Fabric, Azure Red Hat OpenShift.
+        
+- **Serverless Options**
+    
+    - **Azure Functions:** Code-based microservices (C#/Java/JS/Python); Premium plan for dedicated capacity/GPU.
+        
+    - **Azure Container Apps:** Containerized serverless (K8s under hood, no API access); GPU subset support.
+        
+- **Orchestrator Platforms**
+    
+    - **AKS (Azure Kubernetes Service):** Managed K8s with full API access; autoscaling, upgrades, GPU support.
+        
+    - **Container Apps:** Simplified K8s (no direct APIs); serverless containers with Dapr integration.
+        
+    - **Service Fabric:** Microservices + Reliable Services (stateful); containers or binaries.
+        
+    - **Azure Red Hat OpenShift:** Managed OpenShift (K8s extension).
+        
+- **Decision Matrix**
+    
+    |Factor|Serverless (Functions/Apps)|Orchestrators (AKS/SF)|
+    |---|---|---|
+    |**Kubernetes APIs**|❌ Container Apps|✅ AKS|
+    |**GPU Support**|Limited (Premium)|Full (AKS)|
+    |**Billing**|Consumption|Dedicated VMs|
+    |**Complexity**|Low|High|
+    |**Portability**|Azure-specific|Multi-cloud|
+    
+- **Reliability Best Practices**
+    
+    - **Functions:** Premium plan + zone-redundancy.
+        
+    - **AKS:** Availability zones, Standard/Premium tier, min pods/nodes.
+        
+    - **Container Apps:** Availability zones.
+        
+- **Cost Optimization**
+    
+    - **Serverless:** Pay-per-request (zero when idle).
+        
+    - **AKS:** Spot VMs, cluster autoscaler, optimize node pools.
+        
+    - **Container Apps:** Consumption vs dedicated cores.
+        
+- **Security Considerations**
+    
+    - **Functions:** Secure Function Apps principles.
+        
+    - **AKS:** Baseline security (RBAC, network policies).
+        
+    - **Container Apps:** Managed security baseline.
+        
+- **Tools & Frameworks**
+    
+    - **Orchestration:** Helm, Kustomize, ArgoCD (GitOps).
+        
+    - **Serverless:** Dapr (sidecar), Azure Logic Apps (orchestration).
+        
+    - **Monitoring:** Azure Monitor, Application Insights, Prometheus.
+        
+    - **CI/CD:** Azure DevOps, GitHub Actions, Terraform/Bicep.
+        
+- **Architect Trade-offs**
+    
+    - **Serverless:** Zero ops, but vendor lock-in, cold starts, execution limits.
+        
+    - **Orchestrators:** Full control/portability, but ops overhead, skill requirements.
+        
+    - **Hybrid:** Functions for event-driven + AKS for stateful/long-running.
+        
+- **When to Choose**
+    
+    - **Functions:** Stateless, event-driven, short-lived.
+        
+    - **Container Apps:** Containerized serverless, Dapr workflows.
+        
+    - **AKS:** K8s ecosystem, GPU/ML, complex stateful apps.
+        
+
+## 60-Second Recap
+
+- **Serverless:** Functions (code), Container Apps (containers) - consumption billing, zero ops.
+    
+- **Orchestrated:** AKS (full K8s), Service Fabric (Reliable Services), OpenShift.
+    
+- **Decision:** K8s APIs → AKS; GPU → AKS; Zero cost idle → Serverless.
+    
+- **Gold:** Serverless-first for stateless, AKS for complex/stateful, hybrid for mixed workloads.
+    
+
+**Reference**: [Azure Microservices Compute Options](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/compute-options)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/compute-options)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/compute-options](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/compute-options)
 
 **Source:** Microsoft Azure Architecture Center | [Compute Options](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/compute-options)
 

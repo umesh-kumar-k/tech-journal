@@ -1,3 +1,60 @@
+## Retry Pattern
+
+The Retry pattern transparently reattempts transient failures (network issues, timeouts, throttling) with configurable delays, improving application resilience without user intervention.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)​
+
+- Strategies: Cancel (non-transient), immediate retry (rare faults), delay retry (busy/throttled)
+    
+- Exponential backoff spreads retries; log early attempts as info, final failure as error
+    
+- Pair with Circuit Breaker for long failures; ensure idempotency to avoid duplicate side effects[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)​
+    
+
+## Tools and Frameworks
+
+|Language/Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|.NET|Polly (RetryPolicy), Azure SDK built-in retry|HTTP calls, Cosmos DB operations with exponential backoff|
+|Java|Resilience4j Retry, Spring Retry|REST clients, database connections|
+|Node.js|retry-axios, async-retry|API calls with jittered delays|
+|Python|tenacity, requests.adapters|Cloud service SDKs, database queries|
+|Go|github.com/cenkalti/backoff|gRPC/HTTP clients|
+
+## Interview Checklist
+
+- Define: Reattempt transient faults (network, timeout, throttling) with delays[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)​
+    
+- Strategies: Immediate (rare), fixed delay, exponential backoff + jitter (thundering herd)
+    
+- Exceptions: Distinguish transient vs permanent; log info (early) vs error (final)
+    
+- Idempotency: Safe to retry? (GET ok, POST/PUT may duplicate charges)
+    
+- Config: Max attempts, base delay, max delay, retry count per exception type
+    
+- Pairing: Circuit Breaker (stop retries), Bulkhead (concurrency limits)
+    
+- Gotchas: Overload busy services, transaction consistency, nested retry loops
+    
+- Testing: Chaos engineering, fault injection for retry scenarios
+    
+
+## 60-Second Recap
+
+- **Core**: Transient fault → delay → retry (exponential backoff); fail after max attempts[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)​
+    
+- **Why**: Handle cloud flakiness (network, throttling) transparently
+    
+- **Strategies**: Fixed/exponential delay + jitter; Circuit Breaker for persistent failures
+    
+- **Tools**: Polly (.NET), Resilience4j (Java), tenacity (Python), Azure SDK built-in
+    
+- **Design**: Idempotent ops only; log early=info/final=error; test with chaos
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/retry](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/retry](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry)
+
 # **Retry Pattern**
 
 ## **Core Thesis**

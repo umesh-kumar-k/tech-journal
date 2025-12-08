@@ -1,3 +1,77 @@
+
+## TCP vs UDP Interview Checklist
+
+- **Core Protocol Differences**
+    
+    |Feature|TCP|UDP|
+    |---|---|---|
+    |**Connection**|✅ Oriented (3-way handshake)|❌ Connectionless|
+    |**Reliability**|✅ ACKs, retransmits, ordering|❌ Best-effort|
+    |**Overhead**|Higher (headers, handshakes)|✅ Minimal|
+    |**Speed**|Slower|✅ Faster|
+    |**Use Case**|**Correctness**|**Timeliness**|
+    
+- **TCP Flow**
+    
+    text
+    
+    `1. SYN → SYN-ACK → ACK (3-way handshake) 2. Data segments + ACKs 3. FIN → ACK → FIN → ACK (4-way close)`
+    
+- **UDP Flow**
+    
+    text
+    
+    `App → UDP Datagram → Network (fire-and-forget) No handshake, no ACKs, no ordering`
+    
+- **Use Case Decision Matrix**
+    
+    |Requirement|TCP|UDP|
+    |---|---|---|
+    |**Reliability critical**|✅ Web, API, Email|❌|
+    |**Real-time streaming**|❌|✅ YouTube, Netflix|
+    |**Gaming (position)**|❌|✅ Fortnite, CS:GO|
+    |**DNS queries**|❌|✅|
+    |**File transfer**|✅ FTP, HTTP|❌|
+    
+- **Modern Alternatives**
+    
+    |Protocol|Base|Benefits|
+    |---|---|---|
+    |**QUIC (HTTP/3)**|UDP|TCP reliability + UDP speed|
+    |**WebRTC**|UDP|Real-time video/audio + reliability layer|
+    |**Custom UDP**|UDP|Gaming ACKs for critical events|
+    
+- **Implementation Tools**
+    
+    |TCP|UDP|
+    |---|---|
+    |**HTTP/2**, **gRPC**|**WebRTC**, RTP|
+    |**Node.js net**, **Java NIO**|**UDP sockets**, **Go net.UDPConn**|
+    
+- **Hybrid Patterns**
+    
+    |Pattern|Example|
+    |---|---|
+    |**TCP critical + UDP real-time**|Chat (TCP) + voice (UDP)|
+    |**Reliability over UDP**|Gaming: position (UDP) + abilities (TCP/UDP+ACK)|
+    
+
+## 60-Second Recap
+
+- **TCP:** Reliable, ordered, connection-oriented—**web/API/email** (HTTP/gRPC).
+    
+- **UDP:** Fast, unreliable, connectionless—**streaming/gaming/DNS** (WebRTC).
+    
+- **Handshake:** TCP 3-way SYN + 4-way FIN vs UDP fire-and-forget.
+    
+- **Modern:** **QUIC** = UDP + TCP reliability (HTTP/3).
+    
+- **Gold:** TCP for correctness, UDP for speed, hybrid for real-time + reliable.
+    
+
+**Reference**: [TCP vs UDP System Design](https://algomaster.io/learn/system-design/tcp-vs-udp)[algomaster](https://algomaster.io/learn/system-design/tcp-vs-udp)​
+
+1. [https://algomaster.io/learn/system-design/tcp-vs-udp](https://algomaster.io/learn/system-design/tcp-vs-udp)
 # **TCP vs UDP - Quick Reference**
 
 **Source:** AlgoMaster, "TCP vs UDP in System Design"  

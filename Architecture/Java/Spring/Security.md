@@ -1,3 +1,83 @@
+## Spring Security Authentication Interview Checklist
+
+- **Core Concept**: Authentication verifies user identity (who you are) before authorization (what you can do); Spring Security handles username/password, tokens, and multi-factor flows.[spring](https://docs.spring.io/spring-security/reference/features/authentication/index.html)​
+    
+- **Architecture**: SecurityFilterChain processes requests; AuthenticationManager validates credentials via AuthenticationProvider (UserDetailsService + PasswordEncoder).
+    
+- **UserDetailsService**: Loads user data from DB/LDAP; implement custom for roles/permissions; BCryptPasswordEncoder for secure hashing (never store plaintext).
+    
+- **Configuration**: @EnableWebSecurity + SecurityFilterChain bean; http.authorizeHttpRequests() for URL patterns, .formLogin(), .oauth2Login() for social/enterprise.
+    
+- **Stateless/JWT**: Disable session via http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); use JwtDecoder/Encoder for microservices.
+    
+- **OAuth2/OpenID**: Resource Server (http.oauth2ResourceServer().jwt()); Authorization Server (separate app); integrates with Keycloak, Auth0, Okta.
+    
+- **Tools/Frameworks**: Spring Security OAuth (legacy), Spring Authorization Server (new), Keycloak (IAM), JWT (jjwt.io), SAML (Shibboleth), MFA (TOTP via Google Authenticator).
+    
+- **Advanced**: Method security (@PreAuthorize("hasRole('ADMIN')")), CSRF/XSS protection, CORS config; reactive support via SecurityWebFilterChain.
+    
+- **Distributed/Microservices**: JWT propagation + gateway (Spring Cloud Gateway + security); service mesh (Istio) for mTLS; audit with Spring Boot Actuator + audit events.
+    
+- **Architect Trade-offs**: Stateful sessions vs stateless JWT (scale vs simplicity); custom vs standards (OAuth2.1); RBAC vs ABAC (XACML/PBAC extensions).
+    
+- **Migration/Security**: Upgrade to 6.x (OAuth2.1 compliance); zero-trust with mTLS; threat modeling (OWASP Top 10 coverage).
+    
+- **Monitoring**: Security events to ELK/Splunk; metrics via Micrometer (auth failures, token validations).
+    
+
+## 60-Second Recap
+
+- Spring Security Auth = SecurityFilterChain → AuthenticationManager → UserDetailsService + PasswordEncoder.
+    
+- Config: @EnableWebSecurity + http.authorizeRequests/formLogin/oauth2Login; stateless JWT for microservices.
+    
+- Tools: Keycloak/Auth0 (IAM), Spring Auth Server (OAuth2), jjwt (tokens), SAML/MFA.
+    
+- Gold: Stateless scale, standards-first (OAuth2.1), audit+metrics for zero-trust.
+    
+
+**Reference**: [Spring Security Authentication](https://docs.spring.io/spring-security/reference/features/authentication/index.html)[spring](https://docs.spring.io/spring-security/reference/features/authentication/index.html)​
+
+1. [https://docs.spring.io/spring-security/reference/features/authentication/index.html](https://docs.spring.io/spring-security/reference/features/authentication/index.html)
+
+
+## Spring Security Authorization Interview Checklist
+
+- **Authority Model**: Authentication holds GrantedAuthority objects representing permissions; most use SimpleGrantedAuthority with string roles/authorities; prefix customization possible via GrantedAuthorityDefaults.
+    
+- **AuthorizationManager**: Central interface replacing AccessDecisionManager/Voter; makes pre/post invocation decisions on secure objects (HTTP requests, methods); returns AuthorizationDecision (grant/deny/abstain).
+    
+- **Delegation**: RequestMatcherDelegatingAuthorizationManager chooses appropriate delegate per request; AuthorityAuthorizationManager checks specific authorities; AuthenticatedAuthorizationManager distinguishes anonymous/remember-me/full-authentication.
+    
+- **Role Hierarchy**: Supports hierarchical roles (e.g., ADMIN > USER) to simplify access control; configured globally for HTTP and method security; reduces explicit role assignments while enforcing access.
+    
+- **Legacy Support**: AccessDecisionManager and AccessDecisionVoters still usable for backward compatibility; voting schemes include AffirmativeBased, ConsensusBased, UnanimousBased with different grant/deny strategies.
+    
+- **Custom Extensions**: Custom AuthorizationManager or voters for complex business policies (e.g., with Open Policy Agent or suspended account check).
+    
+- **Method Security**: Supports pre/post authorization on methods via interceptors that integrate AuthorizationManager.
+    
+- **Config Samples**: Customize role prefix, trust resolver, role hierarchy, AuthorizationManagerFactory beans to adapt framework to business needs.
+    
+- **Tools/Frameworks**: Works with Spring Security core, integrates with OAuth2/OIDC, Keycloak, custom policy engines; supports annotation-based security for fine-grained control.
+    
+- **Architect Focus**: Emphasize composability, extensibility, migration from legacy voters, and simplifying role management for scalable, secure access control models.
+    
+
+## 60-Second Recap
+
+- Spring Security Authorization uses GrantedAuthority strings, centralized AuthorizationManager for decisions.
+    
+- Supports role hierarchies, delegation, and legacy AccessDecision voting models.
+    
+- Extensible with custom managers/voters for business rules.
+    
+- Architect goal: simplify access policies, support complex scenarios, enable migration to modern manager model.
+    
+
+**Reference**: [Spring Security Authorization Architecture](https://docs.spring.io/spring-security/reference/servlet/authorization/architecture.html)
+
+1. [https://docs.spring.io/spring-security/reference/servlet/authorization/architecture.html](https://docs.spring.io/spring-security/reference/servlet/authorization/architecture.html)
 # **Spring Security Authentication & Authorization Summary**
 
 ## **Article 1: Authentication Features Overview**

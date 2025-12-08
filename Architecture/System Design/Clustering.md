@@ -1,3 +1,84 @@
+
+## Apache Tomcat Clustering Interview Checklist
+
+- **Clustering Basics**
+    
+    - **Definition:** Multiple Tomcat instances (nodes) interconnected for reliability, scalability, and availability.
+        
+    - **Purpose:** Handle high concurrency, failover, and improve system uptime (high availability).
+        
+- **Cluster Types**
+    
+    |Type|Description|Examples|
+    |---|---|---|
+    |**Vertical**|Multiple instances on a single machine|Multi-instance setup on one physical/VM|
+    |**Horizontal**|Instances on different machines/VMs|Scaling out with multiple servers|
+    |**Hybrid**|Combination of vertical + horizontal|Mixed deployment|
+    
+- **Topologies**
+    
+    - **Homogeneous:** All nodes run same apps/configuration.
+        
+    - **Heterogeneous:** Different nodes run different apps (e.g., heavy processing nodes separated).
+        
+- **Load Balancing**
+    
+    |Type|Description|Examples|
+    |---|---|---|
+    |**Software**|E.g., Apache Httpd reverse proxy|mod_proxy_balancer|
+    |**Hardware**|Dedicated load balancer appliances|F5, HAProxy|
+    
+- **Key Benefits**
+    
+    - Supports thousands of concurrent requests.
+        
+    - Failover prevents outage when node goes down.
+        
+    - Enables high availability (targets 99.999% uptime).
+        
+    - Geographic distribution protects against regional failures.
+        
+- **Configuration & Scaling**
+    
+    - Choose based on hardware resources and application needs.
+        
+    - Use dedicated web servers and load balancers in larger setups.
+        
+    - Hybrid clusters provide flexibility and balance load.
+        
+- **Operational Challenges**
+    
+    - Synchronizing nodes after failure.
+        
+    - Deployment consistency across nodes.
+        
+    - Managing session replication for sticky sessions.
+        
+- **Tools & Frameworks**
+    
+    |Tool|Role|
+    |---|---|
+    |**Apache Httpd**|Software load balancing|
+    |**F5/HAProxy**|Hardware/software load balancing|
+    |**OpenLogic Support**|Enterprise Tomcat support & configuration|
+    
+
+## 60-Second Recap
+
+- **Tomcat clustering:** Connect multiple Tomcat servers for HA and scaling.
+    
+- **Cluster types:** Vertical (multi-instance), horizontal (multi-machines), hybrid.
+    
+- **Load balancing:** Software (Apache Httpd) or hardware (F5).
+    
+- **Benefits:** Concurrent requests, failover, geo-distribution, 99.999% uptime.
+    
+- **Gold:** Homogeneous setup, sync management, dedicated load balancer.
+    
+
+**Reference**: [OpenLogic Apache Tomcat Clustering](https://www.openlogic.com/blog/apache-tomcat-clustering)[openlogic](https://www.openlogic.com/blog/apache-tomcat-clustering)​
+
+1. [https://www.openlogic.com/blog/apache-tomcat-clustering](https://www.openlogic.com/blog/apache-tomcat-clustering)
 # **Apache Tomcat Clustering - Quick Reference**
 
 **Source:** OpenLogic, "Apache Tomcat Clustering"  

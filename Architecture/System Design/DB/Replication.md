@@ -1,3 +1,142 @@
+## Database Replication Interview Checklist
+
+- **Replication Models**
+    
+    |Model|Leader Writes|Consistency|Complexity|
+    |---|---|---|---|
+    |**Single-Leader**|Primary only|Strong (sync) / Eventual (async)|Low|
+    |**Multi-Leader**|Multiple primaries|Conflict resolution needed|High|
+    |**Leaderless**|Any node|Quorum reads/writes, eventual|Highest|
+    
+- **Single-Leader (Primary-Secondary)**
+    
+    - **Writes:** Primary/master handles all updates.
+        
+    - **Reads:** Scale via read replicas (secondaries).
+        
+    - **Sync:** Async (lag) vs Sync (blocking writes).
+        
+    - **Failover:** Promote replica to primary.
+        
+- **Multi-Leader (Master-Master)**
+    
+    - Multiple writable primaries across regions.
+        
+    - **Conflict Resolution:** Last-write-wins, CRDTs, custom merging.
+        
+    - **Use Case:** Global apps with local writes.
+        
+- **Leaderless (Decentralized)**
+    
+    - **Quorum Writes:** Write to W nodes of N replicas.
+        
+    - **Quorum Reads:** Read from R nodes (R+W>N ensures consistency).
+        
+    - **Examples:** DynamoDB, Cassandra, Riak.
+        
+- **Trade-offs (CAP Theorem)**
+    
+    |Priority|Model|Consistency|Availability|
+    |---|---|---|---|
+    |**CP**|Single-leader sync|Strong|May partition|
+    |**AP**|Leaderless quorum|Eventual|Always available|
+    
+- **Tools & Implementations**
+    
+    |Database|Model|Features|
+    |---|---|---|
+    |**PostgreSQL**|Single-leader|Streaming WAL replication|
+    |**MySQL**|Single/multi-leader|GTID, Galera Cluster|
+    |**MongoDB**|Leader election|Replica sets|
+    |**Cassandra**|Leaderless|Quorum consistency|
+    
+
+## 60-Second Recap
+
+- **Single-Leader:** Primary writes + read replicas (scale reads).
+    
+- **Multi-Leader:** Multiple writable primaries + conflict resolution.
+    
+- **Leaderless:** Quorum writes/reads (R+W>N), eventual consistency.
+    
+- **Choose:** Single-leader (simple), leaderless (scale/availability).
+    
+- **Gold:** PostgreSQL streaming + read replicas + async lag tolerance.
+    
+
+**Reference**: [DesignGurus Database Replication](https://www.designgurus.io/blog/database-replication)[designgurus](https://www.designgurus.io/blog/database-replication)​
+
+1. [https://www.designgurus.io/blog/database-replication](https://www.designgurus.io/blog/database-replication)
+2. 
+## PostgreSQL Replication & CDC Interview Checklist
+
+- **Core Concepts**
+    
+    - **Physical Replication:** Byte-level WAL copying; exact binary replica for HA.[hackernoon](https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1)​
+        
+    - **Logical Replication:** Transaction-level (INSERT/UPDATE/DELETE); selective tables/rows.
+        
+    - **WAL (Write-Ahead Log):** Append-only change log; enables crash recovery + replication.
+        
+    - **Replication Slots:** Track subscriber progress; prevent WAL segment removal.
+        
+- **Logical Replication Setup**
+    
+    text
+    
+    `# Publisher (Primary) wal_level = logical max_replication_slots = 10 CREATE PUBLICATION pub FOR TABLE users, orders; # Subscriber (Replica) CREATE SUBSCRIPTION sub  CONNECTION 'host=primary port=5432...'  PUBLICATION pub;`
+    
+- **Change Data Capture (CDC)**
+    
+    - **Logical Decoding:** WAL → readable INSERT/UPDATE/DELETE events.
+        
+    - **Use Cases:** Data lakes, analytics, real-time sync, auditing.
+        
+    - **Airbyte Integration:** PostgreSQL source → BigQuery/Snowflake destinations.
+        
+- **Key Configurations**
+    
+    |Parameter|Purpose|Recommendation|
+    |---|---|---|
+    |**wal_level**|Enable logical decoding|`logical`|
+    |**max_wal_size**|WAL retention between checkpoints|4-8GB (sync interval)|
+    |**wal_compression**|Reduce WAL storage|`on`|
+    |**max_replication_slots**|Subscriber limit|Match replica count|
+    
+- **Primary-Standby Pattern**
+    
+    - **Load Balancing:** Reads to replicas, writes to primary.
+        
+    - **High Availability:** Automatic failover via Patroni/PgBouncer.
+        
+    - **Lag Trade-off:** Acceptable for analytics, not real-time txns.
+        
+- **Tools & Frameworks**
+    
+    |Tool|Use Case|
+    |---|---|
+    |**Airbyte**|CDC to data warehouses|
+    |**Debezium**|Kafka CDC connector|
+    |**Neon**|Serverless Postgres with logical rep|
+    |**pg_dump/pg_restore**|Initial replica snapshot|
+    
+
+## 60-Second Recap
+
+- **Physical:** Byte-copy WAL for HA; **Logical:** Tx-level for selective sync/CDC.
+    
+- **WAL + Slots:** Core replication engine; configure `wal_level=logical`.
+    
+- **CDC:** Logical decoding → Airbyte/Debezium → analytics sinks.
+    
+- **Setup:** Publication (publisher) → Subscription (subscriber).
+    
+- **Gold:** Primary-standby reads + Airbyte CDC + WAL compression.
+    
+
+**Reference**: [PostgreSQL Logical Replication & CDC](https://neon.tech/blog/a-guide-to-logical-replication-and-cdc-in-postgresql-with-airbyte)[hackernoon](https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1)​
+
+1. [https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1](https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1)
 # **Data Replication Strategies in System Design**
 
 ## **1. Essential Question**

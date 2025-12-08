@@ -1,3 +1,101 @@
+
+## Message Broker Interview Checklist
+
+- **Core Definition**
+    
+    - Intermediary software facilitating communication between distributed systems/applications.
+        
+    - Decouples producers/consumers, enables async processing, ensures reliable delivery.[vmware](https://www.vmware.com/topics/message-brokers)​
+        
+- **Primary Models**
+    
+    |Model|Description|Example|
+    |---|---|---|
+    |**Point-to-Point**|Producer → single consumer via queue|Order processing tasks|
+    |**Publish-Subscribe**|Producer → multiple subscribers via topic|User notifications|
+    |**Event Streaming**|Append-only logs (no deletion)|Real-time analytics|
+    
+- **Key Capabilities**
+    
+    - **Message Routing:** Exchanges/bindings for complex topologies (direct, fanout, topic).
+        
+    - **Reliability:** Persistence, acknowledgments, dead letter queues.
+        
+    - **Protocol Support:** AMQP, MQTT, STOMP, JMS.
+        
+    - **Scalability:** Clustering, replication, horizontal scaling.
+        
+- **Popular Message Brokers**
+    
+    |Broker|Type|Strengths|Weaknesses|
+    |---|---|---|---|
+    |**RabbitMQ**|Traditional queue|Flexible routing, multi-protocol, easy ops|Lower throughput|
+    |**Kafka**|Streaming platform|High throughput, log retention, partitioning|Complex ops|
+    |**ActiveMQ**|JMS-based|Enterprise features, multiple protocols|Performance limits|
+    |**Pulsar**|Multi-tenant streaming|Separate compute/storage, geo-replication|Newer ecosystem|
+    
+- **Use Cases**
+    
+    - **Microservices:** Decouple service communication, async workflows.
+        
+    - **IoT:** Handle device telemetry at scale.
+        
+    - **Financial:** Real-time trading, transaction processing.
+        
+    - **Logistics:** Package tracking across systems.
+        
+- **Architectural Patterns**
+    
+    - **Async Processing:** Non-blocking operations, load leveling.
+        
+    - **Workflow Orchestration:** Step coordination via queues.
+        
+    - **Event-Driven:** Pub/sub for real-time reactions.
+        
+- **Tools & Frameworks**
+    
+    |Category|Examples|
+    |---|---|
+    |**Brokers**|RabbitMQ, Kafka, ActiveMQ, Pulsar|
+    |**Cloud**|AWS MQ/SQS/SNS, Azure Service Bus|
+    |**Clients**|Spring AMQP, Kafka Streams|
+    
+
+## 60-Second Recap
+
+- **Message Broker:** Decouples producers/consumers via queues/topics.
+    
+- **Models:** Point-to-point (queues), Pub/Sub (topics), Streaming (logs).
+    
+- **RabbitMQ:** Flexible routing/multi-protocol; **Kafka:** High-throughput streaming.
+    
+- **Use:** Microservices, IoT, real-time processing.
+    
+- **Gold:** Choose by throughput (Kafka) vs routing complexity (RabbitMQ).
+    
+
+**Reference**: [VMware Message Brokers Overview](https://www.vmware.com/topics/message-brokers)[vmware](https://www.vmware.com/topics/message-brokers)​
+
+1. [https://www.vmware.com/topics/message-brokers](https://www.vmware.com/topics/message-brokers)
+2. [https://www.vmware.com/docs/vmware-tanzu-rabbitmq-confluent-kafka-performance-study](https://www.vmware.com/docs/vmware-tanzu-rabbitmq-confluent-kafka-performance-study)
+3. [https://www.confluent.io/learn/message-broker/](https://www.confluent.io/learn/message-broker/)
+4. [https://www.ibm.com/think/topics/message-brokers](https://www.ibm.com/think/topics/message-brokers)
+5. [https://www.vmware.com/topics/glossary/content/message-brokers.html](https://www.vmware.com/topics/glossary/content/message-brokers.html)
+6. [https://www.linkedin.com/pulse/understanding-message-brokers-types-use-cases-code-examples-algreeb-cn6ff](https://www.linkedin.com/pulse/understanding-message-brokers-types-use-cases-code-examples-algreeb-cn6ff)
+7. [https://www.designgurus.io/blog/rabbitmq-kafka-activemq-system-design](https://www.designgurus.io/blog/rabbitmq-kafka-activemq-system-design)
+8. [https://techdocs.broadcom.com/us/en/vmware-cis/cloud-director/vmware-cloud-director/10-6/vcd-ext-developer-guide/extensibility-platform-message-broker.html](https://techdocs.broadcom.com/us/en/vmware-cis/cloud-director/vmware-cloud-director/10-6/vcd-ext-developer-guide/extensibility-platform-message-broker.html)
+9. [https://www.designgurus.io/answers/detail/types-of-message-brokers](https://www.designgurus.io/answers/detail/types-of-message-brokers)
+10. [https://www.linkedin.com/pulse/comparing-rabbitmq-kafka-choosing-right-message-broker-muntakim](https://www.linkedin.com/pulse/comparing-rabbitmq-kafka-choosing-right-message-broker-muntakim)
+11. [https://dev.to/binoy123/message-brokers-overview-42pe](https://dev.to/binoy123/message-brokers-overview-42pe)
+12. [https://blog.emb.global/message-broker/](https://blog.emb.global/message-broker/)
+13. [https://risingwave.com/blog/rabbitmq-vs-activemq-vs-kafka-a-comprehensive-comparison/](https://risingwave.com/blog/rabbitmq-vs-activemq-vs-kafka-a-comprehensive-comparison/)
+14. [https://tsh.io/blog/message-broker](https://tsh.io/blog/message-broker)
+15. [https://www.designgurus.io/answers/detail/use-cases-of-message-brokers](https://www.designgurus.io/answers/detail/use-cases-of-message-brokers)
+16. [https://dev.to/somadevtoo/difference-between-apache-kafka-rabbitmq-and-activemq-4f1k](https://dev.to/somadevtoo/difference-between-apache-kafka-rabbitmq-and-activemq-4f1k)
+17. [https://www.rabbitmq.com](https://www.rabbitmq.com/)
+18. [https://www.svix.com/resources/glossary/message-broker/](https://www.svix.com/resources/glossary/message-broker/)
+19. [https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/](https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/)
+20. [https://blogs.vmware.com/vov/2019/05/01/v2-how-to-implement-nsx-micro-segmentation-for-kafka-message-broker-using-vmware-nsx-data-center/](https://blogs.vmware.com/vov/2019/05/01/v2-how-to-implement-nsx-micro-segmentation-for-kafka-message-broker-using-vmware-nsx-data-center/)
 # **Message Brokers - Quick Reference**
 
 **Source:** VMware, "Message Brokers"  

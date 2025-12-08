@@ -1,3 +1,95 @@
+
+## NoSQL Databases Interview Checklist
+
+- **NoSQL Categories**
+    
+    |Type|Data Model|Examples|Best For|
+    |---|---|---|---|
+    |**Key-Value**|Key → opaque value|Redis, DynamoDB|Caching, sessions|
+    |**Document**|JSON/BSON docs|MongoDB, CouchDB|Content, catalogs|
+    |**Wide-Column**|Partition + columns|Cassandra, ScyllaDB|Time series, logs|
+    |**Columnar**|Column families|HBase, BigTable|Analytics|
+    |**Graph**|Nodes + edges|Neo4j, JanusGraph|Relationships|
+    
+- **CAP Theorem Trade-offs**
+    
+    |Focus|Consistency|Availability|Partition Tolerance|
+    |---|---|---|---|
+    |**CP**|Cassandra (tunable), MongoDB Replica Sets|Limited|✅|
+    |**AP**|DynamoDB, Cassandra (ONE)|✅|✅|
+    |**CA**|Traditional RDBMS|✅|❌ (single node)|
+    
+- **Scaling Patterns**
+    
+    - **Vertical:** Single node power (Redis).
+        
+    - **Horizontal:** Sharding (Cassandra partitions, MongoDB shard key).
+        
+    - **Replication:** Master-slave (MongoDB), masterless (Cassandra).
+        
+- **Query Capabilities**
+    
+    |DB Type|Query Power|Schema|
+    |---|---|---|
+    |**Key-Value**|Key only|None|
+    |**Document**|Field queries, aggregation|Flexible|
+    |**Wide-Column**|Partition key required|Query-driven|
+    |**Graph**|Traversal queries|Schema-optional|
+    
+- **Common Use Cases**
+    
+    - **Redis:** Cache, leaderboards, sessions.
+        
+    - **MongoDB:** User profiles, content management.
+        
+    - **Cassandra:** IoT, time series, high-write.
+        
+    - **Neo4j:** Social graphs, recommendations.
+        
+- **Tools & Frameworks**
+    
+    |Category|Examples|
+    |---|---|
+    |**Drivers**|Spring Data (Mongo/Cassandra), Redis clients|
+    |**Query**|Mongo Aggregation, CQL (Cassandra)|
+    |**Monitoring**|Prometheus exporters|
+    
+
+## 60-Second Recap
+
+- **5 Types:** KV (Redis), Document (Mongo), Wide-Column (Cassandra), Columnar (HBase), Graph (Neo4j).
+    
+- **CAP Choices:** CP (strong consistency), AP (high availability).
+    
+- **Scaling:** Sharding + replication; eventual consistency common.
+    
+- **Pick:** Simple lookups → KV; flexible docs → Mongo; relationships → Graph.
+    
+- **Gold:** Hybrid (SQL source-of-truth + NoSQL for scale/specialty).
+    
+
+**Reference**: [NoSQL System Design Cheat Sheet](https://hackernoon.com/nosql-system-design-cheat-sheet)youtube​
+
+1. [https://www.youtube.com/watch?v=YTKxGG0YlZ4](https://www.youtube.com/watch?v=YTKxGG0YlZ4)
+2. [https://hackernoon.com/nosql-system-design-cheat-sheet](https://hackernoon.com/nosql-system-design-cheat-sheet)
+3. [https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1](https://hackernoon.com/the-system-design-cheat-sheet-relational-databases-part-1)
+4. [https://systemdesign.one/system-design-interview-cheatsheet/](https://systemdesign.one/system-design-interview-cheatsheet/)
+5. [https://github.com/cherkavi/cheat-sheet/blob/master/nosql.md](https://github.com/cherkavi/cheat-sheet/blob/master/nosql.md)
+6. [https://www.reddit.com/r/ExperiencedDevs/comments/17t0kfg/system_design_sql_vs_nosql/](https://www.reddit.com/r/ExperiencedDevs/comments/17t0kfg/system_design_sql_vs_nosql/)
+7. [https://www.javacodegeeks.com/2019/02/nosql-databases-cassandra-vs-mongo-vs-redis-db-comparison.html](https://www.javacodegeeks.com/2019/02/nosql-databases-cassandra-vs-mongo-vs-redis-db-comparison.html)
+8. [https://pub.deadnet.se/Books%20and%20Docs%20on%20Hacking/DataBase/Architects%20Guide%20to%20NoSQL.pdf](https://pub.deadnet.se/Books%20and%20Docs%20on%20Hacking/DataBase/Architects%20Guide%20to%20NoSQL.pdf)
+9. [https://www.scylladb.com/learn/nosql/nosql-database-comparison/](https://www.scylladb.com/learn/nosql/nosql-database-comparison/)
+10. [https://devathon.com/blog/mongodb-vs-cassandra-vs-redis-vs-memcached-vs-dynamodb/](https://devathon.com/blog/mongodb-vs-cassandra-vs-redis-vs-memcached-vs-dynamodb/)
+11. [https://github.com/jitiiita/system-design-cheat-sheet](https://github.com/jitiiita/system-design-cheat-sheet)
+12. [https://www.geeksforgeeks.org/system-design/which-database-to-choose-while-designing-a-system-sql-or-nosql/](https://www.geeksforgeeks.org/system-design/which-database-to-choose-while-designing-a-system-sql-or-nosql/)
+13. [https://stackoverflow.com/questions/3010224/mongodb-vs-redis-vs-cassandra-for-a-fast-write-temporary-row-storage-solution](https://stackoverflow.com/questions/3010224/mongodb-vs-redis-vs-cassandra-for-a-fast-write-temporary-row-storage-solution)
+14. [https://www.linkedin.com/posts/shunmugavel_nosql-systemdesign-database-activity-7372222787001913344-thUV](https://www.linkedin.com/posts/shunmugavel_nosql-systemdesign-database-activity-7372222787001913344-thUV)
+15. [https://www.reddit.com/r/leetcode/comments/12d81jr/eli5_nosql_vs_sql_when_it_comes_to_system_design/](https://www.reddit.com/r/leetcode/comments/12d81jr/eli5_nosql_vs_sql_when_it_comes_to_system_design/)
+16. [https://www.linkedin.com/posts/dalia-original-5380b31ab_nosql-cheat-sheet-the-ultimate-guide-activity-7393935647302045696-jwRd](https://www.linkedin.com/posts/dalia-original-5380b31ab_nosql-cheat-sheet-the-ultimate-guide-activity-7393935647302045696-jwRd)
+17. [https://vahid.blog/post/2022-05-05-system-design-interview-cheat-sheet/system_design.pdf](https://vahid.blog/post/2022-05-05-system-design-interview-cheat-sheet/system_design.pdf)
+18. [https://www.tryexponent.com/blog/sql-vs-nosql](https://www.tryexponent.com/blog/sql-vs-nosql)
+19. [https://cheatsheets.davidveksler.com/databases.html](https://cheatsheets.davidveksler.com/databases.html)
+20. [https://dev.to/karanpratapsingh/system-design-nosql-databases-41j5](https://dev.to/karanpratapsingh/system-design-nosql-databases-41j5)
 # **NoSQL System Design Cheat Sheet**
 
 ## **1. Essential Question**
@@ -716,3 +808,112 @@ AWS offers a comprehensive suite of **purpose-built NoSQL databases**, each opti
 5. **Have rollback plan:** Quick revert if issues arise
 
 This comprehensive guide provides everything needed to discuss AWS NoSQL databases confidently in system design interviews, from service selection to architecture patterns and operational considerations.
+
+
+
+
+---
+
+## NoSQL – summary 
+
+- What “NoSQL” really means
+    
+    - Umbrella term for non-relational data stores optimized for scale, distribution, and flexible schemas rather than strict relational models.
+        
+    - Prioritizes availability, partition tolerance, and horizontal scaling over strong global consistency in many designs (CAP trade-offs).[apidog](https://apidog.com/articles/what-is-grpc/)​
+        
+- Main categories and mental model
+    
+    - Key-value: extremely simple (key → opaque value), very fast and scalable (e.g., Redis, Dynamo-style systems).
+        
+    - Document: JSON/BSON documents with flexible schema, good for aggregates (e.g., MongoDB, Couchbase).[apidog](https://apidog.com/articles/what-is-grpc/)​
+        
+    - Column-family: wide-column, partitioned tables for time-series/analytics (e.g., Cassandra, HBase).
+        
+    - Graph: nodes + edges for relationship-centric queries (e.g., Neo4j).
+        
+- When to choose NoSQL over relational
+    
+    - High write throughput, massive scale-out, or large, semi-structured data that doesn’t fit rigid schemas.
+        
+    - When domain aggregates map naturally to documents or key-value records and joins can be avoided or denormalized.
+        
+- Data modeling mindset
+    
+    - Model around access patterns (queries) and aggregates, not purely around normalization rules.
+        
+    - Denormalize aggressively where needed; accept duplication to achieve predictable, low-latency reads and writes.[apidog](https://apidog.com/articles/what-is-grpc/)​
+        
+- Consistency models
+    
+    - Many NoSQL systems offer tunable or eventual consistency; per-operation consistency levels and quorum writes/reads are common.
+        
+    - As an architect, you must articulate which flows tolerate stale reads and where strong or transactional guarantees are mandatory.
+        
+- Partitioning and replication
+    
+    - Horizontal sharding/partitioning is first-class; partition key choice is critical to avoid hotspots and maintain balance.
+        
+    - Replication for availability and geo-distribution; understand leader–follower vs leaderless, quorum, and failover behavior.[apidog](https://apidog.com/articles/what-is-grpc/)​
+        
+- Transactions and constraints
+    
+    - Some systems provide limited or per-partition transactions; cross-partition ACID is uncommon or expensive.
+        
+    - Application logic must enforce many invariants traditionally handled by relational constraints and multi-row transactions.
+        
+- Operational and performance characteristics
+    
+    - Designed for commodity hardware clusters: elasticity, high availability, and fault tolerance as core features.
+        
+    - Trade off complex query capabilities (joins, ad-hoc analytics) for predictable performance on known access patterns.
+        
+- Polyglot persistence
+    
+    - In real systems, NoSQL complements rather than replaces RDBMS: pick key-value/document/column/graph stores per bounded context.
+        
+    - Use the right store per workload: OLTP-like flows may still favor relational; sessions/caches/events/aggregates may favor NoSQL.
+        
+
+---
+
+## Interview checklist – NoSQL (architect lens)
+
+- Can you succinctly define NoSQL and contrast it with relational databases beyond “schema-less”?
+    
+- Can you list and briefly describe the four main categories: key-value, document, column-family, graph, with 1–2 canonical examples each?
+    
+- Can you explain how data modeling in NoSQL is access-pattern-driven and denormalization-centric?
+    
+- Can you describe CAP trade-offs and eventual vs strong consistency in common NoSQL systems?
+    
+- Can you discuss partitioning, replication, and how partition-key choices affect scalability and hot-spotting?
+    
+- Can you outline where transactions are limited and how to handle invariants without full ACID across partitions?
+    
+- Can you give concrete use cases where NoSQL is a clear win (e.g., event logs, user activity, caching, IoT, personalization) and where RDBMS is still better?
+    
+- Can you articulate a polyglot persistence strategy and how you’d govern it (schema ownership, data contracts, data flows)?
+    
+
+---
+
+## 60‑second recap – NoSQL “must-say” bullets
+
+- NoSQL is a family of non-relational stores (key-value, document, column-family, graph) optimized for scale, distribution, and flexible schemas.
+    
+- Data modeling is driven by access patterns and aggregates, with deliberate denormalization to achieve predictable, low-latency operations.
+    
+- Many NoSQL systems favor availability and partition tolerance with eventual or tunable consistency instead of strong global ACID.
+    
+- Horizontal partitioning and replication are foundational; choosing a good partition key is essential to avoid hotspots and enable scale-out.
+    
+- Transactions and constraints are often weaker or scoped (per document or partition), so the application and domain design must handle invariants.
+    
+- In modern architectures, NoSQL complements relational databases: pick the right store per bounded context as part of polyglot persistence.
+    
+
+Reference: General NoSQL architecture and design principles commonly covered in system design resources.[apidog](https://apidog.com/articles/what-is-grpc/)​
+
+1. [https://apidog.com/articles/what-is-grpc/](https://apidog.com/articles/what-is-grpc/)
+2. [https://hackernoon.com/nosql-system-design-cheat-sheet](https://hackernoon.com/nosql-system-design-cheat-sheet)

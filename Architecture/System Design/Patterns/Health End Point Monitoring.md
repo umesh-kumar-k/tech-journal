@@ -1,3 +1,64 @@
+
+## Health Endpoint Monitoring Pattern
+
+Health Endpoint Monitoring continuously verifies application and service availability and performance by exposing health-check endpoints that external tools poll regularly.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)​
+
+- Expose stable endpoints (e.g., /health) to check service functionality and dependencies (DB, cache, external APIs)
+    
+- Checks include HTTP status codes, response content validation, response time, resource availability
+    
+- Monitoring from multiple locations improves coverage; use cached health status to reduce load
+    
+- Secure endpoints with authentication, obscure URLs, and HTTPS to prevent misuse/DoS
+    
+- Use health results for alerting, self-healing, and routing decisions (e.g., load balancer traffic)
+    
+
+## Tools and Frameworks
+
+|Platform/Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|.NET|ASP.NET Core Health Checks middleware|Checks DB, storage, external services with standardized reports|
+|Azure|Azure Monitor, Application Insights, Traffic Manager, Front Door|Monitor uptime, latency; route traffic away from unhealthy instances|
+|Kubernetes|Liveness and Readiness Probes|Automatic pod health checks for cluster management|
+|Third-Party|Datadog, NewRelic, Pingdom|External synthetic monitoring of app endpoints|
+|Custom|Custom JSON/HTTP endpoints|Return granular health data including dependencies status|
+
+## Interview Checklist
+
+- Define: Use dedicated health endpoints polled by monitoring systems to verify app/service correctness and availability[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)​
+    
+- Scope: Check HTTP status, response correctness, latency, dependent services, TLS expiry, DNS entries
+    
+- Security: Protect endpoints via auth, obscurity, HTTPS, restricted IP ranges to prevent attacks
+    
+- Strategies: Expose multiple endpoint granularities (critical vs non-critical components)
+    
+- Monitoring: Aggregate results; alert on failures; cache health status to limit load
+    
+- Integration: Use with load balancers, Traffic Manager for traffic routing to healthy instances
+    
+- Example: ASP.NET Core health middleware integrated with Azure Monitor and Traffic Manager
+    
+- Best Practices: Monitor from global locations; handle slow clients; cover end-to-end dependencies
+    
+
+## 60-Second Recap
+
+- **Core**: Health endpoint (/health) exposes service status; polled externally or internally[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)​
+    
+- **Checks**: HTTP code; content validation; response time; dependent services (DB, cache)
+    
+- **Security**: Auth, obscurity, HTTPS to protect endpoint
+    
+- **Tools**: ASP.NET Core middleware, Azure Monitor/App Insights, Traffic Manager, K8s probes
+    
+- **Uses**: Alerting, auto-healing, intelligent traffic routing
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)
 # **Health Endpoint Monitoring Pattern**
 
 ## **Core Thesis**

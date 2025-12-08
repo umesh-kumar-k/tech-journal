@@ -1,3 +1,69 @@
+## Scalability Interview Checklist
+
+- **Core Scalability Principles**
+    
+    |Principle|Definition|Key Metric|
+    |---|---|---|
+    |**Horizontal Scaling**|Capacity ∝ added machines|Linear capacity growth|
+    |**Redundancy**|No single point of failure|Graceful degradation|
+    |**Vertical Scaling**|Upgrade existing machines|Limited, costly at scale|
+    
+- **Load Balancing Strategies**
+    
+    |Approach|Pros|Cons|Tools|
+    |---|---|---|---|
+    |**Smart Clients**|Decentralized, reusable|Complex, error-prone|Custom libs|
+    |**Hardware LB**|High perf|Expensive|**Citrix NetScaler**, F5|
+    |**Software LB**|Cost-effective|Local only|**HAProxy** (localhost pools)|
+    
+- **Caching Layers**
+    
+    |Type|Strategy|Tools|
+    |---|---|---|
+    |**App Caching**|Read/write-through|**Memcached**, **Redis**|
+    |**DB Caching**|Query optimization|MySQL innodb_buffer, Cassandra row cache|
+    |**CDN**|Static media|**Akamai**, CloudFront|
+    |**Invalidation**|Write-through or delete|TTL + explicit invalidation|
+    
+- **Off-line Processing**
+    
+    |Pattern|Use Case|Tools|
+    |---|---|---|
+    |**Message Queues**|Async heavy work|**RabbitMQ**|
+    |**Cron → Queue**|Scheduled tasks|Cron + consumer pools|
+    |**MapReduce**|Big data analytics|**Hadoop**, Hive|
+    
+- **Platform Layer Benefits**
+    
+    |Benefit|Impact|
+    |---|---|
+    |**Independent Scaling**|Web vs platform capacity|
+    |**Multi-product Reuse**|Web, API, mobile|
+    |**Team Scaling**|Product teams + platform team|
+    
+- **Implementation Patterns**
+    
+    text
+    
+    `User → LB → Web → Platform → DB/Cache             ↓        Message Queue → Workers`
+    
+
+## 60-Second Recap
+
+- **Horizontal Scale:** Linear capacity + redundancy via **load balancing** (HAProxy > smart clients).
+    
+- **Caching:** App (**Redis**), DB config, CDN—**write-through** invalidation.
+    
+- **Async:** **RabbitMQ** queues + **Hadoop** MapReduce for heavy lifting.
+    
+- **Platform Layer:** Decouple web/platform for independent scaling + team velocity.
+    
+- **Gold:** LB → Web → Platform → Cache/DB + queues for off-line work.
+    
+
+**Reference**: [Architecting Systems for Scale](https://lethain.com/introduction-to-architecting-systems-for-scale/)[lethain](https://lethain.com/introduction-to-architecting-systems-for-scale/)​
+
+1. [https://lethain.com/introduction-to-architecting-systems-for-scale/](https://lethain.com/introduction-to-architecting-systems-for-scale/)
 ### **Cornell Notes: Introduction to Architecting Systems for Scale**
 
 **Source:** Ilya's Blog | [Introduction to Architecting Systems for Scale](https://lethain.com/introduction-to-architecting-systems-for-scale/)

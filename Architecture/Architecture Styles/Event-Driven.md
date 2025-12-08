@@ -1,4 +1,55 @@
 
+## Key Topics
+
+- **Core Components**: Event producers generate streams, channels (brokers/ingestion) route via pub/sub or streaming, consumers process independently; decoupling allows independent scaling.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- **Models**: Pub/sub (Azure Event Grid: tracks subscriptions, fire-and-forget, no replay); event streaming (Azure Event Hubs: ordered logs, replayable, client-managed offsets).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- **Tools/Frameworks Examples**:
+    
+    - Azure: Event Grid (pub/sub), Event Hubs (streaming/Kafka-compatible), Service Bus (queues), Stream Analytics (complex processing).
+        
+    - Others: Kafka (partitioned streaming), RabbitMQ (AMQP pub/sub), AWS SNS/SQS (fan-out/queues), NServiceBus/MassTransit (correlation libraries).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+        
+- **Processing Types**: Simple (Azure Functions triggers), basic correlation (by ID, persist state), complex (Stream Analytics patterns/aggregation), stream processing (Event Hubs → Flink).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- **Challenges**: Ordering/idempotency (multi-instances), error handling (error-handler processors, DLQs), data loss (ack modes), event volume (diet payloads: keys vs full data).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- **Topologies**: Broker (dynamic, decoupled but inconsistency risks); mediator (controlled flow, queues/commands, better error handling but coupling/bottlenecks).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+
+## Interview Checklist
+
+- Clarify needs: Multi-subsystem events? Real-time? Volume (IoT-scale)? Consistency (eventual OK?).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Choose model: Pub/sub for simple fan-out (Event Grid), streaming for replay/order (Event Hubs/Kafka).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Diagram flow: Producers → ingestion → multiple consumers; justify decoupling/scalability.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Payload strategy: Keys (consistency, extra queries) vs full data (simpler but duplication/versioning).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Handle failures: Idempotency, DLQs, error processors, client acks; request-response via queues.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Scaling/observability: Multi-instances (minimize coordination), metrics (lag, throughput), tracing.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Trade-offs: Decoupling/responsiveness vs debugging/distributed txns (Sagas/choreography).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Example: IoT sensors → Event Hubs → Stream Analytics (aggregate) → Functions (alerts).[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+
+## 60-Second Recap
+
+- EDA: Producers → brokers (Event Grid pub/sub, Event Hubs streaming) → decoupled consumers for real-time scale.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Patterns: Simple/complex processing; broker (dynamic) vs mediator (controlled); idempotency/DLQs essential.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+- Tools: Azure Event Hubs/Grid/Service Bus, Kafka; trade full payloads vs keys.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+    
+
+Reference: [https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)
+
 **Source:** Microsoft Azure Architecture Center | [Event-Driven Architecture](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/event-driven)
 
 **Main Idea:** Event-Driven Architecture (EDA) is a **decoupled, distributed systems paradigm** where application components communicate asynchronously by producing and consuming **events**—notifications of state changes or occurrences. This enables highly responsive, scalable, and resilient systems that can react to changes in real-time.

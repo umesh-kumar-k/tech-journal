@@ -1,3 +1,78 @@
+## Asynchronous Message Communication Interview Checklist
+
+- **Core Benefits**
+    
+    - **Decoupling:** Services communicate without direct knowledge of each other.[hackernoon](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)​
+        
+    - **Eventual Consistency:** Handles distributed data updates across bounded contexts.
+        
+    - **Scalability:** Avoids synchronous HTTP chains ("microservice hell").
+        
+- **Communication Types**
+    
+    - **Single-Receiver (Point-to-Point):** Commands to one service; exactly-once processing.[hackernoon](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)​
+        
+    - **Multiple-Receiver (Pub/Sub):** Events broadcast to subscribers; open/closed principle.
+        
+- **Implementation Stack**
+    
+    - **Lightweight Brokers:** RabbitMQ, Azure Service Bus (dumb broker, smart endpoints).
+        
+    - **Higher-Level Abstractions:** NServiceBus, MassTransit, Brighter on top of brokers.
+        
+    - **Protocols:** AMQP for reliable queuing.
+        
+- **Patterns & Practices**
+    
+    - **Internal Async Only:** Use HTTP sync only for client→gateway; internal = messaging.[hackernoon](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)​
+        
+    - **Event-Driven:** Publish integration events on domain changes.
+        
+    - **Outbox Pattern:** Transactionally publish events with DB updates.
+        
+    - **Idempotency:** Handle retries/duplicates gracefully.
+        
+- **Challenges & Solutions**
+    
+    |Challenge|Solution|
+    |---|---|
+    |**Atomic Publish**|Outbox pattern, transaction log mining|
+    |**Eventual Consistency**|Explicit business acceptance|
+    |**Ordering**|Partitioned topics, consumer offsets|
+    
+- **Tools & Frameworks (.NET)**
+    
+    |Level|Tools|
+    |---|---|
+    |**Broker**|RabbitMQ, Azure Service Bus|
+    |**Abstraction**|MassTransit, NServiceBus|
+    |**Patterns**|MediatR (in-process), eShopOnContainers sample|
+    
+- **Production Considerations**
+    
+    - **Hyper-scalability:** Azure Service Bus for mission-critical.
+        
+    - **Resiliency:** Idempotent handlers, deduplication.
+        
+    - **Monitoring:** Track event delivery, processing latency.
+        
+
+## 60-Second Recap
+
+- **Async Messaging:** Decouples services via brokers (RabbitMQ/Azure SB); eventual consistency.
+    
+- **Types:** Point-to-point commands, pub/sub events.
+    
+- **Internal Rule:** Async only between services; sync client→gateway.
+    
+- **Critical:** Outbox pattern for atomicity, idempotency for retries.
+    
+- **Gold:** MassTransit abstraction + RabbitMQ + explicit eventual consistency.
+    
+
+**Reference**: [.NET Microservices Async Communication](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/asynchronous-message-based-communication)[hackernoon](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)​
+
+1. [https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)
 # **Async Messaging Patterns - Quick Reference**
 
 ## **1. Essential Question**

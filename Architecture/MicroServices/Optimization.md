@@ -1,4 +1,105 @@
 
+## Microservices Optimization Interview Checklist
+
+- **Performance Monitoring**
+    
+    - Track **Golden Signals:** Latency (p95/p99), Traffic (RPS), Errors (4xx/5xx), Saturation (CPU/Memory).
+        
+    - Implement **distributed tracing** to identify bottlenecks across service boundaries.
+        
+    - Use **SLOs/SLIs** to define acceptable performance thresholds.
+        
+- **Resource Optimization**
+    
+    - **Right-size containers:** Use resource requests/limits in Kubernetes manifests.
+        
+    - **Horizontal Pod Autoscaling (HPA):** Scale based on CPU/memory/custom metrics.
+        
+    - **Vertical Pod Autoscaler (VPA):** Automatically adjust resource requests/limits.
+        
+- **Network & Communication**
+    
+    - **Reduce chattiness:** Aggregate requests, use batch APIs, gRPC over REST.
+        
+    - **Caching strategies:** Redis/Memcached for hot data, CDN for static assets.
+        
+    - **Service Mesh:** Istio/Linkerd for intelligent routing, retries, circuit breaking.
+        
+- **Database & Storage**
+    
+    - **Connection pooling:** HikariCP, PgBouncer to reuse connections.
+        
+    - **Read replicas/sharding:** Scale reads independently from writes.
+        
+    - **Async processing:** Offload heavy work to queues (Kafka, RabbitMQ).
+        
+- **Code & Deployment**
+    
+    - **Profiling tools:** Continuous profiling (Parca, Pyroscope) to find hot paths.
+        
+    - **GraalVM Native Images:** Faster startup, lower memory footprint.
+        
+    - **Blue-green/Canary:** Test performance in production with minimal risk.
+        
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Monitoring**|Prometheus + Grafana, Datadog, New Relic|
+    |**Tracing**|Jaeger, Zipkin, OpenTelemetry|
+    |**Autoscaling**|KEDA, HPA|
+    |**Profiling**|Parca, Pyroscope|
+    |**Service Mesh**|Istio, Linkerd|
+    
+- **Optimization Workflow**
+    
+    1. **Baseline:** Establish current performance metrics.
+        
+    2. **Profile:** Identify hotspots (CPU, memory, I/O).
+        
+    3. **Load test:** Simulate production traffic (k6, Artillery).
+        
+    4. **Optimize:** Cache, async, database tuning.
+        
+    5. **Validate:** A/B test in production, monitor SLOs.
+        
+
+## 60-Second Recap
+
+- **Golden Signals + SLOs:** Latency/traffic/errors/saturation monitoring.
+    
+- **Scale Smart:** HPA/VPA + caching + async processing.
+    
+- **Network First:** Service mesh + gRPC + batching reduces latency.
+    
+- **Continuous Profiling:** Parca/Pyroscope finds optimization opportunities.
+    
+- **Gold:** Observability → Profile → Load test → Optimize → Validate.
+    
+
+**Reference**: [5 Steps to Optimal Microservices](https://thenewstack.io/microservices/5-steps-to-ensure-your-microservices-are-running-optimally/)
+
+1. [https://nirmata.com/2015/02/02/microservices-five-architectural-constraints/](https://nirmata.com/2015/02/02/microservices-five-architectural-constraints/)
+2. [https://www.linkedin.com/posts/the-new-stack_introduction-to-microservices-activity-7374774410186059776-dETZ](https://www.linkedin.com/posts/the-new-stack_introduction-to-microservices-activity-7374774410186059776-dETZ)
+3. [https://www.styra.com/blog/5-opa-deployment-performance-models-for-microservices/](https://www.styra.com/blog/5-opa-deployment-performance-models-for-microservices/)
+4. [https://www.signadot.com/blog/streamlining-microservices-testing-with-platform-engineering](https://www.signadot.com/blog/streamlining-microservices-testing-with-platform-engineering)
+5. [https://www.sayonetech.com/blog/microservices-performance/](https://www.sayonetech.com/blog/microservices-performance/)
+6. [https://www.devzero.io/blog/microservices-best-practices](https://www.devzero.io/blog/microservices-best-practices)
+7. [https://atmosly.com/blog/scaling-microservices-for-optimal-performance](https://atmosly.com/blog/scaling-microservices-for-optimal-performance)
+8. [https://talent500.com/blog/microservices-12-essential-strategies/](https://talent500.com/blog/microservices-12-essential-strategies/)
+9. [https://docs.cloud.google.com/appengine/docs/legacy/standard/java/microservice-performance](https://docs.cloud.google.com/appengine/docs/legacy/standard/java/microservice-performance)
+10. [https://devops.com/7-best-practices-to-monitor-your-microservices/](https://devops.com/7-best-practices-to-monitor-your-microservices/)
+11. [https://www.scribd.com/document/863105047/Guide-To-Cloud-Native-Microservices-1st-Edition-The-New-Stack-download](https://www.scribd.com/document/863105047/Guide-To-Cloud-Native-Microservices-1st-Edition-The-New-Stack-download)
+12. [https://www.tatvasoft.com/blog/microservices-best-practices/](https://www.tatvasoft.com/blog/microservices-best-practices/)
+13. [https://www.geeksforgeeks.org/system-design/reducing-latency-in-microservices/](https://www.geeksforgeeks.org/system-design/reducing-latency-in-microservices/)
+14. [https://www.sciencedirect.com/science/article/pii/S2153353922005636](https://www.sciencedirect.com/science/article/pii/S2153353922005636)
+15. [https://blog.aspiresys.com/software-product-engineering/key-challenges-and-best-practices-for-a-successful-microservices-transformation/](https://blog.aspiresys.com/software-product-engineering/key-challenges-and-best-practices-for-a-successful-microservices-transformation/)
+16. [https://backendless.com/maximizing-scalability-in-your-application-with-microservices-architecture/](https://backendless.com/maximizing-scalability-in-your-application-with-microservices-architecture/)
+17. [https://dl.thenewstack.io/ebooks/TheNewStack_GuideToCloudNativeMicroservices.pdf](https://dl.thenewstack.io/ebooks/TheNewStack_GuideToCloudNativeMicroservices.pdf)
+18. [https://cloud.google.com/appengine/docs/legacy/standard/java/microservice-performance](https://cloud.google.com/appengine/docs/legacy/standard/java/microservice-performance)
+19. [https://vfunction.com/blog/microservices-testing/](https://vfunction.com/blog/microservices-testing/)
+20. [https://www.cerbos.dev/blog/performance-and-scalability-microservices](https://www.cerbos.dev/blog/performance-and-scalability-microservices)
+
 **Source:** The New Stack | [https://thenewstack.io/microservices/5-steps-to-ensure-your-microservices-are-running-optimally/](https://thenewstack.io/microservices/5-steps-to-ensure-your-microservices-are-running-optimally/)
 
 **Main Idea:** Running microservices optimally requires a proactive, disciplined approach focused on system health, cost efficiency, and security. It's a continuous process of observation, enforcement, and improvement, not a one-time setup.

@@ -1,3 +1,155 @@
+
+## Reverse Proxy vs Forward Proxy vs API Gateway vs Load Balancer Interview Checklist
+
+- **Core Definitions & Perspectives**
+    
+    |Component|Protects|Position|Primary Role|
+    |---|---|---|---|
+    |**Forward Proxy**|**Clients**|Client → Internet|Anonymity, filtering|
+    |**Reverse Proxy**|**Servers**|Client → Server|Routing, caching, security|
+    |**Load Balancer**|N/A|Client → Server Pool|**Traffic distribution**|
+    |**API Gateway**|APIs|Client → Microservices|API mgmt, auth, rate limiting|
+    
+- **Layer & Capabilities**
+    
+    |Component|OSI Layer|Content Inspection|Examples|
+    |---|---|---|---|
+    |**Forward Proxy**|L4/L7|Yes (filtering)|Squid, Privoxy|
+    |**Reverse Proxy**|**L7**|Yes|**NGINX**, HAProxy, Apache|
+    |**Load Balancer**|**L4/L7**|L4=No, L7=Yes|F5, AWS ALB/NLB|
+    |**API Gateway**|**L7**|✅ Full API logic|Kong, AWS API Gateway|
+    
+- **Feature Comparison**
+    
+    |Feature|Forward Proxy|Reverse Proxy|Load Balancer|API Gateway|
+    |---|---|---|---|---|
+    |**Load Balancing**|❌|✅ Basic|✅ **Advanced**|✅|
+    |**Caching**|❌|✅|Limited|✅|
+    |**SSL Termination**|❌|✅|✅|✅|
+    |**Rate Limiting**|✅|Limited|❌|✅ **Advanced**|
+    |**Auth**|✅|Limited|❌|✅ **Full**|
+    |**Client Anonymity**|✅|❌|❌|❌|
+    
+- **Common Architectures**
+    
+    text
+    
+    `Client → [DNS LB] → [L4 LB] → [Reverse Proxy/API Gateway] → Backend Pool Internet ← [Forward Proxy] ← Client (internal traffic)`
+    
+- **Implementation Tools**
+    
+    |Category|Tools|
+    |---|---|
+    |**Forward Proxy**|**Squid**, Blue Coat|
+    |**Reverse Proxy**|**NGINX**, HAProxy, Varnish|
+    |**Load Balancer**|**F5 BIG-IP**, AWS ALB/NLB, GCP LB|
+    |**API Gateway**|**Kong**, **AWS API Gateway**, Tyk, Ambassador|
+    
+- **Decision Framework**
+    
+    |Use Case|Best Choice|
+    |---|---|
+    |**Corporate filtering**|Forward Proxy|
+    |**Web serving**|Reverse Proxy + LB|
+    |**Microservices**|**API Gateway + LB**|
+    |**High throughput**|L4 Load Balancer|
+    
+
+## 60-Second Recap
+
+- **Forward:** Client anonymity/filtering (Squid).
+    
+- **Reverse:** Server protection/routing/caching (NGINX).
+    
+- **Load Balancer:** Traffic distribution (F5, ALB)—subset of reverse proxy.
+    
+- **API Gateway:** API-specific + reverse proxy features (Kong, AWS).
+    
+- **Gold:** NGINX (reverse+LB) → API Gateway (microservices) + L4 LB (throughput).
+    
+
+**Reference**: [Network Components Cheat Sheet](https://hackernoon.com/the-network-system-design-cheat-sheet-load-balancer-reverse-proxy-forward-proxy-api-gateway)[geeksforgeeks+2](https://www.geeksforgeeks.org/system-design/api-gateway-vs-load-balancer-vs-reverse-proxy/)​
+
+1. [https://www.geeksforgeeks.org/system-design/api-gateway-vs-load-balancer-vs-reverse-proxy/](https://www.geeksforgeeks.org/system-design/api-gateway-vs-load-balancer-vs-reverse-proxy/)
+2. [https://api7.ai/learning-center/api-gateway-guide/api-gateway-vs-reverse-proxy-vs-load-balancer](https://api7.ai/learning-center/api-gateway-guide/api-gateway-vs-reverse-proxy-vs-load-balancer)
+3. [https://rockybhatia.substack.com/p/system-design-load-balancer-vs-reverse](https://rockybhatia.substack.com/p/system-design-load-balancer-vs-reverse)
+4. [https://www.youtube.com/watch?v=RqfaTIWc3LQ](https://www.youtube.com/watch?v=RqfaTIWc3LQ)
+5. [https://www.designgurus.io/blog/load-balancer-reverse-proxy-api-gateway](https://www.designgurus.io/blog/load-balancer-reverse-proxy-api-gateway)
+6. [https://www.reddit.com/r/devops/comments/py1q54/difference_between_reverse_proxy_load_balancer/](https://www.reddit.com/r/devops/comments/py1q54/difference_between_reverse_proxy_load_balancer/)
+7. [https://blog.algomaster.io/p/load-balancer-vs-reverse-proxy-vs-api-gateway](https://blog.algomaster.io/p/load-balancer-vs-reverse-proxy-vs-api-gateway)
+8. [https://hackernoon.com/the-network-system-design-cheat-sheet-load-balancer-reverse-proxy-forward-proxy-api-gateway](https://hackernoon.com/the-network-system-design-cheat-sheet-load-balancer-reverse-proxy-forward-proxy-api-gateway)
+9. [https://www.youtube.com/watch?v=Q4XUptm9S8w](https://www.youtube.com/watch?v=Q4XUptm9S8w)
+10. [https://www.linkedin.com/pulse/load-balancer-vs-reverse-proxy-api-gateway-anand-jha-zarhc](https://www.linkedin.com/pulse/load-balancer-vs-reverse-proxy-api-gateway-anand-jha-zarhc)
+
+## Reverse Proxy Interview Checklist
+
+- **Core Concepts**
+    
+    |Type|Role|Key Difference|
+    |---|---|---|
+    |**Reverse Proxy**|Protects **servers**|Sits in front, routes to backends|
+    |**Forward Proxy**|Protects **clients**|Hides client IP from internet|
+    
+- **Key Benefits**
+    
+    |Benefit|Implementation|
+    |---|---|
+    |**Load Balancing**|Distribute across servers|
+    |**Caching**|Store responses, reduce backend load|
+    |**Security**|Hide backend IPs, DDoS protection, WAF|
+    |**SSL Termination**|Offload TLS from backends|
+    |**A/B Testing**|Traffic splitting|
+    
+- **Drawbacks & Mitigations**
+    
+    |Issue|Mitigation|
+    |---|---|
+    |**Complexity**|Use managed solutions (Cloudflare)|
+    |**Bottleneck**|Horizontal scaling + health checks|
+    |**Cert Management**|Automated (Let's Encrypt, Caddy)|
+    
+- **Implementation Tools**
+    
+    |Tool|Strengths|Config Example|
+    |---|---|---|
+    |**NGINX**|Performance, flexibility|`proxy_pass http://backend`|
+    |**Apache**|Modules (proxy_http)|`ProxyPass / http://backend/`|
+    |**HAProxy**|TCP/HTTP LB|High-speed load balancing|
+    |**Caddy**|Auto HTTPS|Simple config, built-in cache|
+    |**Varnish**|HTTP caching|Cache-heavy use cases|
+    
+- **Advanced Use Cases**
+    
+    |Scenario|Reverse Proxy Role|
+    |---|---|
+    |**Microservices**|Service discovery, routing|
+    |**WordPress**|Static caching, SSL offload|
+    |**API Gateway**|Rate limiting, auth|
+    |**CDN**|Edge caching, geo-routing|
+    
+- **HTTPS Flow**
+    
+    text
+    
+    `Client → HTTPS → Reverse Proxy (TLS Termination)                   ↓ Plain HTTP → Backend                  ↑ Plain HTTP ← Backend Client ← HTTPS ← Reverse Proxy`
+    
+
+## 60-Second Recap
+
+- **Reverse Proxy:** Server-side intermediary (vs forward = client-side).
+    
+- **Powers:** LB, caching, security (DDoS/WAF), SSL termination, A/B testing.
+    
+- **Tools:** NGINX (flexible), HAProxy (speed), Caddy (simple HTTPS).
+    
+- **Drawbacks:** Complexity, potential bottleneck → scale horizontally.
+    
+- **Gold:** NGINX + health checks + caching + auto-cert (Let's Encrypt).
+    
+
+**Reference**: [Reverse Proxy Guide](https://systemdesignschool.io/blog/reverse-proxy)[systemdesignschool](https://systemdesignschool.io/blog/reverse-proxy)​
+
+1. [https://systemdesignschool.io/blog/reverse-proxy](https://systemdesignschool.io/blog/reverse-proxy)
 ### **Reverse Proxy - System Design School**
 
 **Source:** System Design School | [Reverse Proxy](https://systemdesignschool.io/blog/reverse-proxy)

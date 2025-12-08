@@ -1,4 +1,144 @@
+## Load Balancer Interview Checklist
 
+- **Load Balancer Types**
+    
+    |Type|OSI Layer|Capabilities|Examples|
+    |---|---|---|---|
+    |**DNS LB**|DNS|Geo-routing, simple|Route 53, Google Cloud DNS|
+    |**L4 LB**|Transport|IP/port, TCP/UDP|HAProxy, AWS NLB, F5|
+    |**L7 LB**|Application|URL, headers, cookies|nginx, Envoy, AWS ALB|
+    
+- **Algorithms Overview**
+    
+    |Static|Dynamic|Best For|
+    |---|---|---|
+    |**Round Robin** (weighted)|**Least Load**|Homogeneous servers|
+    |**Random** (weighted)|**Power-of-d** (d=2)|Multiple LBs|
+    |**IP/URL Hash**||Session stickiness, caching|
+    
+- **Layer Trade-offs**
+    
+    |Aspect|L4|L7|
+    |---|---|---|
+    |**Speed**|✅ Fast|❌ TLS termination overhead|
+    |**Routing**|IP/port only|✅ Content-based (URL, headers)|
+    |**Security**|✅ Passthrough|❌ Larger attack surface|
+    |**Cost**|Lower|Higher (CPU/memory)|
+    
+- **Key Benefits & Use Cases**
+    
+    |Benefit|Impact|
+    |---|---|
+    |**Horizontal scaling**|Add/remove servers dynamically|
+    |**High availability**|No single point of failure|
+    |**CD/CI**|Blue-green, canary deployments|
+    |**Security**|DDoS protection, WAF (L7)|
+    
+- **Implementation Tools**
+    
+    |Open Source|Cloud|Hardware|
+    |---|---|---|
+    |**HAProxy, nginx, Envoy**|**AWS ALB/NLB, GCP LB**|**F5, Citrix**|
+    |**Traefik, Linkerd**|**Azure LB**||
+    
+- **Advanced Considerations**
+    
+    |Feature|When to Use|
+    |---|---|
+    |**Health checks**|Active (HTTP) vs passive (response time)|
+    |**Circuit breakers**|Prevent cascading failures|
+    |**TLS termination**|Offload from backends (L7)|
+    |**Multi-LB**|Power-of-d for LB pool|
+    
+
+## 60-Second Recap
+
+- **Types:** DNS (geo) → L4 (fast, IP) → L7 (content-aware, nginx/ALB).
+    
+- **Algorithms:** RR (simple), Least Load (dynamic), Hash (sticky).
+    
+- **L4 vs L7:** Speed vs routing power; L7 = TLS overhead.
+    
+- **Always:** Health checks, HA (LB clusters), capacity planning.
+    
+- **Gold:** nginx/HAProxy + health checks + weighted RR + L7 for routing.
+    
+
+**Reference**: [Load Balancing System Design](https://igotanoffer.com/blogs/tech/load-balancing-system-design-interview)[igotanoffer](https://igotanoffer.com/blogs/tech/load-balancing-system-design-interview)​
+
+1. [https://igotanoffer.com/blogs/tech/load-balancing-system-design-interview](https://igotanoffer.com/blogs/tech/load-balancing-system-design-interview)
+
+
+## Layer 4 Load Balancer Interview Checklist
+
+- **L4 LB Fundamentals**
+    
+    |Characteristic|Detail|
+    |---|---|
+    |**OSI Layer**|Layer 4 (Transport) + Layer 3 (Network)|
+    |**Decision Basis**|IP src/dst, TCP/UDP ports, protocol|
+    |**Packet Inspection**|Headers only (no content)|
+    |**Core Operation**|**NAT** (Network Address Translation)|
+    
+- **L4 vs L7 Comparison**
+    
+    |Aspect|L4 LB|L7 LB|
+    |---|---|---|
+    |**Speed**|✅ Fastest (hardware optimized)|❌ TLS + content parsing|
+    |**Routing**|IP/port only|✅ URL/headers/cookies|
+    |**TLS**|✅ Passthrough|❌ Termination required|
+    |**CPU Usage**|Low|High|
+    |**Use Case**|High-throughput, simple routing|Content-aware decisions|
+    
+- **L4 Load Balancing Flow**
+    
+    text
+    
+    `Client → L4 LB IP:Port      ↓ NAT ↓ L4 LB → Backend Server IP:Port      ↓ NAT ↓ Backend → L4 LB IP:Port → Client`
+    
+- **Key Advantages**
+    
+    |Benefit|Impact|
+    |---|---|
+    |**Performance**|Minimal overhead, hardware acceleration|
+    |**Simplicity**|No app-layer parsing|
+    |**Security**|Smaller attack surface|
+    |**Scalability**|Millions RPS possible|
+    
+- **Implementation Examples**
+    
+    |Type|Tools/Frameworks|
+    |---|---|
+    |**Hardware**|**F5 BIG-IP**, Citrix NetScaler|
+    |**Software**|**HAProxy** (L4 mode), **nginx stream**, AWS **NLB**|
+    |**Cloud**|GCP TCP LB, Azure Load Balancer|
+    
+- **When to Use L4 LB**
+    
+    |Scenario|Why L4|
+    |---|---|
+    |**High TPS**|Minimal overhead|
+    |**Non-HTTP**|TCP/UDP (games, VoIP)|
+    |**TLS Passthrough**|Backend handles certs|
+    |**L7 in front**|L4 → L7 → Backend|
+    
+
+## 60-Second Recap
+
+- **L4 LB:** Transport layer (IP/port), **NAT-based**, no content inspection.
+    
+- **vs L7:** Faster, simpler, passthrough TLS vs content-aware/slower.
+    
+- **Flow:** Client→LB IP → NAT → Backend → NAT → Client.
+    
+- **Tools:** HAProxy, F5 hardware, AWS NLB.
+    
+- **Gold:** High-throughput + L7 proxy combo (L4→L7→Backend).
+    
+
+**Reference**: [Layer 4 Load Balancing](https://www.f5.com/glossary/layer-4-load-balancing)[f5](https://www.f5.com/glossary/layer-4-load-balancing)​
+
+1. [https://www.f5.com/glossary/layer-4-load-balancing](https://www.f5.com/glossary/layer-4-load-balancing)
 ### **Cornell Notes: Load Balancing System Design Interview**
 
 **Source:** I Got An Offer Tech Blog | [Load Balancing System Design Interview](https://igotanoffer.com/blogs/tech/load-balancing-system-design-interview)

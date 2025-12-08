@@ -1,3 +1,179 @@
+
+## MongoDB Deep Dive Interview Checklist
+
+- **Document Model**
+    
+    - **Databases → Collections → Documents:** BSON (binary JSON) storage, dynamic schema.[mongodb](https://www.mongodb.com/resources/basics/databases/document-databases)​
+        
+    - **No Fixed Schema:** Documents vary within collection; embed arrays/objects.
+        
+    - **_id Field:** Auto-generated unique identifier (ObjectId).
+        
+- **Schema Design Principles**
+    
+    - **Embedding vs Referencing:** Embed for read-heavy (no JOINs), reference for normalization.
+        
+    - **Denormalization:** Duplicate data for query efficiency.
+        
+    - **Query Patterns:** Design documents around access patterns.
+        
+- **Scaling Architecture**
+    
+    |Component|Purpose|
+    |---|---|
+    |**Replica Sets**|High availability, read scaling (primary/secondary)|
+    |**Sharding**|Horizontal scaling via shard key|
+    |**Mongos**|Query router for sharded clusters|
+    |**Config Servers**|Metadata about data distribution|
+    
+- **Query & Indexing**
+    
+    - **Aggregation Pipeline:** $match, $group, $sort, $project stages.
+        
+    - **Indexes:** Single/multi-field, compound, TTL, geospatial, text.
+        
+    - **Covered Queries:** Index-only reads (no document fetch).
+        
+- **ACID & Transactions**
+    
+    - **Multi-Document ACID:** Since v4.0 (snapshot isolation).
+        
+    - **Write Concern/Read Preference:** Tune consistency vs performance.
+        
+- **When to Use MongoDB**
+    
+    |✅ Good Fit|❌ Avoid|
+    |---|---|
+    |Content management, catalogs|Complex JOIN-heavy analytics|
+    |Rapid schema evolution|Strict ACID multi-table txns|
+    |Semi-structured data|Highly normalized relational data|
+    
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Drivers**|Node.js, Spring Data MongoDB, PyMongo|
+    |**ORMs**|Mongoose (Node), MongoEngine (Python)|
+    |**GUI**|MongoDB Compass, Studio 3T|
+    |**Cloud**|MongoDB Atlas (managed)|
+    
+
+## 60-Second Recap
+
+- **Document Store:** BSON, dynamic schema, embed/reference trade-off.
+    
+- **Scaling:** Replica sets (HA) + sharding (horizontal).
+    
+- **Query:** Aggregation pipeline + rich indexing (TTL, geospatial).
+    
+- **Strengths:** Flexible schema, read scaling; **Limits:** No native JOINs.
+    
+- **Gold:** Design for reads, use Atlas, aggregation pipelines.
+    
+
+**Reference**: [MongoDB Document Databases](https://mongodb.com/resources/basics/databases/document-databases)[mongodb](https://www.mongodb.com/resources/basics/databases/document-databases)​
+
+1. [https://www.mongodb.com/resources/basics/databases/document-databases](https://www.mongodb.com/resources/basics/databases/document-databases)
+2. [https://www.mongodb.com/resources/products/fundamentals/mongodb-architecture-guide](https://www.mongodb.com/resources/products/fundamentals/mongodb-architecture-guide)
+3. [https://www.geeksforgeeks.org/mongodb/mongodb-database-collection-and-document/](https://www.geeksforgeeks.org/mongodb/mongodb-database-collection-and-document/)
+4. [https://dev.to/mahmud-r-farhan/a-comprehensive-guide-to-designing-a-mongodb-database-for-intermediate-developers-2p31](https://dev.to/mahmud-r-farhan/a-comprehensive-guide-to-designing-a-mongodb-database-for-intermediate-developers-2p31)
+5. [https://www.scaler.com/topics/mongodb/mongodb-basics/](https://www.scaler.com/topics/mongodb/mongodb-basics/)
+6. [https://www.geeksforgeeks.org/mongodb/mongodb-interview-questions/](https://www.geeksforgeeks.org/mongodb/mongodb-interview-questions/)
+7. [https://www.linkedin.com/pulse/relational-database-vs-mongodb-shaharyar-saleem](https://www.linkedin.com/pulse/relational-database-vs-mongodb-shaharyar-saleem)
+8. [https://www.digitalocean.com/community/tutorials/how-to-design-a-document-schema-in-mongodb](https://www.digitalocean.com/community/tutorials/how-to-design-a-document-schema-in-mongodb)
+9. [https://www.simplilearn.com/mongodb-interview-questions-and-answers-article](https://www.simplilearn.com/mongodb-interview-questions-and-answers-article)
+10. [https://moldstud.com/articles/p-mongodb-vs-relational-databases-key-differences-explained](https://moldstud.com/articles/p-mongodb-vs-relational-databases-key-differences-explained)
+11. [https://www.geeksforgeeks.org/mongodb/mongodb-architecture/](https://www.geeksforgeeks.org/mongodb/mongodb-architecture/)
+12. [https://github.com/Devinterview-io/mongodb-interview-questions](https://github.com/Devinterview-io/mongodb-interview-questions)
+13. [https://www.navisite.com/blog/mongodb-and-relational-database-schema-comparison-dynamic-vs-rigid/](https://www.navisite.com/blog/mongodb-and-relational-database-schema-comparison-dynamic-vs-rigid/)
+14. [https://studio3t.com/academy/lessons/mongodb-basics/](https://studio3t.com/academy/lessons/mongodb-basics/)
+15. [https://www.hirist.tech/blog/top-35-mongodb-interview-questions-and-answers/](https://www.hirist.tech/blog/top-35-mongodb-interview-questions-and-answers/)
+16. [https://www.mongodb.com/resources/compare/relational-vs-non-relational-databases](https://www.mongodb.com/resources/compare/relational-vs-non-relational-databases)
+17. [https://www.w3schools.com/mongodb/](https://www.w3schools.com/mongodb/)
+18. [https://www.datacamp.com/blog/mongodb-interview-questions](https://www.datacamp.com/blog/mongodb-interview-questions)
+19. [https://www.mongodb.com/company/blog/busting-top-myths-about-mongodb-vs-relational-databases](https://www.mongodb.com/company/blog/busting-top-myths-about-mongodb-vs-relational-databases)
+20. [https://www.oracle.com/in/database/mongodb/](https://www.oracle.com/in/database/mongodb/)
+
+## Amazon DocumentDB Interview Checklist
+
+- **Core Architecture**
+    
+    - **MongoDB-Compatible:** JSON/BSON documents, same drivers/tools as MongoDB.[aws.amazon](https://aws.amazon.com/nosql/document/)​
+        
+    - **Managed Service:** AWS handles provisioning, patching, backups, scaling.
+        
+    - **Document Model:** Flexible schema, embedding/nesting, no rigid tables.
+        
+- **Key Advantages**
+    
+    |Feature|Benefit|
+    |---|---|
+    |**Flexible Schema**|Rapid iteration, no migrations|
+    |**Horizontal Scaling**|Elastic Clusters (millions req/sec)|
+    |**High Availability**|99.99% SLA, multi-AZ replication|
+    |**Read Replicas**|15 replicas, shared storage|
+    
+- **Scaling Patterns**
+    
+    - **Elastic Clusters:** Independent compute/storage scaling.
+        
+    - **Sharding:** Automatic via shard key (hash/range).
+        
+    - **Global Clusters:** Multi-region replication, local reads.
+        
+- **Use Cases**
+    
+    - **Content Management:** Blogs, CMS (evolving documents).
+        
+    - **Catalogs:** E-commerce products (varying attributes).
+        
+    - **IoT/Sensors:** High-velocity semi-structured data.
+        
+    - **User Profiles:** Nested/hierarchical data.
+        
+- **Data Operations**
+    
+    - **CRUD:** Full MongoDB API compatibility.
+        
+    - **Indexing:** Compound, TTL, geospatial, text search.
+        
+    - **Aggregation:** Pipeline queries ($match, $group, $sort).
+        
+- **Production Features**
+    
+    - **Security:** Encryption at rest, IAM auth, VPC isolation.
+        
+    - **Backup:** Continuous, point-in-time recovery.
+        
+    - **Monitoring:** CloudWatch metrics, Performance Insights.
+        
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Drivers**|MongoDB Node.js, PyMongo, Spring Data|
+    |**ORMs**|Mongoose, MongoEngine|
+    |**GUI**|MongoDB Compass, Studio 3T|
+    |**AWS**|DocumentDB Workbench|
+    
+
+## 60-Second Recap
+
+- **DocumentDB =** Managed MongoDB-compatible JSON store.
+    
+- **Strengths:** Schema flexibility, horizontal scaling, 99.99% HA.
+    
+- **Scaling:** Elastic Clusters + read replicas + global replication.
+    
+- **Use Cases:** Content, catalogs, IoT; **Avoid:** Complex JOINs/analytics.
+    
+- **Gold:** MongoDB drivers + AWS managed ops + aggregation pipelines.
+    
+
+**Reference**: [AWS Document Database](https://aws.amazon.com/nosql/document/)[aws.amazon](https://aws.amazon.com/nosql/document/)​
+
+1. [https://aws.amazon.com/nosql/document/](https://aws.amazon.com/nosql/document/)
+2. 
 # **Document Databases Deep Dive**
 
 **Sources:**

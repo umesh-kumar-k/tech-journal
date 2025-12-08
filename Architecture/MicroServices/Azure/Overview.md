@@ -1,3 +1,90 @@
+## Microservices Architectural Style Interview Checklist
+
+- **Core Definition**
+    
+    - Small, autonomous services implementing single business capability within bounded context.
+        
+    - Independent deployment, polyglot persistence, loose coupling via well-defined APIs.
+        
+- **Architecture Components**
+    
+    |Component|Purpose|Tools|
+    |---|---|---|
+    |**Orchestration**|Deploy, scale, heal|AKS, Kubernetes, Container Apps|
+    |**API Gateway**|Client entry, routing|Azure API Mgmt, Kong, Spring Cloud Gateway|
+    |**Messaging**|Async communication|Kafka, Event Hubs, Service Bus|
+    |**Observability**|Logs, metrics, tracing|OpenTelemetry, Prometheus, Jaeger|
+    
+- **Key Benefits**
+    
+    - **Agility:** Independent releases, no long release trains.
+        
+    - **Fault Isolation:** Single service failure doesn't crash entire app.
+        
+    - **Scalability:** Independent horizontal scaling per service.
+        
+    - **Technology Freedom:** Polyglot stacks per service.
+        
+- **Major Challenges**
+    
+    |Challenge|Impact|Mitigation|
+    |---|---|---|
+    |**Complexity**|Distributed debugging|Service mesh, observability|
+    |**Data Consistency**|Eventual consistency|Sagas, CQRS, event sourcing|
+    |**Network Latency**|Chatty APIs|Async messaging, aggregation|
+    |**Operations**|DevOps maturity required|GitOps, centralized logging|
+    
+- **Best Practices**
+    
+    - **DDD Boundaries:** Model services around business domains, not tech layers.
+        
+    - **Decentralize:** Teams own end-to-end service lifecycle.
+        
+    - **Private Data:** No shared databases, polyglot persistence.
+        
+    - **API Design:** Domain-focused, hide implementation details.
+        
+    - **mTLS Security:** Service-to-service encryption.
+        
+    - **Chaos Engineering:** Test resiliency proactively.
+        
+- **Critical Antipatterns**
+    
+    - Shared libraries/databases → tight coupling.
+        
+    - Direct client-to-service → no gateway.
+        
+    - Generic events → interpretation complexity.
+        
+    - No data duplication → cross-service dependencies.
+        
+    - Embedded infra concerns → violates single responsibility.
+        
+- **Tools & Frameworks**
+    
+    |Category|Recommendations|
+    |---|---|
+    |**Service Mesh**|Istio, Linkerd|
+    |**Resiliency**|Resilience4j, Dapr|
+    |**Eventing**|Kafka, NATS|
+    |**Deployment**|ArgoCD, Flux (GitOps)|
+    |**Databases**|Cosmos DB, Redis, PostgreSQL|
+    
+
+## 60-Second Recap
+
+- **Microservices =** Small, independent services per business capability + bounded context.
+    
+- **Stack:** Orchestration + API Gateway + Messaging + Observability + Private data stores.
+    
+- **Wins:** Agility, isolation, scalability; **Pain:** Complexity, consistency, ops.
+    
+- **Gold:** DDD boundaries, async communication, service mesh, GitOps, chaos engineering.
+    
+
+**Reference**: [Azure Microservices Architecture Style](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices)
 
 **Source:** Microsoft Azure Architecture Center | [Main Guide](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices) 
 

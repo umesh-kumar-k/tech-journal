@@ -1,3 +1,59 @@
+
+## Saga Pattern
+
+Saga pattern coordinates distributed transactions across microservices using sequences of local transactions with compensating actions on failure, replacing 2PC for eventual consistency.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)​
+
+- Choreography: Services emit/react to events (decentralized, simple workflows)
+    
+- Orchestration: Central coordinator directs steps (complex flows, easier tracking)
+    
+- Compensable (undoable), Pivot (point of no return), Retryable (idempotent post-pivot) transactions[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)​
+    
+
+## Tools and Frameworks
+
+|Approach|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|Orchestration|Temporal, Conductor (Netflix), Azure Durable Functions|Order processing: Inventory→Payment→Shipping|
+|Choreography|Eventuate Tram, Axon Framework|Decentralized event-driven sagas|
+|Cloud Native|Azure Service Bus + Logic Apps, AWS Step Functions|Cross-service workflows with compensation|
+|Java/.NET|Spring State Machine, MassTransit Sagas|Long-running business processes|
+
+## Interview Checklist
+
+- Define: Local tx sequence + compensating tx on failure; eventual consistency[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)​
+    
+- Choreography vs Orchestration: Decentralized events vs central coordinator
+    
+- Transaction Types: Compensable (undo), Pivot (irreversible), Retryable (idempotent)
+    
+- Anomalies: Lost updates, dirty reads; mitigate via semantic locks, versioning
+    
+- Idempotency: Required for retries/duplicates; version checks
+    
+- Monitoring: Saga tracking, state visualization, compensating tx success rates
+    
+- When: Microservices distributed tx; avoid tightly coupled/simple tx
+    
+- Gotchas: Complexity, debugging distributed flows, compensating tx failures
+    
+
+## 60-Second Recap
+
+- **Core**: Local tx sequence; compensate on failure; choreography/orchestration[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)​
+    
+- **Why**: Distributed ACID replacement; microservices data consistency
+    
+- **Flow**: Compensable → Pivot → Retryable; events/commands drive steps
+    
+- **Tools**: Temporal, Conductor, Durable Functions, Eventuate
+    
+- **Design**: Idempotent, versioned, monitored; eventual consistency tradeoff
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/saga](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/saga](https://learn.microsoft.com/en-us/azure/architecture/patterns/saga)
 # **Saga Pattern**
 
 ## **Core Thesis**

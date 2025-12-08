@@ -1,4 +1,306 @@
-# **Cornell Notes: Caching & Distributed Caching**
+
+- **Caching Layers (Multi-Layer Approach)**
+    
+    |Layer|Components|Data Cached|
+    |---|---|---|
+    |**Network**|DNS, Proxy, CDN, ISP Cache|Domains, static media|
+    |**Backend**|Load Balancer, Web/App Server, DB Cache|Static assets, templates, query results|
+    |**Distributed**|Redis/Memcached cluster|Sessions, user data, metadata|
+    
+- **Cache Update Strategies**
+    
+    |Strategy|Read Behavior|Write Behavior|Consistency|
+    |---|---|---|---|
+    |**Cache-Aside**|App checks/misses → DB|Invalidate cache|Eventual|
+    |**Write-Through**|Always fresh|Write DB + cache|Strong|
+    |**Write-Back**|Fast reads|Batch DB writes|Eventual|
+    
+- **Cache Placement Examples**
+    
+    - **CDN (CloudFront/Akamai):** Global media delivery.
+        
+    - **Load Balancer:** Static HTML/CSS/JS.
+        
+    - **Web Server:** Page templates per client.
+        
+    - **App Server:** Computed results, video metadata.
+        
+    - **DB Cache:** Frequent query results.
+        
+    - **Distributed Cache:** Cross-service shared data.
+        
+- **Eviction & Expiration**
+    
+    |Policy|Pros|Cons|
+    |---|---|---|
+    |**LRU**|Recent data stays|Thundering herd|
+    |**TTL**|Predictable staleness|Cache misses at expiry|
+    |**LFU**|Popular content stays|Cold start issues|
+    
+- **Critical Problems & Solutions**
+    
+    |Problem|Cause|Mitigation|
+    |---|---|---|
+    |**Thundering Herd**|Mass expiry|Staggered TTL, warming|
+    |**Cache Invalidation**|DB updates|Invalidate on write|
+    |**Hot Keys**|Uneven load|Sharding, replicas|
+    |**Stale Data**|Long TTL|Short TTL + invalidation|
+    
+- **Tools & Real-World**
+    
+    |Tool|Use Case|Scale|
+    |---|---|---|
+    |**Redis Cluster**|Sessions, leaderboards|100s nodes|
+    |**Memcached**|Simple object cache|Facebook-scale|
+    |**Varnish**|HTTP reverse proxy|High QPS|
+    |**CloudFront**|Global CDN|Petabytes|
+    
+
+## 60-Second Recap
+
+- **Layers:** Network (CDN/DNS) → Backend (app/DB) → Distributed (Redis).
+    
+- **Patterns:** Cache-aside (default), write-through (fresh data).
+    
+- **Problems:** Stampede (warming), invalidation (TTL+delete), hot keys (shard).
+    
+- **When:** DB read bottleneck, identifiable hot data (>80% cache hit).
+    
+- **Gold:** Multi-layer + cache-aside + Redis + staggered TTL.
+    
+
+**Reference**: [Educative System Design Caching](https://www.educative.io/blog/system-design-caching)[educative](https://www.educative.io/blog/system-design-caching)​
+
+1. [https://www.educative.io/blog/system-design-caching](https://www.educative.io/blog/system-design-caching)
+
+## Caching Interview Checklist
+
+- **Cache Placement Strategies**
+    
+    |Location|Latency|Use Case|
+    |---|---|---|
+    |**CDN**|Lowest|Static assets, images|
+    |**Client-side**|Very low|Browser storage, mobile|
+    |**External (Redis/Memcached)**|Low|Sessions, API responses|
+    |**In-process**|Lowest|Config, hot keys|
+    
+- **Cache Architectures**
+    
+    |Pattern|Read|Write|Consistency|
+    |---|---|---|---|
+    |**Cache-Aside**|Miss → DB → Cache|Invalidate|Eventual|
+    |**Write-Through**|Always fresh|Slow writes|Strong|
+    |**Write-Back**|Fast reads|Batch writes|Eventual|
+    |**Read-Through**|Cache fetches DB|Invalidate|Eventual|
+    
+- **Eviction Policies**
+    
+    |Policy|Evicts|Best For|
+    |---|---|---|
+    |**LRU**|Least recently used|General purpose|
+    |**LFU**|Least frequently used|Popular content|
+    |**FIFO**|Oldest first|TTL replacement|
+    |**TTL**|Time-based|Expiring sessions|
+    
+- **Common Problems & Solutions**
+    
+    |Problem|Impact|Solution|
+    |---|---|---|
+    |**Cache Stampede**|DB overload|Request coalescing, warming|
+    |**Cache Invalidation**|Stale data|Invalidate on write, short TTL|
+    |**Hot Keys**|Single node overload|Replication, local fallback|
+    
+- **Implementation Steps**
+    
+    1. **Identify Bottleneck:** DB CPU >80%, high read QPS.
+        
+    2. **Choose Data:** Frequently read, rarely updated.
+        
+    3. **Select Pattern:** Cache-aside for most cases.
+        
+    4. **Eviction:** LRU + TTL hybrid.
+        
+    5. **Handle Edge Cases:** Stampede protection, consistency.
+        
+- **Tools & Frameworks**
+    
+    |Tool|Type|Features|
+    |---|---|---|
+    |**Redis**|In-memory|Pub/sub, persistence, clustering|
+    |**Memcached**|In-memory|Simple, multi-get|
+    |**Varnish**|HTTP cache|Reverse proxy|
+    |**CloudFront**|CDN|Global edge caching|
+    
+
+## 60-Second Recap
+
+- **Placement:** CDN (static) → External (Redis) → In-process (hot keys).
+    
+- **Patterns:** Cache-aside (most common), write-through (fresh data).
+    
+- **Eviction:** LRU + TTL; **Problems:** Stampede (coalesce), invalidation (TTL).
+    
+- **When:** DB read bottleneck, identifiable hot data.
+    
+- **Gold:** Redis Cluster + cache-aside + request coalescing.
+    
+
+**Reference**: [Hello Interview Caching](https://www.hellointerview.com/learn/system-design/core-concepts/caching)[hellointerview](https://www.hellointerview.com/learn/system-design/core-concepts/caching)​
+
+1. [https://www.hellointerview.com/learn/system-design/core-concepts/caching](https://www.hellointerview.com/learn/system-design/core-concepts/caching)
+
+
+## Distributed Caching Interview Checklist
+
+- **Core Concepts**
+    
+    - **Local vs Distributed:** Local = single machine; Distributed = multi-node network sharing.[redis](https://redis.io/glossary/distributed-caching/)​
+        
+    - **Data Distribution:** Consistent hashing, virtual nodes for balanced partitioning.
+        
+    - **Replication:** Master-slave or peer-to-peer for HA/fault tolerance.
+        
+- **Key Benefits**
+    
+    |Advantage|Impact|
+    |---|---|
+    |**Scalability**|Add nodes without downtime|
+    |**Low Latency**|Data near users (geo-distributed)|
+    |**Fault Tolerance**|Node failure → reroute to replicas|
+    |**Performance**|Offload primary DB|
+    
+- **Partitioning Strategies**
+    
+    - **Consistent Hashing:** Minimize data movement on node add/remove.
+        
+    - **Virtual Nodes:** Handle uneven server capacities.
+        
+    - **Range Partitioning:** Sequential keys to adjacent nodes.
+        
+- **Popular Solutions**
+    
+    |Tool|Strengths|Weaknesses|
+    |---|---|---|
+    |**Redis Cluster**|Rich data types, persistence|Memory-intensive|
+    |**Memcached**|Simple, high throughput|No persistence|
+    |**Hazelcast**|In-memory grid, cloud-native|Java-centric|
+    |**Apache Ignite**|ACID txns, SQL queries|Complex setup|
+    
+- **Implementation Steps**
+    
+    1. **Choose Solution:** Redis (features) vs Memcached (simplicity).
+        
+    2. **Partition Data:** Consistent hashing + replication factor.
+        
+    3. **Client Integration:** Smart clients route to correct nodes.
+        
+    4. **Eviction Policies:** LRU, TTL, size-based.
+        
+    5. **Monitor:** Hit ratio (>80%), latency, node health.
+        
+- **Best Practices**
+    
+    - **TTL + LRU Hybrid:** Time + usage eviction.
+        
+    - **Cache Warming:** Pre-populate hot keys.
+        
+    - **Multi-Region:** Geo-replication for global apps.
+        
+    - **Consistency:** Eventual → invalidate on write.
+        
+
+## 60-Second Recap
+
+- **Distributed Cache:** Multi-node shared cache; consistent hashing + replication.
+    
+- **vs Local:** Scales horizontally, geo-distributed, fault-tolerant.
+    
+- **Tools:** Redis (feature-rich), Memcached (simple), Hazelcast (grid).
+    
+- **Keys:** Partitioning, eviction (LRU+TTL), hit ratio monitoring.
+    
+- **Gold:** Redis Cluster + cache-aside + multi-region replication.
+    
+
+**Reference**: [Redis Distributed Caching](https://redis.io/glossary/distributed-caching/)[redis](https://redis.io/glossary/distributed-caching/)​
+
+1. [https://redis.io/glossary/distributed-caching/](https://redis.io/glossary/distributed-caching/)
+
+## Distributed Caching Interview Checklist
+
+- **Core Components**
+    
+    |Component|Purpose|
+    |---|---|
+    |**Cache Nodes**|Individual servers storing cache data|
+    |**Client Library**|Routes requests to correct nodes|
+    |**Consistent Hashing**|Even data distribution across nodes|
+    |**Replication**|Fault tolerance (data on multiple nodes)|
+    
+- **Deployment Strategies**
+    
+    |Type|Pros|Cons|
+    |---|---|---|
+    |**Dedicated Servers**|Independent scaling, resource isolation|Network latency, higher cost|
+    |**Co-located**|Ultra-low latency, cost-effective|Resource contention, harder scaling|
+    
+- **Data Operations**
+    
+    - **Distribution:** Hash(key) → node mapping.
+        
+    - **Retrieval:** Client hashes key → fetches from owner node.
+        
+    - **Invalidation:** TTL, event-based, cache-aside.
+        
+    - **Eviction:** LRU, LFU, TTL.
+        
+- **Key Challenges & Solutions**
+    
+    |Challenge|Solution|
+    |---|---|
+    |**Consistency**|TTL, write-through, cache invalidation|
+    |**Hot Keys**|Consistent hashing + replicas|
+    |**Network Partitions**|Quorum reads/writes|
+    |**Load Imbalance**|Virtual nodes, rebalancing|
+    
+- **Best Practices**
+    
+    - Cache judiciously (hot data only).
+        
+    - Cache-aside pattern for population.
+        
+    - Monitor hit ratio (>80% target).
+        
+    - Cache warming for cold starts.
+        
+    - Plan for node failures gracefully.
+        
+- **Popular Solutions**
+    
+    |Tool|Features|Best For|
+    |---|---|---|
+    |**Redis Cluster**|Rich data types, persistence|Sessions, leaderboards|
+    |**Memcached**|Simple, high throughput|Basic object cache|
+    |**AWS ElastiCache**|Managed Redis/Memcached|Cloud-native apps|
+    
+
+## 60-Second Recap
+
+- **Distributed Cache:** Multiple nodes + consistent hashing for horizontal scale.
+    
+- **Deployment:** Dedicated (scale) vs Co-located (latency).
+    
+- **Challenges:** Consistency (TTL), hot keys (replicas), invalidation.
+    
+- **Patterns:** Cache-aside, LRU eviction, client-side routing.
+    
+- **Gold:** Redis Cluster + cache-aside + 80%+ hit ratio monitoring.
+    
+
+**Reference**: [Distributed Caching Guide](https://blog.algomaster.io/p/distributed-caching)[algomaster](https://blog.algomaster.io/p/distributed-caching)​
+
+1. [https://blog.algomaster.io/p/distributed-caching](https://blog.algomaster.io/p/distributed-caching)
+# **Caching & Distributed Caching**
 
 **Sources:**
 1. HelloInterview, "Caching" (hellointerview.com/learn/system-design/core-concepts/caching)

@@ -1,3 +1,98 @@
+## Microservices Service Catalog Interview Checklist
+
+- **Core Purpose**
+    
+    - Centralized repository of all microservices providing **single source of truth** for service inventory, dependencies, ownership, and metadata.[opslevel](https://www.opslevel.com/resources/why-you-need-a-microservice-catalog)​
+        
+    - Enables service discovery, reduces duplication, accelerates onboarding, supports governance.
+        
+- **Key Components**
+    
+    - **Service Metadata:** Name, version, description, API specs (OpenAPI), endpoints.
+        
+    - **Ownership:** Team/individual responsible for development, maintenance, SLAs.
+        
+    - **Dependencies:** Maps service-to-service relationships, data flows.
+        
+    - **Health & Performance:** SLA status, uptime, latency metrics.
+        
+    - **Documentation:** Usage guides, changelogs, contact info.
+        
+- **Business Benefits**
+    
+    - **Developer Productivity:** Quick service discovery, reduces "reinventing the wheel".
+        
+    - **Governance:** Enforce standards, track deprecated services, compliance.
+        
+    - **Platform Engineering:** SRE/DevOps visibility into system complexity.
+        
+    - **Onboarding:** New team members ramp up faster with complete service map.
+        
+- **Implementation Best Practices**
+    
+    - **Consistent IDs:** Unified service identifiers across monitoring, CI/CD, orchestration tools.
+        
+    - **Automation-First:** Auto-populate via service registration, GitOps, OpenTelemetry.
+        
+    - **Standardized Metadata:** Service name, owner, tier (gold/silver/bronze), contact.
+        
+    - **Search & Filtering:** Tags, categories, full-text search capabilities.
+        
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Enterprise**|OpsLevel, Port.io, Backstage|
+    |**Open Source**|Cortex, Roadie (Backstage), ServiceTree|
+    |**Cloud**|Azure Service Catalog, AWS Service Catalog|
+    |**API-Focused**|SwaggerHub + custom catalog|
+    
+- **Architectural Integration**
+    
+    - **Service Mesh:** Istio/Linkerd auto-discovers services for catalog population.
+        
+    - **GitOps:** ArgoCD/Flux syncs deployments → catalog updates.
+        
+    - **Observability:** Prometheus/Grafana metrics feed health status.
+        
+    - **CI/CD:** Jenkins/GitHub Actions tags services on deploy.
+        
+
+## 60-Second Recap
+
+- **Service Catalog =** Centralized inventory of services + ownership + dependencies + health.
+    
+- **Value:** Discoverability, governance, onboarding, complexity management.
+    
+- **Success:** Auto-population, consistent IDs, standardized metadata.
+    
+- **Tools:** OpsLevel/Port.io (enterprise), Backstage (open source).
+    
+- **Gold:** Integrate with service mesh + GitOps + observability stack.
+    
+
+**Reference**: [What is a Microservice Catalog](https://thenewstack.io/microservices/what-is-a-microservice-catalog-and-why-do-you-need-one/)[opslevel](https://www.opslevel.com/resources/why-you-need-a-microservice-catalog)​
+
+1. [https://www.opslevel.com/resources/why-you-need-a-microservice-catalog](https://www.opslevel.com/resources/why-you-need-a-microservice-catalog)
+2. [https://www.cortex.io/post/microservices-catalog-definition-use-cases-benefits](https://www.cortex.io/post/microservices-catalog-definition-use-cases-benefits)
+3. [https://www.port.io/blog/microservice-catalog](https://www.port.io/blog/microservice-catalog)
+4. [https://x.com/thenewstack/status/1907479642597945349](https://x.com/thenewstack/status/1907479642597945349)
+5. [https://www.enov8.com/blog/what-is-a-microservice-catalog/](https://www.enov8.com/blog/what-is-a-microservice-catalog/)
+6. [https://www.graphapp.ai/blog/building-an-effective-microservices-catalogue-best-practices-and-tools](https://www.graphapp.ai/blog/building-an-effective-microservices-catalogue-best-practices-and-tools)
+7. [https://www.atlassian.com/microservices/microservices-architecture/microservices-tools](https://www.atlassian.com/microservices/microservices-architecture/microservices-tools)
+8. [https://www.youtube.com/watch?v=3WqDbU_Xnu4](https://www.youtube.com/watch?v=3WqDbU_Xnu4)
+9. [https://www.osohq.com/learn/microservices-best-practices](https://www.osohq.com/learn/microservices-best-practices)
+10. [https://swimm.io/learn/microservices/top-36-microservices-tools-for-2025](https://swimm.io/learn/microservices/top-36-microservices-tools-for-2025)
+11. [https://dev.to/joeyparsons/what-is-a-microservice-catalog-fh5](https://dev.to/joeyparsons/what-is-a-microservice-catalog-fh5)
+12. [https://www.tatvasoft.com/blog/microservices-best-practices/](https://www.tatvasoft.com/blog/microservices-best-practices/)
+13. [https://www.opslevel.com/resources/a-complete-guide-to-microservice-orchestration](https://www.opslevel.com/resources/a-complete-guide-to-microservice-orchestration)
+14. [https://www.port.io/usecases/microservice-catalog](https://www.port.io/usecases/microservice-catalog)
+15. [https://www.bmc.com/blogs/microservices-best-practices/](https://www.bmc.com/blogs/microservices-best-practices/)
+16. [https://www.graphapp.ai/blog/top-microservices-catalog-tools-for-efficient-service-management](https://www.graphapp.ai/blog/top-microservices-catalog-tools-for-efficient-service-management)
+17. [https://www.opslevel.com/microservice-catalog](https://www.opslevel.com/microservice-catalog)
+18. [https://microservices.io/patterns/microservices.html](https://microservices.io/patterns/microservices.html)
+19. [https://www.faciletechnolab.com/blog/25-tools-for-building-microservices-with-aspnet-core/](https://www.faciletechnolab.com/blog/25-tools-for-building-microservices-with-aspnet-core/)
+20. [https://dev.to/icepanel/microservice-catalogs-and-the-best-tools-for-the-job-2p1](https://dev.to/icepanel/microservice-catalogs-and-the-best-tools-for-the-job-2p1)
 ### **Cornell Notes: What is a Microservice Catalog and Why Do You Need One?**
 
 **Source:** The New Stack | [https://thenewstack.io/microservices/what-is-a-microservice-catalog-and-why-do-you-need-one/](https://thenewstack.io/microservices/what-is-a-microservice-catalog-and-why-do-you-need-one/)

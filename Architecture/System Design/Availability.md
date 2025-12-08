@@ -1,3 +1,76 @@
+
+## High Availability Caching Interview Checklist
+
+- **HA Caching Strategies**
+    
+    |Strategy|Mechanism|Trade-off|
+    |---|---|---|
+    |**Replication**|Master-slave, multi-master|Eventual consistency|
+    |**Sharding**|Consistent hashing|Cross-shard complexity|
+    |**Multi-AZ**|Geo-redundant nodes|Higher latency|
+    |**Active-Active**|Client-side routing|Conflict resolution|
+    
+- **Core HA Principles for Caches**
+    
+    - **Redundancy:** Multiple nodes per shard/region.
+        
+    - **Failover:** Automatic node promotion (<30s).
+        
+    - **Health Checks:** Active monitoring + auto-removal.
+        
+    - **Data Persistence:** RDB/AOF snapshots + replication.
+        
+- **Deployment Architectures**
+    
+    |Architecture|Use Case|Tools|
+    |---|---|---|
+    |**Cluster**|High throughput|Redis Cluster, Memcached|
+    |**Multi-Region**|Global apps|AWS ElastiCache Global|
+    |**Active-Passive**|Disaster recovery|Cross-region replication|
+    
+- **Cache-Specific HA Challenges**
+    
+    |Problem|Impact|Solution|
+    |---|---|---|
+    |**Cache Stampedes**|DB overload|Probabilistic early expiry|
+    |**Split Brain**|Data divergence|Quorum writes/reads|
+    |**Network Partitions**|Partial availability|Smart client routing|
+    |**Hot Keys**|Single node failure|Key replication|
+    
+- **Monitoring & Observability**
+    
+    - **Metrics:** Hit ratio (>90%), eviction rate, replication lag.
+        
+    - **Alerts:** Node down, high latency, memory pressure.
+        
+    - **Tracing:** Cache miss waterfalls.
+        
+- **Tools & Implementations**
+    
+    |Tool|HA Features|
+    |---|---|
+    |**Redis Sentinel**|Automatic failover|
+    |**Redis Cluster**|Sharding + replication|
+    |**AWS ElastiCache**|Multi-AZ, auto-scaling|
+    |**Hazelcast**|WAN replication|
+    
+
+## 60-Second Recap
+
+- **HA Cache:** Replication + sharding + auto-failover + health checks.
+    
+- **Patterns:** Multi-AZ (regional), multi-region (global), active-active.
+    
+- **Challenges:** Stampedes (probabilistic expiry), hot keys (replication).
+    
+- **Metrics:** 99.99% uptime, <30s failover, >90% hit ratio.
+    
+- **Gold:** Redis Cluster + Sentinel + client-side routing + multi-AZ.
+    
+
+**Reference**: [High Availability System Design](https://www.designgurus.io/blog/high-availability-system-design-basics)[designgurus](https://www.designgurus.io/blog/high-availability-system-design-basics)​
+
+1. [https://www.designgurus.io/blog/high-availability-system-design-basics](https://www.designgurus.io/blog/high-availability-system-design-basics)
 ### **High Availability System Design Basics**
 
 **Source:** Design Gurus Blog | [High Availability System Design Basics](https://www.designgurus.io/blog/high-availability-system-design-basics)

@@ -1,3 +1,75 @@
+
+## DNS System Design Interview Checklist
+
+- **DNS Hierarchy (Root → Leaf)**
+    
+    |Level|Role|Count/Notes|
+    |---|---|---|
+    |**Root**|TLD referrals|13 logical (1K+ instances globally)|
+    |**TLD**|(.com, .io) → Authoritative NS|~1,500 TLDs|
+    |**Authoritative**|Organization's final IP records|Per-domain|
+    |**Resolver**|Client-side query initiator|ISP/Local/Browser/OS|
+    
+- **Resource Records (RRs)**
+    
+    |Type|Purpose|Example|
+    |---|---|---|
+    |**A**|Hostname → IPv4|`educative.io → 104.18.2.119`|
+    |**NS**|Domain → Authoritative NS|`educative.io → dns.educative.io`|
+    |**CNAME**|Alias → Canonical|`www → server1.primary`|
+    |**MX**|Mail server mapping|`mail → mailserver1.backup`|
+    
+- **Query Resolution**
+    
+    |Type|Flow|Load Impact|
+    |---|---|---|
+    |**Iterative**|Resolver asks Root→TLD→Auth|Preferred (distributes load)|
+    |**Recursive**|Resolver does full lookup|Higher resolver load|
+    
+- **Caching Strategy**
+    
+    |Layer|TTL Control|Hit Rate Impact|
+    |---|---|---|
+    |**Browser**|Short|30-50% local hits|
+    |**OS**|Medium|Reduces resolver calls|
+    |**Resolver/ISP**|Configurable|80%+ global reduction|
+    |**Authoritative**|Domain owner|Propagation delay|
+    
+- **Scalability & Reliability**
+    
+    |Feature|Benefit|
+    |---|---|
+    |**Global replication**|1K+ root instances|
+    |**UDP protocol**|Low latency (1 RTT)|
+    |**Anycast routing**|Nearest server|
+    |**Eventual consistency**|High availability|
+    
+- **DNSREC Tooling**
+    
+    |Category|Tools|
+    |---|---|
+    |**Resolvers**|BIND, Unbound, PowerDNS|
+    |**Authoritative**|NSD, Knot, Cloudflare 1.1.1.1|
+    |**Monitoring**|dnsperf, Zabbix DNS|
+    |**CDC/Outbox**|Debezium (for app→DNS updates)|
+    
+
+## 60-Second Recap
+
+- **Hierarchy:** Resolver → Root (13) → TLD → Authoritative → IP.
+    
+- **Records:** A (IP), NS (auth), CNAME (alias), MX (mail).
+    
+- **Flow:** Iterative queries + multi-layer caching (browser→ISP).
+    
+- **Scale:** UDP, Anycast, replication, eventual consistency.
+    
+- **Gold:** Resolver caching + low TTL for critical records + BIND/Unbound.
+    
+
+**Reference**: [DNS System Design](https://www.educative.io/courses/system-design-interview-prep-crash-course/domain-name-system-dns)[educative](https://www.educative.io/courses/system-design-interview-prep-crash-course/domain-name-system-dns)​
+
+1. [https://www.educative.io/courses/system-design-interview-prep-crash-course/domain-name-system-dns](https://www.educative.io/courses/system-design-interview-prep-crash-course/domain-name-system-dns)
 ### **Domain Name System (DNS) - System Design Interview Prep**
 
 **Source:** Educative - System Design Interview Prep Crash Course | [Domain Name System (DNS)](https://www.educative.io/courses/system-design-interview-prep-crash-course/domain-name-system-dns)

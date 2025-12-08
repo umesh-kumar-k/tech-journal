@@ -1,3 +1,60 @@
+## Valet Key Pattern
+
+Valet Key pattern issues time/scope-limited tokens granting clients direct resource access (storage, queues), offloading data transfer from application servers to reduce costs/scaling needs.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key)​
+
+- App authenticates client → generates restricted token (specific blob/container, read/write, expiry)
+    
+- Client uploads/downloads directly to storage; app avoids data proxying bandwidth/CPU
+    
+- Tokens revocable, auditable; short TTL + granular perms minimize security risk[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key)​
+    
+
+## Tools and Frameworks
+
+|Platform|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|Azure Storage|Shared Access Signatures (SAS), User Delegation SAS|Time-limited blob upload tokens via Function|
+|AWS S3|Pre-Signed URLs|Browser direct upload to bucket|
+|Google Cloud Storage|Signed URLs|Mobile app photo uploads|
+|Service Bus|SAS Tokens|Queue write access for event producers|
+|MinIO/S3-compatible|STS AssumeRole + presigned URLs|Self-hosted object storage|
+
+## Interview Checklist
+
+- Define: App-issued limited-scope token → direct client-to-storage access[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key)​
+    
+- Benefits: Offload bandwidth/CPU; scale-to-zero apps; cost savings on data transfer
+    
+- Security: Short TTL (minutes), granular perms (create-only), HTTPS, revocable
+    
+- Workflow: Auth client → validate → generate SAS → client direct upload → audit logs
+    
+- Gotchas: No size limits, validate post-upload, log all token usage, CORS for browsers
+    
+- Monitoring: Token issuance vs usage correlation; storage logs for access patterns
+    
+- When: Frequent/large file uploads/downloads; avoid if app must transform/validate data
+    
+- Alternatives: Proxied uploads (Gateway), standing credentials (insecure)
+    
+
+## 60-Second Recap
+
+- **Core**: App → limited SAS token → client direct storage access[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key)​
+    
+- **Why**: Offload data transfer; save compute/bandwidth costs; scale better
+    
+- **Security**: Short expiry, granular perms (create-only), audit token usage
+    
+- **Tools**: Azure SAS, AWS presigned URLs, GCS signed URLs
+    
+- **Ex**: Function issues 3min upload token → mobile uploads 100MB photo directly
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key](https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key](https://learn.microsoft.com/en-us/azure/architecture/patterns/valet-key)
+
 # **Valet Key Pattern**
 
 ## **Core Thesis**

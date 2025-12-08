@@ -1,3 +1,81 @@
+## Microservices Domain Analysis Interview Checklist
+
+- **Core Goal**
+    
+    - Define clear microservice boundaries aligned to business capabilities using domain-driven design (DDD).
+        
+    - Services should be loosely coupled and highly cohesive with a single well-defined purpose.
+        
+- **Strategic DDD**
+    
+    - Identify _bounded contexts_ representing subdomains, each with its own model of entities, aggregates, and services.
+        
+    - Separate models for the same entity in different contexts to avoid complexity and tightly coupled teams.
+        
+- **Tactical DDD**
+    
+    - Define entities, aggregates, domain services within each bounded context.
+        
+    - Model real-world domain concepts relevant to the service.
+        
+    - Use domain events and encapsulation to abstract internal rules from clients.
+        
+- **Domain Modeling Approach**
+    
+    - Collaborate with domain experts, architects, stakeholders to map business functions and their interactions.
+        
+    - Identify core vs supporting subdomains.
+        
+    - Sketch domain models independently of implementation or technology.
+        
+- **Example: Drone Delivery Application**
+    
+    - Core bounded contexts: Shipping (central), Drone Management, Accounts, Invoicing, etc.
+        
+    - Different bounded contexts maintain different models of the same real entity (e.g., Drone has different attributes relevant to scheduling vs repair).
+        
+    - Encapsulates complexity and allows independent service evolution.
+        
+- **Patterns for Integration**
+    
+    - _Open Host Service & Published Language:_ Use well-defined, published APIs (e.g., OpenAPI specs) for inter-service communication.
+        
+    - Anti-Corruption Layer & Strangler Fig for integrating legacy systems without polluting new domains.
+        
+- **Tools & Frameworks**
+    
+    - Domain modeling tools like Context Mapper or EventStorming workshops.
+        
+    - Modeling frameworks: DDD frameworks in Java (Axon, Eventuate).
+        
+    - API description: OpenAPI/Swagger.
+        
+- **Architectural Insights**
+    
+    - Domain analysis is iterative; boundaries evolve with business and technical needs.
+        
+    - Avoid organizational or technical driven boundaries—focus on business capabilities.
+        
+    - Minimize direct data coupling and respect service autonomy.
+        
+
+## 60-Second Recap
+
+- Use **DDD** to define microservice boundaries—strategic (bounded contexts) + tactical (entities/aggregates).
+    
+- Each microservice owns a **single business capability** with its own domain model.
+    
+- Different bounded contexts may model the same real-world entity differently.
+    
+- Publish explicit APIs (OpenAPI) to avoid tight coupling across services.
+    
+- Collaborate closely with domain experts; revisit boundaries as system evolves.
+    
+
+**Reference**: [Azure Microservices Domain Analysis](https://learn.microsoft.com/en-us/azure/architecture/microservices/model/domain-analysis)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/model/domain-analysis)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/model/domain-analysis](https://learn.microsoft.com/en-us/azure/architecture/microservices/model/domain-analysis)
+
 ### **Domain Analysis for Microservices **
 
 **Source:** Microsoft Azure Architecture Center | [Domain Analysis](https://learn.microsoft.com/en-us/azure/architecture/microservices/model/domain-analysis)

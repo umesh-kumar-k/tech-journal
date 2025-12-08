@@ -1,3 +1,61 @@
+
+## Event Sourcing Pattern
+
+Event Sourcing stores state as an immutable sequence of events in an append-only store, replaying them to materialize current state, enabling auditability and scalability over CRUD.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)​
+
+- Events describe business actions (e.g., "OrderPlaced", "ItemAdded"); event store as single source of truth
+    
+- Materialized views/projections for fast queries; snapshots reduce replay cost for long event streams
+    
+- Decouples producers/consumers via queues; eventual consistency with CQRS read models[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)​
+    
+
+## Tools and Frameworks
+
+|Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|.NET|EventStoreDB, Marten (Postgres ES), NEventStore|Conference booking with seat availability projection|
+|Java|Axon Framework, Eventuate|Full ES+CQRS with saga orchestration|
+|Node.js|NodeEventStore, Kafka + ksqlDB|Microservices event streams with materialized views|
+|Cloud|Azure Cosmos DB Change Feed, Kafka Streams, Event Hubs|Event capture → projection → read-optimized NoSQL|
+|Enterprise|GetEventStore, Apache Kafka|High-throughput financial transaction audit trails|
+
+## Interview Checklist
+
+- Define: Append-only event store as source of truth; replay events → current state[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)​
+    
+- Workflow: Command → load entity via events → business logic → raise events → handlers update projections
+    
+- Benefits: No locking/contention, full audit trail, easy state reconstruction, integration via events
+    
+- Gotchas: Eventual consistency, event versioning, ordering (timestamps/seq IDs), idempotent handlers
+    
+- Storage: EventStoreDB (optimized), Kafka (streams), Cosmos (change feed); snapshots for perf
+    
+- CQRS combo: Events → denormalized read models; dual stores (SQL write, NoSQL read)
+    
+- When: High-scale writes, audit needs, complex domains; avoid simple CRUD
+    
+- Tradeoffs: Complexity (high migration cost), query cost (projections/snapshots required)
+    
+
+## 60-Second Recap
+
+- **Core**: Events as immutable history; replay → state; projections for queries[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)​
+    
+- **Why**: Scalable writes (no locks), audit trail, easy debugging/reconstruction
+    
+- **Ex**: "SeatsReserved" events → availability counter projection
+    
+- **Tools**: EventStoreDB, Axon, Kafka Streams, Marten, Cosmos Change Feed
+    
+- **Wins**: Decoupled (queues), snapshots perf boost; pair with CQRS for reads
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)
+2. [https://learn.microsoft.com/en-us/](https://learn.microsoft.com/en-us/)
 # **Event Sourcing Pattern**
 
 ## **Core Thesis**

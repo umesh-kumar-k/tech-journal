@@ -1,3 +1,136 @@
+
+## Latency vs Throughput Interview Checklist
+
+- **Core Definitions**
+    
+    |Metric|Measures|Units|User Impact|
+    |---|---|---|---|
+    |**Latency**|Delay to transfer data|**ms** (RTT/ping)|Response time|
+    |**Throughput**|Data volume transferred|**MBps/GBps**|Concurrent users|
+    
+- **Measurement Methods**
+    
+    |Latency|Throughput|
+    |---|---|
+    |**Ping** (RTT)|File transfer / iperf|
+    |Network tools (traceroute)|**Speedtest** tools|
+    |Browser dev tools|AWS CloudWatch metrics|
+    
+- **Impact Factors**
+    
+    |Latency Factors|Throughput Factors|
+    |---|---|
+    |**Distance** (propagation)|**Bandwidth** cap|
+    |**Congestion**|**Packet loss**|
+    |**Protocol** overhead|**Processing power**|
+    |**Infrastructure**|**Network topology**|
+    
+- **Relationship & Bandwidth**
+    
+    text
+    
+    `Throughput = Bandwidth - (Packet Loss + Overhead) High Latency → Lower Throughput (longer transmission)`
+    
+- **AWS Optimization Tools**
+    
+    |Service|Latency|Throughput|
+    |---|---|---|
+    |**CloudFront**|✅ CDN caching|High transfer speeds|
+    |**Global Accelerator**|✅ Path optimization|60% perf improvement|
+    |**Direct Connect**|✅ Dedicated links|Consistent low latency|
+    |**Local Zones**|✅ Edge compute|Low-latency apps|
+    
+- **Protocol Trade-offs**
+    
+    |Protocol|Latency|Throughput|
+    |---|---|---|
+    |**TCP**|Higher (handshakes)|✅ Reliable, high|
+    |**UDP**|✅ Lower|Lower (no error correction)|
+    
+
+## 60-Second Recap
+
+- **Latency:** Delay (ms), impacts responsiveness; **Throughput:** Volume (MBps), impacts capacity.
+    
+- **Factors:** Latency = distance/congestion; Throughput = bandwidth - loss.
+    
+- **Relationship:** High latency reduces effective throughput.
+    
+- **AWS:** CloudFront (cache), Global Accel (routing), Direct Connect (dedicated).
+    
+- **Gold:** Monitor both + CDN + QoS prioritization + TCP for reliability.
+    
+
+**Reference**: [AWS Latency vs Throughput](https://aws.amazon.com/compare/the-difference-between-throughput-and-latency/)[aws.amazon](https://aws.amazon.com/compare/the-difference-between-throughput-and-latency/)​
+
+1. [https://aws.amazon.com/compare/the-difference-between-throughput-and-latency/](https://aws.amazon.com/compare/the-difference-between-throughput-and-latency/)
+## Latency vs Throughput Interview Checklist
+
+- **Core Trade-off**
+    
+    |Metric|Priority|Queue Behavior|User Type|
+    |---|---|---|---|
+    |**Latency**|Minimize p99|**Empty queues** (slack needed)|Interactive (web pages, real-time)|
+    |**Throughput**|Maximize RPS|**Full queues** (no idle capacity)|Batch (analytics, bulk processing)|
+    
+- **Queueing Theory Impact**
+    
+    |Load Level|Latency Cluster|Throughput Cluster|
+    |---|---|---|
+    |**Normal**|Empty queues, low p99|Full queues, steady RPS|
+    |**Peak**|Graceful degradation|Massive queue buildup|
+    |**Overloaded**|Sharp tail latency spike|Continues at capacity|
+    
+- **Mixed Workload Problems**
+    
+    |Issue|Impact|
+    |---|---|
+    |**Single cluster**|Latency users suffer during bulk jobs|
+    |**Bulk jobs**|Latency spikes for interactive users|
+    |**No isolation**|Perpetual priority conflicts|
+    
+- **Architectural Solutions**
+    
+    |Approach|Pros|Cons|
+    |---|---|---|
+    |**Split clusters**|Optimal for each workload|Higher cost|
+    |**Reservation LB**|Shared infra, guaranteed capacity|Complex routing|
+    |**Separate endpoints**|Clear SLAs|User confusion|
+    
+- **Real-World Examples**
+    
+    |System|Latency-Optimized|Throughput-Optimized|
+    |---|---|---|
+    |**Bigtable**|Interactive queries|Offline analysis|
+    |**ElasticSearch**|Search UI|Log indexing|
+    |**Kafka**|Real-time streams|Batch processing|
+    
+- **Capacity Planning Rules**
+    
+    - **Latency:** Run at 50-70% capacity (headroom)
+        
+    - **Throughput:** Run at 90-100% capacity (full utilization)
+        
+    - **Mixed:** Capacity = max(latency needs, throughput needs)
+        
+
+## 60-Second Recap
+
+- **Trade-off:** Latency needs empty queues (slack), throughput needs full queues (utilization).
+    
+- **Never mix:** Split clusters—latency (50-70% load), throughput (90%+ load).
+    
+- **Symptoms:** Tail latency spikes = bulk jobs starving interactive users.
+    
+- **Solution:** Dedicated clusters/endpoints per workload type.
+    
+- **Gold:** Reservation LB + clear SLAs + capacity planning by percentile.
+    
+
+**Reference**: [Latency/Throughput Tradeoff](https://blog.danslimmon.com/2019/02/26/the-latency-throughput-tradeoff-why-fast-services-are-slow-and-vice-versa/)[danslimmon](https://blog.danslimmon.com/2019/02/26/the-latency-throughput-tradeoff-why-fast-services-are-slow-and-vice-versa/)​
+
+1. [https://blog.danslimmon.com/2019/02/26/the-latency-throughput-tradeoff-why-fast-services-are-slow-and-vice-versa/](https://blog.danslimmon.com/2019/02/26/the-latency-throughput-tradeoff-why-fast-services-are-slow-and-vice-versa/)
+
 ### **The Latency/Throughput Tradeoff**
 
 **Source:** Dan Slimmon's Blog | [The Latency/Throughput Tradeoff](https://blog.danslimmon.com/2019/02/26/the-latency-throughput-tradeoff-why-fast-services-are-slow-and-vice-versa/)

@@ -1,3 +1,97 @@
+
+## Message Queues Comparison Interview Checklist
+
+- **Architecture Overview**
+    
+    |MQ|Type|Model|Broker|
+    |---|---|---|---|
+    |**ActiveMQ**|JMS broker|Queue + Pub/Sub|Required|
+    |**RabbitMQ**|AMQP broker|Advanced routing (exchanges)|Required|
+    |**Kafka**|Streaming platform|Partitioned logs|Distributed brokers|
+    |**ZeroMQ**|Library|P2P sockets|Brokerless|
+    
+- **Performance & Scalability**
+    
+    |MQ|Throughput|Latency|Scaling|
+    |---|---|---|---|
+    |**ActiveMQ**|Medium|Low|Vertical + clustering|
+    |**RabbitMQ**|High (queues)|Very low|Horizontal clustering|
+    |**Kafka**|Very high (1M+/sec)|Medium (batch)|Partitioned horizontal|
+    |**ZeroMQ**|Highest|Lowest|App-level|
+    
+- **Features Comparison**
+    
+    |Feature|ActiveMQ|RabbitMQ|Kafka|ZeroMQ|
+    |---|---|---|---|---|
+    |**Protocols**|JMS, STOMP, AMQP|AMQP, MQTT, STOMP|Kafka protocol|Custom sockets|
+    |**Persistence**|Yes|Yes (mirrored queues)|Yes (logs)|No|
+    |**Ordering**|Queue-level|Queue-level|Partition-level|Message-level|
+    |**Routing**|Basic|Advanced (exchanges)|Topics/partitions|Patterns|
+    |**Ops**|Medium|Low|High|None|
+    
+- **Use Cases**
+    
+    |Scenario|Best Choice|
+    |---|---|
+    |**Enterprise JMS**|ActiveMQ|
+    |**Complex routing**|RabbitMQ|
+    |**High-throughput streaming**|Kafka|
+    |**Low-latency P2P**|ZeroMQ|
+    
+- **Deployment Models**
+    
+    - **ActiveMQ:** Single broker or master-slave clustering.
+        
+    - **RabbitMQ:** Clustered nodes with mirrored queues.
+        
+    - **Kafka:** Distributed brokers + ZooKeeper/ KRaft.
+        
+    - **ZeroMQ:** Embed in applications, no infrastructure.
+        
+- **Tools & Frameworks**
+    
+    |Language|ActiveMQ|RabbitMQ|Kafka|ZeroMQ|
+    |---|---|---|---|---|
+    |**Java**|JMS|Spring AMQP|Spring Kafka|JeroMQ|
+    |**Python**|Stomp.py|Pika|kafka-python|pyzmq|
+    |**Node.js**|stompj|amqplib|kafkajs|zeromq|
+    
+
+## 60-Second Recap
+
+- **ActiveMQ:** Enterprise JMS, medium perf, full broker features.
+    
+- **RabbitMQ:** Flexible routing/AMQP, high perf queues, easy ops.
+    
+- **Kafka:** Streaming/logs, massive scale, partitioned topics.
+    
+- **ZeroMQ:** Brokerless library, lowest latency, embeddable.
+    
+- **Choose:** Traditional messaging → RabbitMQ; streaming → Kafka; simple P2P → ZeroMQ.
+    
+
+**Reference**: [Message Queues Cheat Sheet](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)[hackernoon](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)​
+
+1. [https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq](https://hackernoon.com/the-system-design-cheat-sheet-message-queues-activemq-rabbitmq-kafka-zeromq)
+2. [https://stackoverflow.com/questions/731233/activemq-or-rabbitmq-or-zeromq-or](https://stackoverflow.com/questions/731233/activemq-or-rabbitmq-or-zeromq-or)
+3. [https://risingwave.com/blog/rabbitmq-vs-activemq-vs-kafka-a-comprehensive-comparison/](https://risingwave.com/blog/rabbitmq-vs-activemq-vs-kafka-a-comprehensive-comparison/)
+4. [http://kuntalganguly.blogspot.com/2014/08/message-queue-comparision.html](http://kuntalganguly.blogspot.com/2014/08/message-queue-comparision.html)
+5. [https://www.designgurus.io/blog/rabbitmq-kafka-activemq-system-design](https://www.designgurus.io/blog/rabbitmq-kafka-activemq-system-design)
+6. [https://digitalvarys.com/kafka-vs-activemq-vs-rabbitmq-vs-zeromq/](https://digitalvarys.com/kafka-vs-activemq-vs-rabbitmq-vs-zeromq/)
+7. [https://kuntalganguly.blogspot.com/2014/08/message-queue-comparision.html](https://kuntalganguly.blogspot.com/2014/08/message-queue-comparision.html)
+8. [https://stackshare.io/stackups/activemq-vs-kafka-vs-zeromq](https://stackshare.io/stackups/activemq-vs-kafka-vs-zeromq)
+9. [https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/](https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/)
+10. [https://umuzi-org.github.io/tech-department/topics/data-infrastructure/choosing-a-task-queue/](https://umuzi-org.github.io/tech-department/topics/data-infrastructure/choosing-a-task-queue/)
+11. [https://blog.stefan-koch.name/2017/11/05/message-queues-brokers-overview-part-1](https://blog.stefan-koch.name/2017/11/05/message-queues-brokers-overview-part-1)
+12. [https://javamasterybooks.com/zeromq/1/1/3/](https://javamasterybooks.com/zeromq/1/1/3/)
+13. [https://www.technicalexplore.com/tech/the-ultimate-guide-to-message-queues-designing-scalable-systems-with-activemq-rabbitmq-kafka-and-zeromq](https://www.technicalexplore.com/tech/the-ultimate-guide-to-message-queues-designing-scalable-systems-with-activemq-rabbitmq-kafka-and-zeromq)
+14. [https://www.choupangxia.com/2019/11/12/kafka-rabbitmq-rocketmq-activemq/](https://www.choupangxia.com/2019/11/12/kafka-rabbitmq-rocketmq-activemq/)
+15. [https://github.com/AutoMQ/automq/wiki/Kafka-vs-ZeroMQ:-Architectures,-Performance,-Use-Cases](https://github.com/AutoMQ/automq/wiki/Kafka-vs-ZeroMQ:-Architectures,-Performance,-Use-Cases)
+16. [https://gtcsys.com/a-comprehensive-comparison-of-activemq-kafka-rabbitmq-and-pulsar/](https://gtcsys.com/a-comprehensive-comparison-of-activemq-kafka-rabbitmq-and-pulsar/)
+17. [https://www.slideshare.net/slideshow/the-current-messaging-landscape-rabbitmq-zeromq-nsq-kafka/55320022](https://www.slideshare.net/slideshow/the-current-messaging-landscape-rabbitmq-zeromq-nsq-kafka/55320022)
+18. [https://stackshare.io/stackups/kafka-vs-rabbitmq-vs-zeromq](https://stackshare.io/stackups/kafka-vs-rabbitmq-vs-zeromq)
+19. [https://javarevisited.substack.com/p/difference-between-kafka-rabbitmq](https://javarevisited.substack.com/p/difference-between-kafka-rabbitmq)
+20. [https://github.com/xinchen10/awesome-amqp](https://github.com/xinchen10/awesome-amqp)
 # **Message Queue Comparison Guide**
 
 ## **Core Thesis**

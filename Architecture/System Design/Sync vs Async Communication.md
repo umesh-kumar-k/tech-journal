@@ -1,3 +1,69 @@
+
+## Sync vs Async Communication Interview Checklist
+
+- **Communication Axes**
+    
+    |Axis|Types|Protocols|
+    |---|---|---|
+    |**Sync**|Request/Response|**HTTP/REST**, gRPC|
+    |**Async**|Messaging|**AMQP**, Kafka, RabbitMQ|
+    |**Single Receiver**|Commands|Queue messages|
+    |**Multi Receiver**|Events|Pub/Sub topics|
+    
+- **Sync Communication**
+    
+    |Use Case|Pros|Cons|Tools|
+    |---|---|---|---|
+    |**Queries/UI**|Real-time response|**Chatty** (chains fail)|**ASP.NET Core Web API**, REST|
+    |**Real-time**|Live updates|Coupling, latency|**SignalR**, WebSockets|
+    
+- **Async Communication Patterns**
+    
+    |Pattern|Purpose|Tools|
+    |---|---|---|
+    |**Eventual Consistency**|Data replication|**Integration Events**|
+    |**Command**|Single receiver|**RabbitMQ** queues|
+    |**Pub/Sub**|Multi receiver|**Azure Service Bus**, Kafka topics|
+    |**CQRS**|Separate read/write|Event Sourcing|
+    
+- **Anti-Patterns & Best Practices**
+    
+    |❌ Anti-Pattern|✅ Pattern|Impact|
+    |---|---|---|
+    |**Sync chains** (A→B→C)|**Async events**|Resilience, autonomy|
+    |**Direct queries**|**Data duplication**|No external deps|
+    |**Fine-grained calls**|**Coarse-grained**|Reduced latency|
+    
+- **Microservice Integration Rules**
+    
+    |Rule|Implementation|
+    |---|---|
+    |**Autonomy**|No sync deps between services|
+    |**Data Ownership**|Duplicate needed data (Buyer vs User)|
+    |**Loose Coupling**|**Event-driven**, not RPC chains|
+    
+- **Tool Examples**
+    
+    |Sync|Async|
+    |---|---|
+    |**gRPC**, OpenAPI/Swagger|**MassTransit**, NServiceBus|
+    |**HTTP/2**|**Kafka Streams**, Azure Event Grid|
+    
+
+## 60-Second Recap
+
+- **Sync:** HTTP/REST for queries (Web API), **avoid chains** between microservices.
+    
+- **Async:** Events/queues for commands (RabbitMQ), pub/sub for multi-receiver (Kafka).
+    
+- **Golden Rule:** **No sync dependencies**—use eventual consistency + data duplication.
+    
+- **CQRS:** Separate sync queries from async commands.
+    
+- **Tools:** **ASP.NET Core API** (sync) + **MassTransit/RabbitMQ** (async).
+    
+
+**Reference**: [Microservices Communication](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/communication-in-microservice-architecture)
 # **Communication in Microservice Architecture**
 
 ## **Core Thesis**

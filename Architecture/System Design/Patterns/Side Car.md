@@ -1,3 +1,60 @@
+## Sidecar Pattern
+
+Sidecar pattern deploys supporting services in separate processes/containers alongside the primary application, sharing lifecycle/resources while providing isolation and language independence.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar)​
+
+- Co-located auxiliary container/process; same host, shared networking/volumes
+    
+- Handles cross-cutting concerns: logging, monitoring, proxying, config, security
+    
+- Independent languages/tech stacks; low-latency communication (localhost)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar)​
+    
+
+## Tools and Frameworks
+
+|Use Case|Tools/Frameworks|Example|
+|---|---|---|
+|Service Mesh|Istio Envoy, Linkerd|Automatic mTLS, traffic management, observability|
+|API Gateway|NGINX, Envoy Proxy|Ambassador pattern; rate limiting, circuit breaking|
+|Logging/Monitoring|Fluentd, Filebeat|Centralized structured logging from app container|
+|Config/Secrets|Consul, Vault Agent|Dynamic configuration, secrets injection|
+|Kubernetes Native|Dapr Sidecar|Polyglot service invocation, state management|
+
+## Interview Checklist
+
+- Define: Auxiliary container/process sharing host/lifecycle with primary app[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar)​
+    
+- Benefits: Language independence, isolation, shared resources, independent scaling/updates
+    
+- Communication: localhost (HTTP/gRPC/Unix sockets); low latency
+    
+- Use Cases: Proxy (Envoy), logging (Fluentd), monitoring, config mgmt, security
+    
+- Deployment: Kubernetes pods (multi-container), Docker Compose, cloud runtimes
+    
+- Gotchas: Resource overhead, inter-process comm overhead, lifecycle coordination
+    
+- When: Cross-cutting concerns, polyglot apps, service mesh; avoid chatty interfaces
+    
+- Alternatives: Libraries (language-specific), daemonsets (shared across pods)
+    
+
+## 60-Second Recap
+
+- **Core**: Supporting container alongside app; shared host/network; independent lifecycle[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar)​
+    
+- **Why**: Cross-cutting concerns without language coupling; isolation + proximity
+    
+- **Ex**: Envoy proxy (Istio), Fluentd logging, NGINX static files
+    
+- **Tools**: Istio/Linkerd (mesh), Dapr, Envoy, Fluentd, Consul agent
+    
+- **Wins**: Polyglot support, independent updates, service mesh features
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar](https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar](https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar)
+
 # **Sidecar Pattern**
 
 ## **Core Thesis**

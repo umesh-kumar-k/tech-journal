@@ -1,3 +1,75 @@
+
+## WAL (Write-Ahead Log) Interview Checklist
+
+- **Core Principle**
+    
+    - **Log First, Apply Later:** Append changes to sequential log before modifying data structures.
+        
+    - **Durability Guarantee:** Transaction committed only after WAL flush to disk.
+        
+    - **Crash Recovery:** Replay WAL from last checkpoint to restore consistency.
+        
+- **Key Benefits**
+    
+    |Benefit|Impact|
+    |---|---|
+    |**Durability**|No lost committed txns|
+    |**Performance**|Sequential appends >> random writes|
+    |**Replication**|Ordered change stream for replicas|
+    |**Recovery**|Deterministic replay from WAL|
+    
+- **WAL Implementations**
+    
+    |System|WAL Name|Key Features|
+    |---|---|---|
+    |**PostgreSQL**|WAL|Physical/logical rep, PITR, checkpoints|
+    |**Kafka**|Partition Logs|Topics → partitions, leader/followers|
+    |**MongoDB**|Oplog|Capped collection, replica sets|
+    
+- **PostgreSQL WAL Details**
+    
+    - **Segments:** 16MB rotating files in `pg_wal/`.
+        
+    - **Checkpoints:** Periodic dirty page flushes.
+        
+    - **Replication:** Streaming (physical), Logical (SQL events).
+        
+    - **Recovery:** Redo from last checkpoint.
+        
+- **Operational Considerations**
+    
+    |Aspect|Challenge|Solution|
+    |---|---|---|
+    |**WAL Growth**|Disk exhaustion|WAL compression, archiving|
+    |**Replication Lag**|Stale replicas|Sync replication, flow control|
+    |**Oplog Window**|MongoDB resyncs|Resize oplog (5% disk default)|
+    
+- **Tools & Monitoring**
+    
+    |Tool|Purpose|
+    |---|---|
+    |**pg_walinspect**|WAL file inspection|
+    |**Kafka Offset Explorer**|Consumer lag monitoring|
+    |**mongostat**|Oplog usage/ops/sec|
+    
+
+## 60-Second Recap
+
+- **WAL:** Log changes before applying → durability + recovery + replication.
+    
+- **Everywhere:** PostgreSQL (ACID), Kafka (system=logs), MongoDB (oplog).
+    
+- **Recovery:** Replay from checkpoint → consistent state.
+    
+- **Replication:** Primary streams WAL → replicas apply sequentially.
+    
+- **Gold:** Sequential appends + checkpoints + WAL archiving.
+    
+
+**Reference**: [Write-Ahead Log Foundation](https://www.architecture-weekly.com/p/the-write-ahead-log-a-foundation)[architecture-weekly](https://www.architecture-weekly.com/p/the-write-ahead-log-a-foundation)​
+
+1. [https://www.architecture-weekly.com/p/the-write-ahead-log-a-foundation](https://www.architecture-weekly.com/p/the-write-ahead-log-a-foundation)
+2. 
 # **Cornell Notes: The Write-Ahead Log (WAL) - A Foundation**
 
 **Source:** Architecture Weekly, "The Write-Ahead Log: A Foundation"  

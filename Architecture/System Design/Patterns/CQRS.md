@@ -1,3 +1,62 @@
+## CQRS Pattern
+
+Command Query Responsibility Segregation (CQRS) separates read (queries) and write (commands) operations into distinct models, enabling independent optimization, scaling, and security.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)​
+
+- Write model: Commands with business logic/validation; single DB optimized for consistency
+    
+- Read model: Queries returning DTOs/views; separate DB with denormalized/materialized data for fast reads
+    
+- Eventual consistency via events when using separate stores; commands as business tasks (e.g., "BookRoom")
+    
+- Combines with Event Sourcing: Event store as write model, projections build read views[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)​
+    
+
+## Tools and Frameworks
+
+|Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|.NET|MediatR (commands), Marten (Event Sourcing + Postgres)|Command handlers + read projections|
+|Java|Axon Framework|Full CQRS/ES with event store, sagas|
+|Node.js|NestJS CQRS module|Decorators for commands/queries|
+|Cloud|Azure Cosmos DB (multi-model), Event Grid + Table Storage|Write: Cosmos transactions; Read: denormalized NoSQL|
+|Event Store|EventStoreDB, Kafka Streams|Event sourcing + materialized views|
+
+## Interview Checklist
+
+- Define: Separate command (write) and query (read) models; optimize each independently[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)​
+    
+- Models: Write=commands+logic (consistent), Read=DTOs/views (denormalized, fast)
+    
+- Sync: Events from write → update read (eventual consistency); single vs separate stores
+    
+- Commands: Business intent ("BookRoom") vs CRUD; client/server validation + async queues
+    
+- Benefits: Independent scaling, simpler queries, security separation, team autonomy
+    
+- Tradeoffs: Complexity, eventual consistency, event processing/duplication overhead
+    
+- When: High read/write asymmetry, complex domains, collaborative UIs; avoid simple CRUD
+    
+- CQRS+ES: Event store as truth; replay for views/snapshots; snapshots for perf
+    
+
+## 60-Second Recap
+
+- **Core**: Commands → write model; Queries → separate read model/views[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)​
+    
+- **Why**: Read/write optimization; scale independently; denormalized reads
+    
+- **Sync**: Events propagate changes (eventual consistency); single vs dual stores
+    
+- **Tools**: MediatR (.NET), Axon (Java), NestJS, Cosmos DB + Event Grid
+    
+- **Wins**: Perf (no joins), security, team separation; pair with Event Sourcing
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs](https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs)
+2. 
 # **CQRS Pattern**
 
 ## **Core Thesis**

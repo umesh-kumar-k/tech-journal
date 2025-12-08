@@ -1,5 +1,49 @@
 # **Java Profiling Guide Summary**
 
+**Java Profiling:** Runtime analysis of JVM behavior (CPU/memory/threads/IO) to pinpoint bottlenecks; sampling (low-overhead stack traces) vs instrumenting (code mods, high overhead).
+
+**Key Components & Examples:**
+
+- Profiling Areas: Execution (CPU/wall time per method), Memory (allocs/leaks/GC), Threads (contention/locking), I/O (read/write speed, DB queries).
+    
+- Tool Categories:
+    
+    |Type|Tools|Overhead|Key Features|
+    |---|---|---|---|
+    |Free/Open|JFR+JMC (built-in events), VisualVM (JMX GUI), Async Profiler (flame graphs)|Low|Prod-safe, continuous recording|
+    |Freemium|New Relic (observability), Digma.ai (code insights, OTel)|Low-Med|Alerts, IDE integration|
+    |Commercial|JProfiler (DB/HTTP), YourKit (GC/thread)|Med|IDE plugins, K8s/Docker|
+    |IDE|IntelliJ Profiler (Async under hood)|Low|One-click flame graphs|
+    
+- Frameworks: OpenTelemetry (Digma), JMX (VisualVM), JFR custom events.
+    
+
+**Interview Checklist:**
+
+- Types: "Sampling (Async/JFR low-overhead) vs instrumenting (precise but slow)".
+    
+- Prod: "JFR continuous (-XX:StartFlightRecording=background), Async Profiler agent".
+    
+- Areas: "CPU flame graphs → hot methods; alloc profiling → leaks; thread dumps → locks".
+    
+- Best Practices: "Load test (not local), KPIs first, container-aware (-XX:MaxRAMPercentage=75)".
+    
+- Arch: "JFR baseline → Async for CPU/memory → JProfiler for DB/JPA calls".
+    
+
+**60-Second Recap:**
+
+- Areas: CPU/memory/threads/IO; sampling low-overhead for prod.
+    
+- Tools: JFR+JMC (free prod), Async (flames), JProfiler (commercial full).
+    
+- Practices: Load test, KPIs, don't over-optimize, container profiling.
+    
+
+**Reference:** [https://bell-sw.com/blog/a-guide-to-java-profiling-tools-techniques-best-practices/](https://bell-sw.com/blog/a-guide-to-java-profiling-tools-techniques-best-practices/)
+
+1. [https://bell-sw.com/blog/a-guide-to-java-profiling-tools-techniques-best-practices/](https://bell-sw.com/blog/a-guide-to-java-profiling-tools-techniques-best-practices/)
+
 ## **Article 1: BellSw - Java Profiling Guide**
 **Source:** https://bell-sw.com/blog/a-guide-to-java-profiling-tools-techniques-best-practices/
 

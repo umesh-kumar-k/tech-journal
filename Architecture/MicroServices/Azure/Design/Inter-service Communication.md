@@ -1,4 +1,93 @@
 
+## Inter-Service Communication Interview Checklist
+
+- **Core Challenges**
+    
+    - **Resiliency:** Transient failures (retries), cascading failures (circuit breakers).
+        
+    - **Load Balancing:** Session-aware vs random pod selection.
+        
+    - **Distributed Tracing:** Correlate logs/metrics across service hops.
+        
+    - **Versioning & Security:** API compatibility, mTLS encryption.
+        
+- **Communication Patterns**
+    
+    |Pattern|Pros|Cons|Use Case|
+    |---|---|---|---|
+    |**Synchronous (HTTP/gRPC)**|Request-response, simple APIs|Tight coupling, latency chains, failure propagation|Workflow coordination|
+    |**Asynchronous (Events/Queues)**|Decoupling, multiple subscribers, failure isolation|Complexity, latency, de-duplication|Event sourcing, load leveling|
+    
+- **Resiliency Patterns**
+    
+    - **Retry:** Exponential backoff for transient faults; avoid non-idempotent ops (POST/PATCH).
+        
+    - **Circuit Breaker:** Stop calls to failing services; half-open state for recovery.
+        
+    - **Bulkhead:** Resource isolation (threads, connections) per service.
+        
+- **Service Mesh Solutions**
+    
+    - **Linkerd/Istio:** L7 routing, intelligent LB, auto-retry, circuit breaking, mTLS, tracing.
+        
+    - **Metrics:** Request volume, latency, error rates, distributed tracing (Jaeger/Zipkin).
+        
+    - **Trade-off:** Added complexity/latency vs centralized resiliency.
+        
+- **Distributed Transactions**
+    
+    - **Saga Pattern:** Compensating transactions for partial failures.
+        
+    - **Scheduler Agent Supervisor:** Dedicated service orchestrates sagas.
+        
+    - **Idempotency:** Safe retries via unique request IDs.
+        
+    - **Checkpoints:** Durable workflow state for crash recovery.
+        
+- **Drone Delivery Example**
+    
+    - Ingestion → Event Hubs (async) → Scheduler.
+        
+    - Scheduler → REST APIs (sync) → Account/Delivery/Package/Drone.
+        
+    - Delivery → Events → History service (async pub/sub).
+        
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Messaging**|Azure Event Hubs, Kafka, RabbitMQ|
+    |**Service Mesh**|Istio, Linkerd, Consul Connect|
+    |**Resiliency**|Resilience4j, Hystrix, Polly|
+    |**Tracing**|Jaeger, Zipkin, OpenTelemetry|
+    |**API Gateway**|Spring Cloud Gateway, Kong|
+    
+- **Architectural Guidelines**
+    
+    - Prefer async for loose coupling, sync for coordination.
+        
+    - Service mesh for production-scale resiliency.
+        
+    - Design idempotent operations for safe retries.
+        
+    - Event schemas (Protobuf/Avro) for inter-service decoupling.
+        
+
+## 60-Second Recap
+
+- **Sync vs Async:** Sync (HTTP/gRPC) for coordination, Async (Events) for decoupling/load-leveling.
+    
+- **Resiliency:** Retry + Circuit Breaker + Bulkhead; Service Mesh (Istio/Linkerd) centralizes.
+    
+- **Distributed Tx:** Saga + Compensating Transactions + Idempotency.
+    
+- **Gold:** Async-first, service mesh at scale, standardized event schemas, idempotent APIs.
+    
+
+**Reference**: [Azure Inter-Service Communication](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/interservice-communication)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/interservice-communication)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/interservice-communication](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/interservice-communication)
+
 **Source:** Microsoft Azure Architecture Center | [Inter-Service Communication](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/interservice-communication)
 
 **Main Idea:** Communication between microservices is a fundamental design concern. The choice between **synchronous** and **asynchronous** patterns has profound implications for coupling, resilience, and scalability. A hybrid approach is typical, with careful use of sync patterns and strategic adoption of async messaging for decoupling.

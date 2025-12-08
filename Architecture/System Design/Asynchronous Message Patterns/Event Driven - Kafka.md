@@ -1,3 +1,84 @@
+## Event-Driven Topic Design Interview Checklist
+
+- **Core Topic Types**
+    
+    - **Entity Topics:** Current state of objects (upsert pattern); key-based compaction keeps latest version.[stackoverflow](https://stackoverflow.blog/2022/07/21/event-driven-topic-design-using-kafka/)​
+        
+    - **Event Topics:** Immutable "X happened" records; analytics, choreography triggers.
+        
+    - **Request/Response Topics:** Async APIs; orchestration pattern with correlation IDs.
+        
+- **Kafka-Specific Advantages**
+    
+    - **Key Partitioning:** Same key = same partition = ordered processing.
+        
+    - **Log Compaction:** Delete all but latest message per key (tombstones for deletes).
+        
+    - **Retention Policies:** Messages persist until TTL/compaction, not immediate deletion.
+        
+    - **Multiple Consumers:** Consumer groups track independent offsets.
+        
+- **Entity Topics Deep Dive**
+    
+    - Producer publishes current state; consumers upsert to local DB.
+        
+    - **Eventual consistency** (acceptable delay); no cross-service DB queries.
+        
+    - Schema evolution: Add fields easily, deletions require consumer coordination.
+        
+    - **Tombstones:** Key + null payload = delete record.
+        
+- **Event Topics Guidelines**
+    
+    - Capture **complete context** at event time (can't enrich later).
+        
+    - Partition by entity ID for related event ordering.
+        
+    - Multiple subscribers (pub/sub); no response expected.
+        
+- **Request/Response Pattern**
+    
+    - Multiple producers → single consumer owns schema.
+        
+    - Use correlation IDs to match request/response.
+        
+    - Fire-and-forget or hybrid (sync request → async response).
+        
+- **Topic Anti-Patterns & Pitfalls**
+    
+    - **Joining streams:** Throughput mismatch, re-partitioning costs.
+        
+    - **Kafka Streams pitfalls:** State in Kafka → broker overload, opaque internals.
+        
+    - **Over-fetching:** Prefer partial DB writes over stream joins.
+        
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Schema**|Avro, Protobuf (strongly typed)|
+    |**Stream Processing**|Kafka Streams, ksqlDB, Flink|
+    |**Connectors**|Deimos, Kafka Connect|
+    |**Monitoring**|Kafka Manager, Confluent Control Center|
+    
+
+## 60-Second Recap
+
+- **3 Topic Types:** Entity (state, compaction), Event (immutable facts), Request/Response (async APIs).
+    
+- **Kafka Superpowers:** Keys, compaction, retention, multi-consumer offsets.
+    
+- **Entity Gold:** Upsert local DB copies → no cross-service queries.
+    
+- **Pitfalls:** Avoid stream joins; use DB partial writes instead.
+    
+- **Schema First:** Avro/Protobuf + consistent schemas per topic.
+    
+
+**Reference**: [Event-Driven Topic Design Using Kafka](https://stackoverflow.blog/2022/07/21/event-driven-topic-design-using-kafka/)[stackoverflow](https://stackoverflow.blog/2022/07/21/event-driven-topic-design-using-kafka/)​
+
+1. [https://stackoverflow.blog/2022/07/21/event-driven-topic-design-using-kafka/](https://stackoverflow.blog/2022/07/21/event-driven-topic-design-using-kafka/)
+
 # **Event-Driven Topic Design with Kafka - Quick Reference**
 
 **Source:** Stack Overflow Blog, "Event-driven topic design using Kafka"  

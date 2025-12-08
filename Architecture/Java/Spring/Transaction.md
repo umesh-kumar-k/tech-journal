@@ -1,3 +1,211 @@
+## Spring Transaction Management Interview Checklist
+
+- **Core Abstraction**: Unified API across JTA, JDBC, Hibernate, JPA; PlatformTransactionManager (DataSourceTransactionManager, JpaTransactionManager) handles resource-specific tx logic.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction.html)​
+    
+- **Declarative Tx**: @Transactional(propagation=REQUIRED, isolation=READ_COMMITTED, rollbackFor=Exception.class); AOP proxy intercepts methods, binds resources to thread.
+    
+- **Propagation Types**: REQUIRED (default, join/create), REQUIRES_NEW (suspend+new), NESTED (savepoint), SUPPORTS (no-tx ok); architect choice for saga/choreography patterns.
+    
+- **Isolation Levels**: READ_UNCOMMITTED (dirty reads), READ_COMMITTED (non-repeatable), REPEATABLE_READ (phantom), SERIALIZABLE (full lock); balance consistency vs perf.
+    
+- **Programmatic Tx**: TransactionTemplate.execute() or TransactionAspectSupport.currentTransactionStatus(); use for dynamic tx boundaries, batch ops.
+    
+- **Resource Synchronization**: getCurrentSession()/getCurrentEntityManager() auto-binds resources; ConnectionHolder ensures reuse within tx bounds.
+    
+- **Distributed Tx**: JtaTransactionManager + Atomikos/Narayana for XA across DBs/JMS; Spring Boot + Spring Cloud for microservices sagas (compensating tx).
+    
+- **Tools/Frameworks**: HikariCP (pooling), Hibernate (2nd-level cache), Spring Batch (chunked tx), Kafka/RabbitMQ (tx-aware messaging), Debezium (CDC).
+    
+- **Pitfalls**: Self-invocation bypasses @Transactional (use AopContext), proxy pitfalls (interface/CGLIB), optimistic locking (@Version).
+    
+- **Architect Trade-offs**: Declarative (clean code) vs Programmatic (flexible); Local vs XA (scale vs 2PC perf); Reactive (R2DBC TransactionalOperator).
+    
+- **Monitoring**: Actuator metrics (tx commit/rollback rates), Micrometer timers; audit tx events via listeners.
+    
+- **Testing**: @Transactional in tests (rollback), TestTransaction for manual control; AbstractTransactionalJUnit4SpringContextTests.
+    
+
+## 60-Second Recap
+
+- Spring Tx = PlatformTransactionManager abstraction + @Transactional AOP for declarative management across JDBC/JPA/Hibernate/JTA.
+    
+- Key: Propagation/Isolation config, resource auto-binding, XA for distributed.
+    
+- Tools: Hikari + Atomikos + Spring Batch; pitfalls: self-invocation, proxy limits.
+    
+- Gold: Declarative-first, saga-aware for microservices, comprehensive exception rollback.
+    
+
+**Reference**: [Spring Transaction Management](https://docs.spring.io/spring-framework/reference/data-access/transaction.html) | [Baeldung Tx Guide](https://www.baeldung.com/transaction-configuration-with-jpa-and-spring)[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction.html)​
+
+1. [https://docs.spring.io/spring-framework/reference/data-access/transaction.html](https://docs.spring.io/spring-framework/reference/data-access/transaction.html)
+
+## Spring Declarative Transaction Interview Checklist
+
+- **Core Mechanism**: @Transactional annotation on methods/classes/interfaces; AOP proxy (JDK/CGLIB) intercepts calls, creates PlatformTransactionManager-bound tx; defaults: propagation=REQUIRED, isolation=DEFAULT, rollbackFor=RuntimeException.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html)​
+    
+- **Proxy Pitfalls**: Self-invocation bypasses proxy (no tx); private/final methods not proxied; use AopContext.currentProxy() or refactor to separate service.[marcobehler](https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth)​
+    
+- **Propagation Levels**: REQUIRED (join/create), REQUIRES_NEW (suspend+new tx), NESTED (savepoint), MANDATORY (existing tx only), NEVER/SUPPORTS/NOT_SUPPORTED for no-tx scenarios.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html)​
+    
+- **Isolation Levels**: READ_UNCOMMITTED (dirty reads), READ_COMMITTED (non-repeatable), REPEATABLE_READ (phantoms), SERIALIZABLE (locks); trade consistency vs throughput.[w3tutorials](https://www.w3tutorials.net/blog/spring-transactional-isolation-propagation/)​
+    
+- **Rollback Rules**: Defaults to unchecked (RuntimeException/Error); customize rollbackFor/noRollbackFor=Exception.class; checked exceptions commit by default.[manish-in-java.github](https://manish-in-java.github.io/manish-in-java/page/spring/transactions.html)​
+    
+- **Precedence**: Method > Class > Interface; most specific wins; readOnly=true optimizes (no dirty checks, Hibernate flush prevention).
+    
+- **Config Options**: timeout (sec), label (tx monitor), value (qualifier for multiple tx managers).
+    
+- **Tools/Frameworks**: Spring Boot auto-config (DataSourceTransactionManager), Hibernate/JPA (JpaTransactionManager), Atomikos (JTA/XA), Spring Batch (chunked tx).[geeksforgeeks](https://www.geeksforgeeks.org/springboot/spring-boot-transaction-management-using-transactional-annotation/)​
+    
+- **Advanced**: @TransactionalEventListener (tx-bound events: AFTER_COMMIT/ROLLBACK), Reactive (TransactionalOperator), Multi-tx managers via qualifier.
+    
+- **Pitfalls**: Tx naming (class.method), overusing REQUIRES_NEW (leakage), high isolation deadlocks, forgetting noRollbackFor.[reddit](https://www.reddit.com/r/java/comments/pxwy0k/spring_transactional_mistakes_everyone_did/)​
+    
+- **Testing**: @Transactional(rollbackFor=Exception.class) in @SpringBootTest; verifyTxApplied(), TestTransaction for manual control.
+    
+- **Architect Trade-offs**: Declarative (clean, scalable) vs Programmatic (dynamic boundaries); local vs distributed (sagas over XA).
+    
+
+## 60-Second Recap
+
+- @Transactional = AOP proxy + PlatformTransactionManager; defaults: REQUIRED/DEFAULT/unchecked rollback.
+    
+- Key: Proxy pitfalls, propagation/isolation tuning, rollback customization.
+    
+- Tools: Boot auto-config + Hibernate/Atomikos; avoid self-calls/high isolation.
+    
+- Gold: Declarative-first, explicit rollbackFor, saga patterns for microservices.
+    
+
+**Reference**: [Spring @Transactional Docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html) | [Marco Behler Guide](https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth)[spring+1](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html)​
+
+1. [https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html)
+2. [https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth](https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth)
+3. [https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html)
+4. [https://www.w3tutorials.net/blog/spring-transactional-isolation-propagation/](https://www.w3tutorials.net/blog/spring-transactional-isolation-propagation/)
+5. [https://manish-in-java.github.io/manish-in-java/page/spring/transactions.html](https://manish-in-java.github.io/manish-in-java/page/spring/transactions.html)
+6. [https://www.geeksforgeeks.org/springboot/spring-boot-transaction-management-using-transactional-annotation/](https://www.geeksforgeeks.org/springboot/spring-boot-transaction-management-using-transactional-annotation/)
+7. [https://www.reddit.com/r/java/comments/pxwy0k/spring_transactional_mistakes_everyone_did/](https://www.reddit.com/r/java/comments/pxwy0k/spring_transactional_mistakes_everyone_did/)
+8. [https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-decl-explained.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-decl-explained.html)
+9. [https://www.tutorialspoint.com/spring/spring_transaction_management.htm](https://www.tutorialspoint.com/spring/spring_transaction_management.htm)
+10. [https://ciit-training.com/en/2024/01/06/transactional-in-spring-how-it-works/](https://ciit-training.com/en/2024/01/06/transactional-in-spring-how-it-works/)
+11. [https://stackoverflow.com/questions/8490852/spring-transactional-isolation-propagation](https://stackoverflow.com/questions/8490852/spring-transactional-isolation-propagation)
+12. [https://rwinch.github.io/spring-framework/data-access/transaction/tx-decl-vs-prog.html](https://rwinch.github.io/spring-framework/data-access/transaction/tx-decl-vs-prog.html)
+13. [https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background](https://stackoverflow.com/questions/1099025/spring-transactional-what-happens-in-background)
+14. [https://stackoverflow.com/questions/31204194/declarative-transaction-vs-programmatic-transaction](https://stackoverflow.com/questions/31204194/declarative-transaction-vs-programmatic-transaction)
+15. [https://www.tutorialspoint.com/spring/declarative_management.htm](https://www.tutorialspoint.com/spring/declarative_management.htm)
+16. [https://www.geeksforgeeks.org/advance-java/transaction-propagation-and-isolation-in-spring-transactional-annotation/](https://www.geeksforgeeks.org/advance-java/transaction-propagation-and-isolation-in-spring-transactional-annotation/)
+17. [https://docs.spring.io/spring-framework/reference/data-access/transaction/tx-decl-vs-prog.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/tx-decl-vs-prog.html)
+18. [https://www.dineshonjava.com/declarative-transaction-management/](https://www.dineshonjava.com/declarative-transaction-management/)
+19. [https://www.geeksforgeeks.org/advance-java/programmatic-transaction-management-in-spring/](https://www.geeksforgeeks.org/advance-java/programmatic-transaction-management-in-spring/)
+20. [https://docs.spring.vmware.com/spring-framework/reference/data-access/transaction/declarative/tx-decl-explained.html](https://docs.spring.vmware.com/spring-framework/reference/data-access/transaction/declarative/tx-decl-explained.html)
+
+## Spring Programmatic Transaction Interview Checklist
+
+- **Core Approaches**: TransactionTemplate (imperative callback), TransactionalOperator (reactive operator), direct PlatformTransactionManager/ReactiveTransactionManager usage.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+    
+- **TransactionTemplate**: new TransactionTemplate(txManager).execute(TransactionCallback); thread-safe, configurable isolation/timeout/propagation; auto resource bind/commit.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+    
+- **Reactive Tx**: TransactionalOperator.create(reactiveTxManager); mono.as(txOperator::transactional) or execute(TransactionCallback); handles cancel signals as rollback.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+    
+- **Direct TxManager**: txManager.getTransaction(def) → status → commit/rollback; explicit name/propagation; lowest level, full control (no callback boilerplate).
+    
+- **Config Options**: DefaultTransactionDefinition.setIsolationLevel(), setTimeout(), setPropagationBehavior(), setReadOnly(); shared templates across methods.
+    
+- **Rollback Control**: status.setRollbackOnly() in callbacks; onErrorResume → rollback in reactive; manual exception handling vs @Transactional defaults.
+    
+- **Use Cases**: Dynamic tx boundaries (batch size loops), conditional tx (if/else), multi-tx manager routing, testing tx scenarios.[rwinch.github](https://rwinch.github.io/spring-framework/data-access/transaction/tx-decl-vs-prog.html)​
+    
+- **Tools/Frameworks**: R2DBC (ReactiveTransactionManager), Spring Batch (chunk-oriented), Kafka Transactions (tx-aware producers), Atomikos (programmatic XA).
+    
+- **Pitfalls**: Couples to Spring APIs (vs JTA UserTransaction), manual resource handling risk, forget commit/rollback, reactive full consumption needed.
+    
+- **vs Declarative**: Programmatic = flexible boundaries/control; Declarative = clean code/AOP; hybrid: Template inside @Transactional methods.
+    
+- **Architect Patterns**: Batch processing (loop + template), saga orchestration (REQUIRES_NEW per step), reactive pipelines (WebFlux + R2DBC).
+    
+- **Testing**: Mock TransactionStatus, verify commit/rollback calls; @Transactional(propagation=NOT_SUPPORTED) for template tests.
+    
+
+## 60-Second Recap
+
+- Programmatic Tx: TransactionTemplate.execute() (imperative), TransactionalOperator (reactive), direct TxManager.
+    
+- Wins: Dynamic boundaries, batch/chunked, conditional rollback.
+    
+- Tools: R2DBC + Spring Batch + Kafka tx; pitfalls: manual commit, Spring coupling.
+    
+- Gold: Template for 80%, direct for perf-critical, reactive for WebFlux.
+    
+
+**Reference**: [Spring Programmatic Tx Docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html) | [Declarative vs Programmatic](https://rwinch.github.io/spring-framework/data-access/transaction/tx-decl-vs-prog.html)[spring+1](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+
+1. [https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)
+2. [https://rwinch.github.io/spring-framework/data-access/transaction/tx-decl-vs-prog.html](https://rwinch.github.io/spring-framework/data-access/transaction/tx-decl-vs-prog.html)
+
+
+## Spring Programmatic Transaction Rollback Interview Checklist
+
+- **Core Mechanism**: TransactionStatus.setRollbackOnly() in TransactionTemplate callbacks marks tx for rollback; container decides at boundary (no manual commit needed).[spring+1](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+    
+- **Imperative Rollback**: In TransactionCallback/TransactionCallbackWithoutResult: try{ business logic } catch(BusinessEx ex){ status.setRollbackOnly(); }.[matthung0807.blogspot](https://matthung0807.blogspot.com/2020/08/spring-transactiontemplate-programmatically-rollback.html)​
+    
+- **Reactive Rollback**: TransactionalOperator callback: .doOnError(BusinessEx.class, e -> status.setRollbackOnly()); cancel signals auto-rollback since Reactor 5.3.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+    
+- **Direct TxManager**: After txManager.getTransaction(def), explicit txManager.rollback(status) on exceptions; full manual control.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+    
+- **Declarative Hybrid**: Inside @Transactional method, TransactionAspectSupport.currentTransactionStatus().setRollbackOnly() for conditional rollback without exception.[stackoverflow](https://stackoverflow.com/questions/30597715/rollback-transaction-in-spring-programmatically)​
+    
+- **Use Cases**: Batch chunk failure (Spring Batch), validation failures, business rule violations, saga compensating actions.[baeldung](https://www.baeldung.com/spring-programmatic-transaction-management)​
+    
+- **Verification**: status.isRollbackOnly() checks flag; txManager.commit() skips if marked; testing via MockTransactionStatus.[doc.codeboy](https://doc.codeboy.com/JSD/spring-framework-3.2.8/javadoc-api/org/springframework/transaction/TransactionStatus.html)​
+    
+- **Tools/Frameworks**: Spring Batch (chunk tx rollback), R2DBC (reactive), Atomikos (XA rollback), Testcontainers (tx verification).
+    
+- **Pitfalls**: Forgetting setRollbackOnly() (silent commits), reactive incomplete Flux consumption, nested tx propagation confusion.[github](https://github.com/spring-projects/spring-batch/issues/2752)​
+    
+- **vs Declarative**: Programmatic = explicit control (no exception needed); Declarative = unchecked exceptions auto-rollback.[spring](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html)​
+    
+- **Best Practices**: Single shared TransactionTemplate, business exceptions only (not tech), logging before rollback, metrics on rollback rate.
+    
+- **Testing**: @Rollback(false) + verify rollback called; custom TestTransaction for multi-step scenarios.
+    
+
+## 60-Second Recap
+
+- Programmatic Rollback: status.setRollbackOnly() in TransactionTemplate/TransactionalOperator callbacks.
+    
+- Reactive: doOnError() → setRollbackOnly(); cancels auto-rollback.
+    
+- Wins: Conditional rollback without exceptions; pitfalls: forget flag = silent commits.
+    
+- Gold: Business rule rollbacks, batch failures, hybrid with @Transactional.
+    
+
+**Reference**: [Spring Programmatic Tx](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html) | [Baeldung Guide](https://www.baeldung.com/spring-programmatic-transaction-management)[spring+1](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)​
+
+1. [https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)
+2. [https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html)
+3. [https://matthung0807.blogspot.com/2020/08/spring-transactiontemplate-programmatically-rollback.html](https://matthung0807.blogspot.com/2020/08/spring-transactiontemplate-programmatically-rollback.html)
+4. [https://stackoverflow.com/questions/30597715/rollback-transaction-in-spring-programmatically](https://stackoverflow.com/questions/30597715/rollback-transaction-in-spring-programmatically)
+5. [https://www.baeldung.com/spring-programmatic-transaction-management](https://www.baeldung.com/spring-programmatic-transaction-management)
+6. [https://doc.codeboy.com/JSD/spring-framework-3.2.8/javadoc-api/org/springframework/transaction/TransactionStatus.html](https://doc.codeboy.com/JSD/spring-framework-3.2.8/javadoc-api/org/springframework/transaction/TransactionStatus.html)
+7. [https://github.com/spring-projects/spring-batch/issues/2752](https://github.com/spring-projects/spring-batch/issues/2752)
+8. [https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html)
+9. [https://www.appsloveworld.com/springmvc/100/3/best-practices-for-rolling-back-transactions-in-spring-3-hibernate](https://www.appsloveworld.com/springmvc/100/3/best-practices-for-rolling-back-transactions-in-spring-3-hibernate)
+10. [https://docs.spring.vmware.com/spring-framework/reference/data-access/transaction/programmatic.html](https://docs.spring.vmware.com/spring-framework/reference/data-access/transaction/programmatic.html)
+11. [https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/TransactionStatus.html](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/TransactionStatus.html)
+12. [https://codingtechroom.com/question/-spring-transaction-rollback-exception](https://codingtechroom.com/question/-spring-transaction-rollback-exception)
+13. [https://spring.pleiades.io/spring-framework/reference/data-access/transaction/programmatic.html](https://spring.pleiades.io/spring-framework/reference/data-access/transaction/programmatic.html)
+14. [https://stackoverflow.com/questions/12194891/rollback-a-transactional-annotated-method](https://stackoverflow.com/questions/12194891/rollback-a-transactional-annotated-method)
+15. [https://stackoverflow.com/questions/4402506/best-practices-for-rolling-back-transactions-in-spring-3-hibernate](https://stackoverflow.com/questions/4402506/best-practices-for-rolling-back-transactions-in-spring-3-hibernate)
+16. [https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth](https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth)
+17. [https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/transaction.html](https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/transaction.html)
+18. [https://stackoverflow.com/questions/69329687/how-to-set-norollbackfor-on-a-transactiontemplate](https://stackoverflow.com/questions/69329687/how-to-set-norollbackfor-on-a-transactiontemplate)
+19. [http://www.java2s.com/example/java-api/org/springframework/transaction/transactionstatus/setrollbackonly-0-1.html](http://www.java2s.com/example/java-api/org/springframework/transaction/transactionstatus/setrollbackonly-0-1.html)
+20. [https://www.spring-certification.com/post/mastering-transaction-management-in-spring-tests-rollback-commit-and-best-practices](https://www.spring-certification.com/post/mastering-transaction-management-in-spring-tests-rollback-commit-and-best-practices)
+21. [https://dev.to/wynnt3o/spring-transactional-rollback-handling-hc8](https://dev.to/wynnt3o/spring-transactional-rollback-handling-hc8)
 # **Spring Transaction Management Summary**
 
 ## **Article 1: Spring Framework Transaction Overview**

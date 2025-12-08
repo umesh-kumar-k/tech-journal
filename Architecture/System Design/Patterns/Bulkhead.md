@@ -1,3 +1,58 @@
+## Bulkhead Pattern
+
+The Bulkhead pattern isolates application components into resource pools (like ship compartments) to contain failures, preventing cascading resource exhaustion across services or consumers.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+
+- Partitions connection pools, thread pools, or service instances per consumer/service
+    
+- Protects high-priority workloads; sustains partial functionality during outages
+    
+- Aligns with DDD bounded contexts for microservices; combines with circuit breaker/retry/throttling[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+
+## Tools and Frameworks
+
+|Platform/Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|.NET|Polly (BulkheadPolicy), SemaphoreSlim|Per-service thread limits in consumers [ prior]|
+|Java|Resilience4j (Bulkhead), Semaphore|Circuit breaker + concurrency isolation [learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​|
+|Kubernetes|ResourceQuotas, LimitRanges, NetworkPolicies|Pod CPU/memory limits per tenant/service [learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​|
+|AWS|ECS Task Definitions, Lambda Provisioned Concurrency|Isolated Fargate tasks per client pool|
+|Azure|Service Bus partitioned queues, AKS resource isolation|Queue-per-bulkhead with dedicated consumers|
+
+## Interview Checklist
+
+- Define: Failure isolation via resource partitioning (pools/processes/containers) to stop cascades[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+- Context: Unresponsive service exhausts client pools, blocking other services [ prior]
+    
+- Benefits: Partial availability, QoS tiers (gold/silver pools), independent scaling[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+- Tradeoffs: Resource overhead, complexity; balance isolation vs efficiency[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+- Implementation: Consumer-side (semaphores/threads per service); service-side (VMs/containers/queues)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+- Monitoring: Per-bulkhead metrics/SLAs; alert on saturation[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+- Alternatives: Circuit breaker (timeouts), Throttling (rate limits)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+
+## 60-Second Recap
+
+- **Core**: Isolate pools (threads/connections/containers) per service/consumer to contain failures[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+- **Why**: Stop one bad service exhausting all resources; ship bulkheads prevent sinking
+    
+- **Ex**: Polly/Resilience4j semaphores; K8s resource quotas per pod[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+    
+- **Tools**: Polly (.NET), Resilience4j (Java), Kubernetes Limits, partitioned queues
+    
+- **Wins**: Partial uptime, QoS tiers; monitor per partition; pair with breakers
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead](https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead)
+
 # **Bulkhead Pattern**
 
 ## **Core Thesis**

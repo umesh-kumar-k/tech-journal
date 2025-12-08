@@ -1,3 +1,74 @@
+
+## ACID Transactions Interview Checklist
+
+- **ACID Properties**
+    
+    |Property|Definition|Mechanism|
+    |---|---|---|
+    |**Atomicity**|All or nothing|Rollback on failure|
+    |**Consistency**|Valid state transitions|Constraints, triggers|
+    |**Isolation**|No interference|Locking, MVCC|
+    |**Durability**|Permanent after commit|WAL, transaction logs|
+    
+- **Implementation in RDBMS**
+    
+    - **SQL Commands:** `BEGIN`, `COMMIT`, `ROLLBACK`.
+        
+    - **Write-Ahead Logging (WAL):** PostgreSQL logs changes before commit.
+        
+    - **Locking:** Row/table locks prevent conflicts.
+        
+    - **Isolation Levels:** Read Uncommitted → Serializable.
+        
+- **Example Transaction (Bank Transfer)**
+    
+    text
+    
+    `BEGIN; UPDATE accounts SET balance = balance - 500 WHERE id = 'A'; UPDATE accounts SET balance = balance + 500 WHERE id = 'B'; COMMIT;  -- or ROLLBACK on error`
+    
+- **ACID vs BASE Trade-offs**
+    
+    |Aspect|ACID|BASE|
+    |---|---|---|
+    |**Consistency**|Strong|Eventual|
+    |**Availability**|May sacrifice|Prioritized|
+    |**Scalability**|Vertical|Horizontal|
+    |**Latency**|Higher|Lower|
+    
+- **Challenges & Solutions**
+    
+    |Challenge|Impact|Mitigation|
+    |---|---|---|
+    |**Lock Contention**|Deadlocks|Optimistic locking|
+    |**Distributed Txns**|2PC latency|Sagas, event sourcing|
+    |**Performance**|Slow at scale|Sharding, read replicas|
+    
+- **Tools & Modern Implementations**
+    
+    |Database|ACID Features|
+    |---|---|
+    |**PostgreSQL**|WAL, MVCC, Serializable|
+    |**MySQL InnoDB**|Redo logs, row locking|
+    |**CockroachDB**|Distributed ACID (Raft)|
+    |**Spanner**|Global ACID (TrueTime)|
+    
+
+## 60-Second Recap
+
+- **ACID:** Atomicity (all/none), Consistency (valid states), Isolation (no interference), Durability (permanent).
+    
+- **Mechanisms:** WAL, locking, rollback, isolation levels.
+    
+- **vs BASE:** ACID = strong consistency; BASE = high availability/scalability.
+    
+- **Challenges:** Lock contention, distributed scaling → use optimistic locking/sagas.
+    
+- **Gold:** PostgreSQL (WAL+MVCC), CockroachDB (distributed ACID).
+    
+
+**Reference**: [ACID Transactions Guide](https://www.datacamp.com/blog/acid-transactions)[datacamp](https://www.datacamp.com/blog/acid-transactions)​
+
+1. [https://www.datacamp.com/blog/acid-transactions](https://www.datacamp.com/blog/acid-transactions)
 # **ACID Transactions in Databases**
 
 ## **1. Essential Question**

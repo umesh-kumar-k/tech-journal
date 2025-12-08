@@ -1,3 +1,160 @@
+
+## Distributed Transactions Interview Checklist
+
+- **Core Problem (Dual Writes)**
+    
+    - **Local → Distributed:** Monolith tx breaks across service boundaries
+        
+    - **Atomicity:** All succeed or none (no partial failures)
+        
+    - **Isolation:** Concurrent reads see consistent state
+        
+    - **Triggers:** Multi-DB writes, cross-service notifications, business txns
+        
+- **Patterns Comparison**
+    
+    |Pattern|Type|Consistency|Blocking|Examples|
+    |---|---|---|---|---|
+    |**2PC**|Sync|Strong (ACID)|Yes (locks)|Narayana, JTA, XA datasources|
+    |**Saga**|Async|Eventual|No|Choreography (events), Orchestration (process manager)|
+    
+- **2PC (Two-Phase Commit)**
+    
+    |Phase|Action|
+    |---|---|
+    |**Prepare**|Lock resources, vote YES/NO|
+    |**Commit**|Apply changes, unlock|
+    |**Rollback**|Undo prepared changes|
+    
+    - **Pros:** Atomicity, isolation, read-your-writes
+        
+    - **Cons:** Blocking (deadlocks), poor scalability, sync RPC delays
+        
+    - **Use:** Legacy integration, short txns
+        
+- **Saga Pattern Variants**
+    
+    |Variant|Coordination|State Visibility|
+    |---|---|---|
+    |**Choreography**|Decentralized events|Query all services|
+    |**Orchestration**|Central process manager|Single source of truth|
+    
+    - **Compensation:** Undo forward txns on failure
+        
+    - **Event dual-write:** DB commit + publish (use Outbox)
+        
+    - **Tools:** Camunda, jBPM, Conductor, Apache Camel Saga
+        
+- **Saga Implementation Challenges**
+    
+    |Challenge|Solution|
+    |---|---|
+    |**Dual writes**|Transactional Outbox (Debezium + Kafka)|
+    |**Debugging**|Process manager, event tracing|
+    |**Isolation**|No read isolation (user may see transient states)|
+    |**Long txns**|Saga supports user input, async waits|
+    
+- **Decision Framework**
+    
+    |Priority|Pattern|
+    |---|---|
+    |**Strong ACID**|2PC (short txns only)|
+    |**Scalability**|Saga choreography|
+    |**Visibility**|Saga orchestration|
+    |**Simplicity**|Avoid both → redesign|
+    
+
+## 60-Second Recap
+
+- **Problem:** Local tx → distributed dual writes across services/DBs.
+    
+- **2PC:** Sync, ACID, blocking (Narayana/XA)—use sparingly.
+    
+- **Saga:** Async, eventual, compensating txns—choreography (events) or orchestration (Camunda).
+    
+- **Key:** Idempotency, Outbox for reliable publish, process manager for complexity.
+    
+- **Gold:** Saga choreography + Kafka/Debezium Outbox for microservices.
+    
+
+**Reference**: [Patterns for Distributed Transactions](https://developers.redhat.com/blog/2018/10/01/patterns-for-distributed-transactions-within-a-microservices-architecture)[developers.redhat](https://developers.redhat.com/articles/2021/09/21/distributed-transaction-patterns-microservices-compared)​
+
+1. [https://developers.redhat.com/articles/2021/09/21/distributed-transaction-patterns-microservices-compared](https://developers.redhat.com/articles/2021/09/21/distributed-transaction-patterns-microservices-compared)
+## Distributed Transactions Interview Checklist
+
+- **Core Patterns**
+    
+    |Pattern|Consistency|Coordination|Scalability|
+    |---|---|---|---|
+    |**Modular Monolith**|Strong (local tx)|Shared runtime/DB|Low|
+    |**2PC/XA**|Strong|Central coordinator|Low|
+    |**Orchestration**|Eventual|Central orchestrator|Medium|
+    |**Choreography**|Eventual|Decentralized events|High|
+    |**Parallel Pipelines**|Eventual|Independent processing|Highest|
+    
+- **Dual Write Solutions**
+    
+    |Approach|Reliability|Complexity|
+    |---|---|---|
+    |**Local-then-Publish**|Crash after DB commit|Idempotent consumers|
+    |**Publish-then-Local**|No read-your-writes|ID generation issues|
+    |**Outbox Pattern**|Reliable (DB + queue)|Debezium + Kafka|
+    |**Event Sourcing**|Append-only events|State reconstruction|
+    
+- **Implementation Tools**
+    
+    |Category|Tools/Frameworks|
+    |---|---|
+    |**2PC**|Narayana, Snowdrop, JTA|
+    |**Orchestration**|Camunda, jBPM, Conductor, Step Functions|
+    |**Choreography**|Debezium + Kafka, Apache Camel Saga|
+    |**Event Sourcing**|EventStoreDB, Kafka Streams|
+    
+- **Decision Matrix**
+    
+    |Need|Pattern|
+    |---|---|
+    |**Strong consistency**|Monolith → 2PC → Orchestration|
+    |**High scalability**|Choreography → Parallel|
+    |**State visibility**|Orchestration|
+    |**Decoupled services**|Choreography|
+    
+- **Key Requirements Across Patterns**
+    
+    - **Idempotency:** All operations retry-safe
+        
+    - **Compensations:** Rollback/undo capabilities
+        
+    - **State tracking:** Coordinator DB or event logs
+        
+    - **Temporal decoupling:** Parallel pipelines only
+        
+- **Architecture Trade-offs**
+    
+    |Pattern|Pros|Cons|
+    |---|---|---|
+    |**Monolith**|Simple tx, full visibility|Coupling, scaling|
+    |**2PC**|ACID guarantees|Blocking, single failure|
+    |**Saga (Orch/Chor)**|Scalable, resilient|Eventual consistency|
+    |**Parallel**|Max throughput|No ordering|
+    
+
+## 60-Second Recap
+
+- **Strong:** Monolith (shared DB) → 2PC (XA/Narayana).
+    
+- **Eventual:** Orchestration (Camunda/Conductor) → Choreography (Debezium+Kafka).
+    
+- **Max Scale:** Parallel pipelines (no ordering).
+    
+- **Dual writes:** Outbox pattern solves reliably.
+    
+- **Gold:** Saga (mix orch/chor) + idempotency + Outbox + Debezium.
+    
+
+**Reference**: [Distributed Transaction Patterns](https://developers.redhat.com/articles/2021/09/21/distributed-transaction-patterns-microservices-compared)[developers.redhat](https://developers.redhat.com/articles/2021/09/21/distributed-transaction-patterns-microservices-compared)​
+
+1. [https://developers.redhat.com/articles/2021/09/21/distributed-transaction-patterns-microservices-compared](https://developers.redhat.com/articles/2021/09/21/distributed-transaction-patterns-microservices-compared)
 # **Cornell Notes: Distributed Transactions in Microservices - Quick Reference**
 
 **Sources:**

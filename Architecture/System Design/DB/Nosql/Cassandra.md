@@ -1,3 +1,80 @@
+
+## Cassandra Deep Dive Interview Checklist
+
+- **Data Model**
+    
+    - **Keyspace:** Container for tables (like database), defines replication strategy.[hellointerview](https://www.hellointerview.com/learn/system-design/deep-dives/cassandra)​
+        
+    - **Table:** Wide-column store; sparse rows (columns vary per row).
+        
+    - **Primary Key:** Partition key (data distribution) + Clustering key (row sorting).
+        
+    - **Storage:** CommitLog (durability) → Memtable → SSTable (immutable on-disk).
+        
+- **Query-Driven Modeling**
+    
+    - **Denormalize for Queries:** No JOINs; duplicate data across tables.
+        
+    - **Partition Key First:** All queries must specify partition key (no scatter-gather).
+        
+    - **Clustering Order:** Control row sorting within partition (ASC/DESC).
+        
+    - **Examples:** Discord (channel_id → messages), Ticketmaster (event_id + section_id → tickets).
+        
+- **Partitioning & Replication**
+    
+    - **Consistent Hashing:** Partition key → virtual node → physical node.
+        
+    - **Replication Factor:** Copies per partition (SimpleStrategy, NetworkTopologyStrategy).
+        
+    - **Tunable Consistency:** QUORUM (majority), ONE (fast), ALL (slow/strong).
+        
+- **Write/Read Path**  
+    **Write:** CommitLog → Memtable → Periodic SSTable flush → Compaction.  
+    **Read:** Bloom filter → Memtable → SSTable index → Merge multiple versions (last-write-wins).  
+    **Compaction:** Merge SSTables, remove tombstones/deletes.
+    
+- **Advanced Features**
+    
+    - **SAI (Storage Attached Index):** Secondary indexes without full scan.
+        
+    - **Materialized Views:** Auto-denormalize data across tables.
+        
+    - **Search:** Elasticsearch/Solr integration via plugins.
+        
+- **Scaling & Limitations**
+    
+    |Strength|Weakness|
+    |---|---|
+    |**Write-heavy workloads**|No JOINs/aggregations|
+    |**Horizontal scaling**|Partition hotspots|
+    |**Multi-DC replication**|Read repair overhead|
+    
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Drivers**|DataStax Java Driver, Spring Data Cassandra|
+    |**Monitoring**|OpsCenter, Prometheus + cassandra_exporter|
+    |**GUI**|DBeaver, DataStax DevCenter|
+    
+
+## 60-Second Recap
+
+- **Query-First:** Denormalize, partition key mandatory, no JOINs.
+    
+- **Write Path:** CommitLog → Memtable → SSTable → Compaction.
+    
+- **Consistency:** Tunable (ONE/QUORUM/ALL), replication factor.
+    
+- **Scaling:** Horizontal writes, watch partition hotspots.
+    
+- **Gold:** Query-driven modeling + Materialized Views + SAI for flexibility.
+    
+
+**Reference**: [Hello Interview Cassandra Deep Dive](https://www.hellointerview.com/learn/system-design/deep-dives/cassandra)[hellointerview](https://www.hellointerview.com/learn/system-design/deep-dives/cassandra)​
+
+1. [https://www.hellointerview.com/learn/system-design/deep-dives/cassandra](https://www.hellointerview.com/learn/system-design/deep-dives/cassandra)
 # **Cornell Notes: Apache Cassandra Deep Dive**
 
 **Source:** HelloInterview, "System Design Deep Dives: Cassandra"  

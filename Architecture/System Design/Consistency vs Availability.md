@@ -1,3 +1,155 @@
+
+## CAP Theorem Interview Checklist
+
+- **CAP Definitions**
+    
+    |Property|Guarantee|Failure Behavior|
+    |---|---|---|
+    |**Consistency (C)**|All reads get latest write|Return error if unavailable|
+    |**Availability (A)**|Every request gets response|May return stale data|
+    |**Partition Tolerance (P)**|Operates despite network failures|Always required in distributed systems|
+    
+- **CAP Trade-offs (During Partition)**
+    
+    |Choice|Prioritizes|Sacrifices|Examples|
+    |---|---|---|---|
+    |**CP**|Consistency|Availability|Banking, Spanner, MongoDB|
+    |**AP**|Availability|Consistency|E-commerce, Cassandra, DynamoDB|
+    |**CA**|Consistency + Availability|Partition Tolerance|Single-node RDBMS (PostgreSQL)|
+    
+- **Real-World Database Mapping**
+    
+    |Database|CAP Focus|Notes|
+    |---|---|---|
+    |**MongoDB**|CP|Strong consistency option|
+    |**Cassandra**|AP|Tunable consistency|
+    |**DynamoDB**|AP|Eventual consistency|
+    |**Redis**|CP|In-memory, low latency|
+    |**Cosmos DB**|Tunable|Knob for C/A balance|
+    
+- **Interview Scenarios**
+    
+    |Scenario|CAP Choice|Justification|
+    |---|---|---|
+    |**Bank balance**|CP|Accuracy > availability|
+    |**Social feed**|AP|Availability > perfect order|
+    |**Checkout**|Hybrid|Payment=CP, recommendations=AP|
+    |**Logs/analytics**|AP|Volume > precision|
+    
+- **Common Pitfalls to Avoid**
+    
+    - CAP only applies **during partitions** (normal ops can have all 3)
+        
+    - Not whole-system: different components can choose different trade-offs
+        
+    - CAP ≠ ACID (CAP consistency = latest write, ACID = no corruption)
+        
+- **Advanced Concepts**
+    
+    - **Quorum systems**: W+R > N for consistency (e.g., Dynamo)
+        
+    - **PACELC extension**: Extends CAP for latency trade-offs
+        
+    - **Modern view** (Brewer): Maximize C+A combos, plan for partition recovery
+        
+
+## 60-Second Recap
+
+- **CAP:** In partition, pick 2/3: C (latest data), A (always responds), P (handles network failure).
+    
+- **CP:** Banking/inventory—accuracy first (Spanner, MongoDB).
+    
+- **AP:** Social/e-commerce—availability first (Cassandra, DynamoDB).
+    
+- **CA:** Non-distributed (PostgreSQL).
+    
+- **Gold:** Hybrid per component, justify with business needs, quorum for tunable consistency.
+    
+
+**Reference**: [CAP Theorem Explained](https://www.bmc.com/blogs/cap-theorem/)[bmc+2](https://www.bmc.com/blogs/cap-theorem/)​
+
+1. [https://www.bmc.com/blogs/cap-theorem/](https://www.bmc.com/blogs/cap-theorem/)
+2. [https://github.com/Devinterview-io/cap-theorem-interview-questions](https://github.com/Devinterview-io/cap-theorem-interview-questions)
+3. [https://www.youtube.com/watch?v=BTKBS_GdSms](https://www.youtube.com/watch?v=BTKBS_GdSms)
+4. [https://www.designgurus.io/blog/system-design-interview-basics-cap-vs-pacelc](https://www.designgurus.io/blog/system-design-interview-basics-cap-vs-pacelc)
+5. [https://www.geeksforgeeks.org/system-design/cap-theorem-in-system-design/](https://www.geeksforgeeks.org/system-design/cap-theorem-in-system-design/)
+6. [https://www.systemdesignhandbook.com/blog/cap-theorem-for-system-design-interviews/](https://www.systemdesignhandbook.com/blog/cap-theorem-for-system-design-interviews/)
+7. [https://www.youtube.com/watch?v=VdrEq0cODu4](https://www.youtube.com/watch?v=VdrEq0cODu4)
+8. [https://www.designgurus.io/blog/system-design-interview-fundamentals](https://www.designgurus.io/blog/system-design-interview-fundamentals)
+9. [https://devinterview.io/blog/cap-theorem-interview-questions/](https://devinterview.io/blog/cap-theorem-interview-questions/)
+10. [https://www.linkedin.com/pulse/system-design-interviews-cap-theorem-made-easy-kartik-sapra](https://www.linkedin.com/pulse/system-design-interviews-cap-theorem-made-easy-kartik-sapra)
+11. [https://blog.algomaster.io/p/cap-theorem-explained](https://blog.algomaster.io/p/cap-theorem-explained)
+
+## CAP Theorem (Modern View) Interview Checklist
+
+- **CAP Evolution**
+    
+    |Original CAP|Modern CAP|
+    |---|---|
+    |"2 of 3" binary choice|Maximize C+A combos, explicit partition handling|
+    |Partitions rare|Plan: detect → partition mode → recovery|
+    |ACID vs BASE|Hybrid approaches common|
+    
+- **Partition Management (3 Steps)**
+    
+    |Step|Actions|
+    |---|---|
+    |**1. Detect**|Timeout → partition decision (C or A)|
+    |**2. Partition Mode**|Limit ops, record history (version vectors)|
+    |**3. Recovery**|Merge state (CRDTs), compensate mistakes|
+    
+- **Consistency Granularity**
+    
+    - **Global:** All nodes see same data (Paxos, 2PC)
+        
+    - **Scope:** Consistent within primary partition
+        
+    - **Per-op/data:** Different choices per operation/user
+        
+    - **Sharding:** Independent shards progress separately
+        
+- **Advanced Techniques**
+    
+    |Technique|Purpose|Examples|
+    |---|---|---|
+    |**Version Vectors**|Track causal history|Conflict detection|
+    |**CRDTs**|Automatic convergence|Google Docs, Amazon cart|
+    |**Compensating Txns**|Fix partition mistakes|Saga pattern, ATM overdraft fees|
+    
+- **Real-World Systems**
+    
+    |System|Strategy|
+    |---|---|
+    |**Google Chubby**|Paxos (global consensus)|
+    |**Yahoo PNUTS**|Local master, async replicas|
+    |**Facebook TAO**|Master copy + stale replicas|
+    |**Amazon Dynamo**|Union carts (monotonic ops)|
+    
+- **CAP Misconceptions**
+    
+    - CAP only during **partitions** (normal: full C+A)
+        
+    - CA systems exist (datacenter-scale, low partition probability)
+        
+    - Forfeiting C requires **knowing all invariants**
+        
+    - Latency = partition (timeout decision point)
+        
+
+## 60-Second Recap
+
+- **Modern CAP:** Not "2 of 3"—maximize C+A, manage partitions explicitly.
+    
+- **Partition lifecycle:** Detect → limit ops/record history → recover (CRDTs/compensations).
+    
+- **Key insight:** Granular choices per op/data/shard, not system-wide.
+    
+- **Gold:** Version vectors + CRDTs + compensating transactions + sharding.
+    
+
+**Reference**: [CAP Twelve Years Later](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/)[infoq](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/)​
+
+1. [https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/](https://www.infoq.com/articles/cap-twelve-years-later-how-the-rules-have-changed/)
 ### **CAP Theorem (BMC)**
 
 **Source:** BMC Blogs | [CAP Theorem](https://www.bmc.com/blogs/cap-theorem/)

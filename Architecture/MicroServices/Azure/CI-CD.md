@@ -1,4 +1,92 @@
 
+## Microservices CI/CD Interview Checklist
+
+- **CI/CD Definitions**
+    
+    - **Continuous Integration (CI):** Frequent merges to main, automated build/test for production quality.
+        
+    - **Continuous Delivery (CD):** Auto-deploy to prod-like envs with manual prod gate.
+        
+    - **Continuous Deployment:** Full automation to production.
+        
+- **Microservices CI/CD Goals**
+    
+    - Independent team deployments without coordination.
+        
+    - Multi-stage validation (dev/test/QA/prod) with quality gates.
+        
+    - Side-by-side versioning, trusted container images, access controls.
+        
+- **Key Challenges**
+    
+    |Challenge|Impact|Mitigation|
+    |---|---|---|
+    |**Many Repos**|Tribal knowledge, disaster recovery|Unified pipelines, GitOps|
+    |**Polyglot Tech**|Inconsistent builds|Containerized builds|
+    |**E2E Testing**|Dependency coordination|Contract testing, shared test clusters|
+    |**Release Mgmt**|Central bottlenecks|Automated gates, peer review|
+    
+- **Monorepo vs Multi-Repo**
+    
+    |Monorepo|Multi-Repo|
+    |---|---|
+    |✅ Code sharing, standards|✅ Team ownership, decoupling|
+    |❌ Merge conflicts, ACL|❌ Dependency mgmt, discoverability|
+    
+- **Deployment Strategies**
+    
+    |Strategy|Pros|Cons|Kubernetes Example|
+    |---|---|---|---|
+    |**Rolling**|Zero downtime, resource efficient|Mixed versions|Deployment controller|
+    |**Blue-Green**|Instant rollback, validation|Double resources|Service selector swap|
+    |**Canary**|Risk-controlled rollout|Complex routing|Service mesh weights|
+    
+- **Pipeline Recommendations**
+    
+    - **Containerized Builds:** Docker-in-Docker for polyglot support.
+        
+    - **Unified Pipeline Template:** Teams customize shared pipeline.
+        
+    - **Image Trust:** Cosign, Notary for signed images.
+        
+    - **GitOps:** ArgoCD/Flux for declarative deployments.
+        
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**CI/CD**|Azure DevOps, GitHub Actions, Jenkins X|
+    |**GitOps**|ArgoCD, Flux|
+    |**Container**|Docker BuildKit, Kaniko|
+    |**Testing**|Pact (contracts), Testcontainers|
+    |**Security**|Cosign, Trivy, OPA Gatekeeper|
+    
+- **Architectural Best Practices**
+    
+    - **Team Autonomy:** Per-service pipelines with shared standards.
+        
+    - **Observability:** Pipeline metrics, deployment success rates.
+        
+    - **Rollback Strategy:** Always implement forward + backward paths.
+        
+    - **Dark Launches:** Deploy to prod shadowed traffic for validation.
+        
+
+## 60-Second Recap
+
+- **Microservices CI/CD:** Independent team pipelines + multi-stage gates + trusted images.
+    
+- **Strategies:** Rolling (default), Blue-Green (validation), Canary (risk mgmt).
+    
+- **Challenges:** Polyglot builds → containers; many repos → unified templates.
+    
+- **Gold:** GitOps (ArgoCD), contract testing (Pact), signed images (Cosign).
+    
+
+**Reference**: [Azure Microservices CI/CD](https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd](https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd)
+
 **Source:** Microsoft Azure Architecture Center | [CI/CD for Microservices](https://learn.microsoft.com/en-us/azure/architecture/microservices/ci-cd)
 
 **Main Idea:** Implementing effective CI/CD for microservices requires a **multi-repository, pipeline-per-service approach** with standardized templates and patterns to enable independent deployment while maintaining governance and security across potentially hundreds of services.

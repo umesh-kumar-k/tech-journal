@@ -1,3 +1,60 @@
+
+## Publisher-Subscriber (Pub/Sub) Pattern
+
+Pub/Sub enables publishers to broadcast events asynchronously to multiple subscribers via intermediary channels, decoupling senders from receivers for scalability and reliability.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber)​
+
+- Publisher sends to input channel; broker fans out to subscriber-specific output channels
+    
+- Supports topics, content filtering, wildcards for message routing; idempotent processing required
+    
+- Handles offline consumers, retries, dead-letter queues; eventual consistency model[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber)​
+    
+
+## Tools and Frameworks
+
+|Platform/Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|Azure|Event Grid (events), Service Bus Topics, Event Hubs|Enterprise integration; workflow coordination|
+|Apache|Kafka (topics/partitions), RabbitMQ (exchanges)|High-throughput streaming; fan-out messaging|
+|Redis|Redis Pub/Sub|Simple real-time notifications|
+|Google Cloud|Pub/Sub|Serverless event-driven architectures|
+|AWS|SNS (fan-out), SQS (queues)|Multi-region event distribution|
+
+## Interview Checklist
+
+- Define: Publisher → channel → broker → subscriber channels; async decoupling[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber)​
+    
+- Benefits: Scalability (one publish, many subscribers), reliability (offline handling), testability
+    
+- Routing: Topics, filters, wildcards; subscriber declares interest
+    
+- Gotchas: Idempotency (duplicates), ordering (not guaranteed), poison messages (dead-letter)
+    
+- Security: Channel access control, authentication, encryption
+    
+- Scaling: Competing consumers per subscriber; priority queues for ordering
+    
+- When: Many consumers, async workflows, cross-platform integration; avoid real-time sync
+    
+- Azure: Event Grid (events), Service Bus (topics), Event Hubs (streaming)
+    
+
+## 60-Second Recap
+
+- **Core**: Publisher broadcasts → broker → fan-out to subscribers; fully decoupled[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber)​
+    
+- **Why**: Scale to many consumers; handle offline; simple integration
+    
+- **Routing**: Topics/filters/wildcards; dead-letter for poison messages
+    
+- **Tools**: Azure Event Grid/Service Bus, Kafka, RabbitMQ, Redis Pub/Sub
+    
+- **Design**: Idempotent handlers; eventual consistency; competing consumers
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber](https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber](https://learn.microsoft.com/en-us/azure/architecture/patterns/publisher-subscriber)
 # **Publisher-Subscriber Pattern**
 
 ## **Core Thesis**

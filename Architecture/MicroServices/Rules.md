@@ -1,3 +1,109 @@
+## Microservices Rules (10 Commandments) Interview Checklist
+
+- **Commandment 1: Stateless vs Stateful Separation**
+    
+    - Cleanly separate stateless (API/UI) from stateful (DB logic) services.
+        
+    - Enables independent scaling and deployment strategies.
+        
+- **Commandment 2: No Shared Libraries/SDKs**
+    
+    - Avoid shared dependencies across services (creates coupling).
+        
+    - Each service manages its own versions independently.
+        
+- **Commandment 3: Avoid Host Affinity**
+    
+    - Don't tie services to specific hosts/machines.
+        
+    - Enables true horizontal scaling and fault tolerance.
+        
+- **Commandment 4: Single Task Focus**
+    
+    - Each service does **one thing well** (Single Responsibility Principle).
+        
+    - High cohesion, low coupling by design.
+        
+- **Commandment 5: Lightweight Messaging**
+    
+    - Use efficient protocols: gRPC, HTTP/2, MessagePack over JSON/XML.
+        
+    - Minimize network overhead in distributed systems.
+        
+- **Commandment 6: Well-Defined Entry/Exit Points**
+    
+    - Clear API contracts (OpenAPI specs) for every service.
+        
+    - Versioned endpoints, consistent error responses.
+        
+- **Commandment 7: Self-Registration & Discovery**
+    
+    - Services register with service registry on startup.
+        
+    - Dynamic discovery via Consul, Eureka, Kubernetes DNS.
+        
+- **Commandment 8: Explicit Rules & Constraints**
+    
+    - Validate inputs, enforce business rules at service boundaries.
+        
+    - Fail-fast with clear error messages.
+        
+- **Commandment 9: Polyglot When Needed**
+    
+    - Choose best language/framework per service use case.
+        
+    - Go/Node for I/O, Java for complex business logic.
+        
+- **Commandment 10: Independent Revisions/Builds**
+    
+    - Separate CI/CD pipelines, versioning, build environments per service.
+        
+    - Enables true independent deployment velocity.
+        
+- **Tools & Frameworks**
+    
+    |Rule Category|Tools|
+    |---|---|
+    |**Discovery**|Consul, Eureka, Kubernetes Services|
+    |**Messaging**|gRPC, NATS, Kafka|
+    |**API Specs**|OpenAPI/Swagger, GraphQL|
+    |**Registries**|Docker Registry, Harbor|
+    
+
+## 60-Second Recap
+
+- **10 Rules:** Stateless/stateful split, no shared libs, no host affinity, single task, lightweight comms, clear APIs, self-discovery, explicit validation, polyglot, independent builds.
+    
+- **Core Theme:** Maximize independence, minimize coupling.
+    
+- **Enablers:** Service discovery, gRPC, OpenAPI contracts, separate pipelines.
+    
+- **Gold:** SRP + independent lifecycle = true microservices velocity.
+    
+
+**Reference**: [Ten Commandments of Microservices](https://thenewstack.io/microservices/ten-commandments-microservices/)[dev](https://dev.to/kgoralski/deep-dive-into-microservices-architecture-h54)​
+
+1. [https://dev.to/kgoralski/deep-dive-into-microservices-architecture-h54](https://dev.to/kgoralski/deep-dive-into-microservices-architecture-h54)
+2. [https://www.linkedin.com/pulse/ten-commandments-microservices-janakiram-msv](https://www.linkedin.com/pulse/ten-commandments-microservices-janakiram-msv)
+3. [https://nubenetes.com/faq/](https://nubenetes.com/faq/)
+4. [https://www.slideshare.net/CentricConsulting/microservices-application-simplicity-infrastructure-complexity](https://www.slideshare.net/CentricConsulting/microservices-application-simplicity-infrastructure-complexity)
+5. [https://dl.thenewstack.io/ebooks/TheNewStack_GuideToCloudNativeMicroservices.pdf](https://dl.thenewstack.io/ebooks/TheNewStack_GuideToCloudNativeMicroservices.pdf)
+6. [https://www.osohq.com/learn/microservices-best-practices](https://www.osohq.com/learn/microservices-best-practices)
+7. [https://www.couchbase.com/blog/microservices-development-best-practices/](https://www.couchbase.com/blog/microservices-development-best-practices/)
+8. [https://securitypatterns.io/docs/04-service-mesh-security-pattern/](https://securitypatterns.io/docs/04-service-mesh-security-pattern/)
+9. [https://microservices.io/post/architecture/2024/01/23/microservices-rules-what-good-looks-like.html](https://microservices.io/post/architecture/2024/01/23/microservices-rules-what-good-looks-like.html)
+10. [https://www.capitalone.com/tech/software-engineering/10-microservices-best-practices/](https://www.capitalone.com/tech/software-engineering/10-microservices-best-practices/)
+11. [https://www.sciencedirect.com/science/article/pii/S0950584921000720](https://www.sciencedirect.com/science/article/pii/S0950584921000720)
+12. [https://developers.redhat.com/articles/2022/01/11/5-design-principles-microservices](https://developers.redhat.com/articles/2022/01/11/5-design-principles-microservices)
+13. [https://www.simform.com/blog/microservice-best-practices/](https://www.simform.com/blog/microservice-best-practices/)
+14. [https://www.felipepolo.me/ten-commandments-changing-microservice/](https://www.felipepolo.me/ten-commandments-changing-microservice/)
+15. [https://www.geeksforgeeks.org/system-design/10-microservices-design-principles-that-every-developer-should-know/](https://www.geeksforgeeks.org/system-design/10-microservices-design-principles-that-every-developer-should-know/)
+16. [https://www.reddit.com/r/microservices/comments/1csrxcy/10_microservices_best_practices_in_2024/](https://www.reddit.com/r/microservices/comments/1csrxcy/10_microservices_best_practices_in_2024/)
+17. [http://javaonfly.blogspot.com/2021/02/10-commandments-on-microservice.html](http://javaonfly.blogspot.com/2021/02/10-commandments-on-microservice.html)
+18. [https://blog.stackademic.com/if-your-microservices-keep-breaking-youre-ignoring-these-12-rules-66221bb3fc13](https://blog.stackademic.com/if-your-microservices-keep-breaking-youre-ignoring-these-12-rules-66221bb3fc13)
+19. [https://www.devteam.space/blog/10-best-practices-for-building-a-microservice-architecture/](https://www.devteam.space/blog/10-best-practices-for-building-a-microservice-architecture/)
+20. [https://www.radware.com/blog/security/10-commandments-for-securing-microservices/](https://www.radware.com/blog/security/10-commandments-for-securing-microservices/)
+
 **Source:** The New Stack | [https://thenewstack.io/microservices/ten-commandments-microservices/](https://thenewstack.io/microservices/ten-commandments-microservices/)
 
 **Main Idea:** Successful microservices adoption requires strict architectural discipline and cultural principles. These "commandments" are guidelines to avoid common pitfalls and ensure microservices deliver on their promises of agility and scalability, rather than creating a distributed monolith.

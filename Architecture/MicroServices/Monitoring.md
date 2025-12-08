@@ -1,3 +1,97 @@
+## Microservices Monitoring Interview Checklist
+
+- **Core Principles (The 5 Principles)**
+    
+    - **Monitor Containers + Contents:** Track both infrastructure (CPU/memory) and application metrics (latency/errors).[infoworld](https://www.infoworld.com/article/2265516/5-principles-of-monitoring-microservices.html)​
+        
+    - **Leverage Orchestration:** Use Kubernetes/AKS metrics for pod health, scaling events, resource quotas.
+        
+    - **Elastic Multi-Location:** Monitor across dynamic scaling, multi-region deployments with service discovery.
+        
+    - **API-Centric Monitoring:** Track API endpoints (response times, error rates, throughput).
+        
+    - **Distributed Tracing:** Follow requests across service boundaries for end-to-end visibility.
+        
+- **Observability Pillars (MELT)**
+    
+    |Pillar|Purpose|Key Metrics|
+    |---|---|---|
+    |**Metrics**|Quantitative trends|CPU, memory, latency (p50/p95/p99), error rates (4xx/5xx)|
+    |**Events**|Business context|Domain events, user actions|
+    |**Logs**|Detailed debugging|Structured JSON logs with correlation IDs|
+    |**Traces**|Request flows|Span duration, service dependencies|
+    
+- **Best Practices**
+    
+    - **Golden Signals:** Monitor Latency, Traffic, Errors, Saturation (Google SRE).
+        
+    - **Service-Level Objectives (SLOs):** Define 99.9% availability, <200ms p95 latency.
+        
+    - **Alerting:** Threshold + anomaly detection; avoid alert fatigue.
+        
+    - **Context Propagation:** Correlation IDs across services for tracing/logs.
+        
+- **Monitoring Strategies**
+    
+    - **Pull vs Push:** Prometheus pull model for dynamic services.
+        
+    - **Adaptive Sampling:** Reduce trace overhead during high load.
+        
+    - **Chaos Engineering:** Test monitoring during failures (Gremlin, Chaos Mesh).
+        
+- **Tools & Frameworks**
+    
+    |Category|Tools|
+    |---|---|
+    |**Metrics**|Prometheus, Grafana, Micrometer|
+    |**Tracing**|Jaeger, Zipkin, OpenTelemetry|
+    |**Logging**|ELK Stack, Loki, Fluentd|
+    |**Full Stack**|Grafana Cloud, New Relic, Datadog|
+    |**Service Mesh**|Istio (Kiali dashboard), Linkerd|
+    
+- **Architectural Patterns**
+    
+    - **Centralized Dashboards:** Grafana with multi-tenant views.
+        
+    - **Auto-Instrumentation:** OpenTelemetry SDKs for zero-code tracing.
+        
+    - **Custom Metrics:** Business KPIs beyond golden signals.
+        
+
+## 60-Second Recap
+
+- **5 Principles:** Containers+apps, orchestration, elastic/multi-region, APIs, distributed tracing.
+    
+- **MELT Stack:** Metrics (Prometheus), Events, Logs (ELK), Traces (Jaeger/OTel).
+    
+- **Golden Signals + SLOs:** Latency/traffic/errors/saturation with 99.9% targets.
+    
+- **Gold:** OpenTelemetry everywhere, Grafana dashboards, service mesh observability.
+    
+
+**Reference**: [5 Principles of Monitoring Microservices](https://www.infoworld.com/article/2265516/5-principles-of-monitoring-microservices.html)[infoworld](https://www.infoworld.com/article/2265516/5-principles-of-monitoring-microservices.html)​
+
+1. [https://www.infoworld.com/article/2265516/5-principles-of-monitoring-microservices.html](https://www.infoworld.com/article/2265516/5-principles-of-monitoring-microservices.html)
+2. [https://dzone.com/whitepapers/the-five-principles-of-monitoring-microservices](https://dzone.com/whitepapers/the-five-principles-of-monitoring-microservices)
+3. [https://www.linkedin.com/posts/neelcshah_microservices-middleware-observability-activity-7326190138902953986-IBmO](https://www.linkedin.com/posts/neelcshah_microservices-middleware-observability-activity-7326190138902953986-IBmO)
+4. [https://blog.risingstack.com/monitoring-microservices-architectures/](https://blog.risingstack.com/monitoring-microservices-architectures/)
+5. [https://newrelic.com/blog/best-practices/rethink-your-microservices-monitoring-strategy](https://newrelic.com/blog/best-practices/rethink-your-microservices-monitoring-strategy)
+6. [https://middleware.io/blog/microservices-monitoring/](https://middleware.io/blog/microservices-monitoring/)
+7. [https://network-insight.net/2022/08/16/microservices-observability/](https://network-insight.net/2022/08/16/microservices-observability/)
+8. [https://www.catchpoint.com/api-monitoring-tools/microservices-monitoring](https://www.catchpoint.com/api-monitoring-tools/microservices-monitoring)
+9. [https://dev.to/wallacefreitas/top-observability-best-practices-for-microservices-5fh3](https://dev.to/wallacefreitas/top-observability-best-practices-for-microservices-5fh3)
+10. [https://www.aalpha.net/blog/observability-design-patterns-for-microservices/](https://www.aalpha.net/blog/observability-design-patterns-for-microservices/)
+11. [https://swimm.io/learn/microservices/microservices-monitoring-importance-metrics-and-5-critical-best-practices](https://swimm.io/learn/microservices/microservices-monitoring-importance-metrics-and-5-critical-best-practices)
+12. [https://logz.io/blog/monitoring-microservices-best-practices/](https://logz.io/blog/monitoring-microservices-best-practices/)
+13. [https://www.cerbos.dev/blog/monitoring-and-observability-microservices](https://www.cerbos.dev/blog/monitoring-and-observability-microservices)
+14. [https://www.youtube.com/watch?v=sQPEz8gHJsY](https://www.youtube.com/watch?v=sQPEz8gHJsY)
+15. [https://lumigo.io/microservices-monitoring/microservices-observability/](https://lumigo.io/microservices-monitoring/microservices-observability/)
+16. [https://www.simform.com/blog/observability-design-patterns-for-microservices/](https://www.simform.com/blog/observability-design-patterns-for-microservices/)
+17. [https://www.geeksforgeeks.org/system-design/10-microservices-design-principles-that-every-developer-should-know/](https://www.geeksforgeeks.org/system-design/10-microservices-design-principles-that-every-developer-should-know/)
+18. [https://devops.com/7-best-practices-to-monitor-your-microservices/](https://devops.com/7-best-practices-to-monitor-your-microservices/)
+19. [https://www.techtarget.com/searchapparchitecture/tip/The-basics-of-monitoring-and-observability-in-microservices](https://www.techtarget.com/searchapparchitecture/tip/The-basics-of-monitoring-and-observability-in-microservices)
+20. [https://www.youtube.com/watch?v=PFQnNFe27kU](https://www.youtube.com/watch?v=PFQnNFe27kU)
+
 **Source:** The New Stack | [https://thenewstack.io/five-principles-monitoring-microservices/](https://thenewstack.io/five-principles-monitoring-microservices/)
 
 **Main Idea:** Effective monitoring for microservices is not just scaling up monolithic practices. It requires a fundamental shift to track the health of interdependent, distributed components and answer two key questions: **"Is my system working?"** and **"Why is it broken?"**

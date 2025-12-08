@@ -1,3 +1,139 @@
+
+## Consistency Patterns Interview Checklist
+
+- **Core Consistency Models**
+    
+    |Model|Propagation|Read Guarantee|CAP|
+    |---|---|---|---|
+    |**Strong**|Synchronous|Latest write|CP|
+    |**Eventual**|Asynchronous|Converges later|AP|
+    |**Weak**|Best-effort|No guarantee|AP|
+    
+- **Advanced Models**
+    
+    |Model|Key Feature|Implementation|
+    |---|---|---|
+    |**Linearizability**|Atomic visibility|Single leader, Paxos, Quorum|
+    |**Causal**|Cause-effect order|Vector clocks|
+    
+- **Replication Workflows**
+    
+    |Model|Workflow|
+    |---|---|
+    |**Strong**|Write → Replicate → ACK replica → ACK client|
+    |**Eventual**|Write → ACK client → Async replicate|
+    |**Weak**|Write → Queue → Async DB → ACK client|
+    
+- **Trade-offs Matrix**
+    
+    |Model|Latency|Availability|Consistency|Scalability|
+    |---|---|---|---|---|
+    |**Strong**|High|Low|High|Low|
+    |**Eventual**|Low|High|Low|High|
+    |**Weak**|Lowest|Highest|Lowest|Highest|
+    
+- **Use Case Mapping**
+    
+    |Use Case|Model|
+    |---|---|
+    |**Banking**|Strong|
+    |**DNS/S3**|Eventual|
+    |**Live streams**|Weak|
+    |**Comment threads**|Causal|
+    
+- **Real-World Implementations**
+    
+    |System|Model|Notes|
+    |---|---|---|
+    |**Google Spanner**|Strong|TrueTime|
+    |**Amazon Dynamo**|Eventual|Multi-leader|
+    |**Cassandra**|Tunable|Quorum-based|
+    |**Bigtable**|Strong|Single-master|
+    
+
+## 60-Second Recap
+
+- **Strong:** Sync replication, latest write visible (CP, banking).
+    
+- **Eventual:** Async, converges later (AP, S3/Dynamo).
+    
+- **Weak:** Best-effort, no read guarantees (live streams).
+    
+- **Advanced:** Linearizability (atomic), Causal (cause-effect).
+    
+- **Gold:** Mix models per workload—Strong for money, Eventual for scale.
+    
+
+**Reference**: [Consistency Patterns System Design](https://systemdesign.one/consistency-patterns/)[systemdesign](https://systemdesign.one/consistency-patterns/)​
+
+1. [https://systemdesign.one/consistency-patterns/](https://systemdesign.one/consistency-patterns/)
+## Consistency Patterns Interview Checklist
+
+- **Core Models**
+    
+    |Model|Guarantee|CAP Choice|Use Case|
+    |---|---|---|---|
+    |**Strong**|Latest write always visible|CP|Banking, inventory|
+    |**Eventual**|Converges eventually|AP|Social media, DNS|
+    |**Causal**|Related ops in order|AP|Comment threads|
+    
+- **CAP Theorem Trade-offs**
+    
+    |Priority|Consistency|Availability|Partition Tolerance|
+    |---|---|---|---|
+    |**CP**|Strong|May block|✅|
+    |**AP**|Eventual/Causal|✅|✅|
+    
+- **Model Characteristics**
+    
+    |Aspect|Strong|Eventual|Causal|
+    |---|---|---|---|
+    |**Latency**|High|Low|Medium|
+    |**Complexity**|High|Low|Medium|
+    |**User Experience**|Always correct|Temporary inconsistency|Logical order|
+    
+- **Decision Framework**
+    
+    |Scenario|Model|
+    |---|---|
+    |**Financial txns**|Strong|
+    |**Social feeds**|Eventual|
+    |**Reply chains**|Causal|
+    |**Global scale**|Eventual|
+    
+- **Implementation Techniques**
+    
+    |Technique|Models|Examples|
+    |---|---|---|
+    |**2PC/3PC**|Strong|Distributed txns|
+    |**Quorum Reads/Writes**|Eventual|DynamoDB, Cassandra|
+    |**Vector Clocks**|Causal|Riak, Voldemort|
+    
+- **Real-World Examples**
+    
+    |System|Model|
+    |---|---|
+    |**Amazon Dynamo**|Eventual|
+    |**Google Spanner**|Strong (TrueTime)|
+    |**Cassandra**|Tunable (quorum)|
+    
+
+## 60-Second Recap
+
+- **Strong:** Latest write visible (CP, banking).
+    
+- **Eventual:** Converges later (AP, social media).
+    
+- **Causal:** Related ops ordered (AP, comments).
+    
+- **CAP:** Pick 2/3—Strong=CP, Eventual/Causal=AP.
+    
+- **Gold:** Dynamo-style tunable consistency for flexibility.
+    
+
+**Reference**: [Consistency Patterns Distributed Systems](https://www.designgurus.io/blog/consistency-patterns-distributed-systems)[designgurus](https://www.designgurus.io/blog/consistency-patterns-distributed-systems)​
+
+1. [https://www.designgurus.io/blog/consistency-patterns-distributed-systems](https://www.designgurus.io/blog/consistency-patterns-distributed-systems)
 ### **Consistency Patterns in Distributed Systems**
 
 **Source:** Design Gurus Blog | [Consistency Patterns in Distributed Systems](https://www.designgurus.io/blog/consistency-patterns-distributed-systems)

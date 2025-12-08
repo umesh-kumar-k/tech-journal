@@ -1,3 +1,60 @@
+
+## Strangler Fig Pattern
+
+Strangler Fig pattern incrementally migrates legacy systems by routing requests through a façade/proxy that gradually shifts traffic from old to new services, enabling zero-downtime replacement.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig)​
+
+- Façade intercepts client requests; routes to legacy (initially) → new services (progressively)
+    
+- Run both systems in parallel; migrate features iteratively by complexity/ROI
+    
+- Decommission legacy after full migration; façade becomes permanent adapter or removed[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig)​
+    
+
+## Tools and Frameworks
+
+|Platform|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|API Gateway|Azure API Management, AWS API Gateway, Kong|Route /orders → legacy vs /users → new microservice|
+|Service Mesh|Istio VirtualService, Linkerd Route|Canary deployments during migration|
+|Reverse Proxy|NGINX, HAProxy|URL-based routing to old/new backends|
+|Feature Flags|LaunchDarkly, Unleash, Azure App Configuration|Toggle traffic by feature/user segment|
+|Database|Database migration tools (ETL), CDC (Change Data Capture)|Shadow writes during DB migration|
+
+## Interview Checklist
+
+- Define: Proxy façade gradually routes traffic from legacy → new system[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig)​
+    
+- Process: Façade → legacy (100%) → migrate features → new services → decommission legacy
+    
+- Routing: URL paths, headers, feature flags, canary releases
+    
+- Data Migration: Shared DB → shadow writes → new DB → cutover
+    
+- Benefits: Zero-downtime, risk reduction, parallel operation, ROI prioritization
+    
+- Gotchas: Façade as bottleneck/SPoF, data sync complexity, testing both systems
+    
+- Monitoring: Split traffic metrics, error rates per backend, migration progress
+    
+- When: Large legacy migration; avoid small/simple replacements
+    
+
+## 60-Second Recap
+
+- **Core**: Façade proxy shifts traffic legacy → new iteratively; zero-downtime[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig)​
+    
+- **Why**: Risk-managed migration; run both systems in parallel
+    
+- **Flow**: Client → API Gateway → /legacy/* → old, /new/* → modern services
+    
+- **Tools**: APIM/AWS Gateway, Istio, NGINX, feature flags, CDC for DB
+    
+- **Wins**: Gradual migration, canary testing, ROI prioritization
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig](https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig](https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig)
 # **Strangler Fig Pattern**
 
 ## **Core Thesis**

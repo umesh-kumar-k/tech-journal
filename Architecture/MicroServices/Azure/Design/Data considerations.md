@@ -1,4 +1,94 @@
 
+## Microservices Data Considerations Interview Checklist
+
+- **Data Isolation**
+    
+    - Each microservice owns and manages its own private data store; no shared schemas or direct DB access across services.
+        
+    - Allows independent data model optimizations and deployment agility.
+        
+- **Polyglot Persistence**
+    
+    - Different services may use different storage technologies (RDBMS, NoSQL, document stores) suited to their needs.
+        
+    - Example: Shipping service might use relational DB; Analytics service uses data lake.
+        
+- **Data Redundancy & Consistency**
+    
+    - Duplicate data across services is common for availability but leads to eventual consistency challenges.
+        
+    - Strong consistency needed only when critical; prefer eventual consistency where possible.
+        
+- **Transaction Patterns**
+    
+    - Use Saga patterns (Compensating Transactions, Scheduler Agent Supervisor) for distributed consistency.
+        
+    - Persist work items on durable queues to track multi-step transactions and avoid partial failures.
+        
+- **Data Minimization**
+    
+    - Services own only the data subset necessary for their operation to reduce coupling and data exposure.
+        
+    - Domain-driven design principles help define bounded contexts.
+        
+- **Service Boundaries**
+    
+    - Redraw service boundaries if chatty APIs or frequent data exchange causes tight coupling.
+        
+    - Coarse-grained APIs preferred over fine-grained entity sharing.
+        
+- **Event-Driven Architecture**
+    
+    - Services publish change events to inform other services of data updates asynchronously.
+        
+    - Event schemas use standards like JSON Schema, Microsoft Bond, Avro, or Protobuf to avoid tight coupling.
+        
+- **Scaling & Performance**
+    
+    - Aggregate or batch events to reduce load at scale.
+        
+    - Use data stores optimized for specific workloads (e.g., Azure Cache for Redis for high throughput, Azure Cosmos DB for scalable document storage, Azure Data Lake for analytics).
+        
+- **Case Study: Drone Delivery**
+    
+    - Delivery service uses Azure Redis for fast reads/writes of current delivery status.
+        
+    - Delivery History service archives long-term data in Azure Data Lake and Cosmos DB (partitioned by date for analytics, indexed for lookup).
+        
+    - Package service uses Cosmos DB with MongoDB API for document storage and high write throughput.
+        
+- **Tools and Frameworks**
+    
+    - Azure Cosmos DB (multi-model NoSQL)
+        
+    - Azure Redis Cache (in-memory data)
+        
+    - Azure Data Lake (big data analytics)
+        
+    - Messaging/Event Bus: Azure Event Grid, Kafka
+        
+    - Schema Management: OpenAPI, Protobuf, Avro
+        
+
+## 60-Second Recap
+
+- Microservices own private data stores; avoid shared DB schemas.
+    
+- Polyglot persistence with service-specific storage technologies.
+    
+- Event-driven integration with standardized schemas supports eventual consistency.
+    
+- Use Saga patterns for distributed transactions.
+    
+- Choose scalable, workload-appropriate data services (Redis, Cosmos DB, Data Lake).
+    
+- Design service boundaries to minimize chatty, tight coupling APIs.
+    
+
+**Reference**: [Azure Data Considerations for Microservices](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations)
+
 **Source:** Microsoft Azure Architecture Center | [Data Considerations](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/data-considerations)
 
 **Main Idea:** Data management is the most challenging aspect of microservices architecture. It requires a fundamental shift from centralized, shared databases to **decentralized data ownership**, embracing polyglot persistence and eventual consistency patterns to maintain service autonomy and loose coupling.

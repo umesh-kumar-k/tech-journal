@@ -1,3 +1,114 @@
+## Key Topics
+
+- **JVM Memory Structure**: Young Gen (Eden+Survivors, minor GC), Old Gen (major GC), Perm/Metaspace (classes); high allocation rate → frequent young GC pauses; scale issues with large heaps (100s GB).
+    
+- **GC Strategies**: CMS (concurrent, low-pause but fragmentation), G1 (region-based, default JDK9+ but high off-heap), C4/Zing (concurrent compacting, <3ms pauses on 650GB heaps), ZGC/Shenandoah (modern low-pause).
+    
+- **Tools/Frameworks Examples**:
+    
+    - Analysis: GCViewer/GCeasy (logs), Java Flight Recorder (JFR), jstack (threads), Dynamometer (HDFS load emulation).
+        
+    - Services: HDFS NameNode (200GB+ heap), Hive Metastore (50GB), Presto Coordinator (200GB).
+        
+    - JVMs: OpenJDK (CMS/G1), Azul Zing/C4 (large heaps).[uber](https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/)​
+        
+- **Tuning Patterns**: Young Gen sizing (20-50% total heap, scale with total), CMSInitiatingOccupancyFraction (growth rate analysis), disable String Dedup (G1 overhead), heap=1.2x max footprint.
+    
+- **Root Causes**: High object creation (metrics daemon 1ms vs 1s), consecutive full GCs (under-allocated heap), ParNew pauses from old gen scanning.
+    
+- **Outcomes**: NameNode RPC latency -20%, throughput +50%; Presto error rate 2.5%→0.73%; Hive Metastore p99 3s→<100ms.
+    
+
+## Interview Checklist
+
+- Diagnose: GC logs → GCeasy/GCViewer (pauses>100ms? young/old ratio?); jstack for blocked threads; allocation rate (MB/s).
+    
+- Heap sizing: Total heap > max footprint*1.2; Young Gen 20-50% total (test increments); <75% physical RAM (OS buffer).
+    
+- GC choice: CMS/G1 (<100GB), C4/ZGC (>200GB large heaps); monitor old gen growth vs CMSInitiatingOccupancyFraction.
+    
+- Quick fixes: Disable G1 String Dedup (-XX:-UseStringDeduplication); fix alloc spikes (thread backoff); ParGCCardsPerStrideChunk=32k.
+    
+- Validate: Production-like load (Dynamometer/Spark jobs); RPC queue time, GC count/pause, error rate pre/post.
+    
+- Scale considerations: NameNode (vertical only), Presto coordinator (brain node); off-heap monitoring.
+    
+- Pitfalls: Don't over-tune (TLABSize/ConcGCThreads neutral); benchmark filesystem ops (listStatus/write).
+    
+- Harden: Continuous GC logs, alerts (pause%>3%, consecutive full GCs).
+    
+
+## 60-Second Recap
+
+- JVM tuning: Measure GC pauses/alloc rate → size Young Gen (20-50%), heap=1.2x footprint; CMS→C4/ZGC for 100GB+ heaps.
+    
+- Fixes: Disable String Dedup, fix creation spikes, ParNew stride tuning; tools: GCeasy/JFR/Dynamometer.
+    
+- Uber scale: NameNode/Hive/Presto → 50% throughput+, 20% latency-, 97%→99.3% reliability.[uber](https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/)​
+    
+
+Reference: [https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/](https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/)[uber](https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/)​
+
+1. [https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/](https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/)
+
+## Key Topics
+
+- **Core Philosophy**: Measure-first (SLAs/SLOs → baselines → hypothesize → tune → verify); prioritize throughput/latency/startup/cost trade-offs; JVM pipeline (interpreter → C1 → C2/Graal JIT) with deoptimization/OSR.
+    
+- **GC Collectors**: G1 (default, region-based, MaxGCPauseMillis=200), ZGC (colored pointers, <10ms pauses, generational in JDK21+), Shenandoah (Brooks pointers, adaptive heuristics); container-aware (-XX:MaxRAMPercentage=75).
+    
+- **Tools/Frameworks Examples**:
+    
+    - Profiling: JFR/JMC (low-overhead events), async-profiler (flame graphs), JITWatch (comp logs), JOL (object layout).
+        
+    - GC Analysis: GCeasy/GCViewer; Benchmarking: JMH (micro), Gatling/k6 (load).
+        
+    - JVMs: HotSpot/Temurin (LTS), GraalVM (AOT Native Image), Corretto/Zulu; Libs: Agrona/Disruptor (low-alloc), DSL-JSON (zero-copy).
+        
+    - Observability: Micrometer/Prometheus/Grafana, OpenTelemetry, New Relic/Datadog (JFR integration).[developersvoice](https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/)​
+        
+- **JIT Optimizations**: Inlining (sealed classes), escape analysis (stack alloc), loop unrolling; pitfalls (reflection, megamorphic calls, code cache exhaustion).
+    
+- **Tuning Workflow**: Code (N+1 → batch, alloc reduction), JVM (heap/GC flags), refactor (MethodHandles vs reflection), scale (backpressure/Resilience4j).
+    
+- **Production Practices**: Continuous JFR rolling recordings, alerts (alloc rate/safepoint>5%), regression tests in CI (JMH+GC diff).
+    
+
+## Interview Checklist
+
+- Define goals: SLA (p99<200ms), baseline (JFR 60s under load), workload archetype (API/batch/streaming).
+    
+- Measure stack: JFR+async-profiler+APM; separate GC/JIT/code costs; container flags (-XX:+UseContainerSupport).
+    
+- GC choice: G1 (general <64GB), ZGC (low-latency >4GB), Shenandoah (big heaps); tune IHOP=35-45, region=8m.
+    
+- Code quick wins: Batch I/O, primitive cols (fastutil), lock-free (ConcurrentHashMap), sealed for inlining.
+    
+- JIT validation: -XX:+PrintCompilation → JITWatch; code cache=512m; JMH verify throughput.
+    
+- Observability: Continuous JFR (maxage=30m), Grafana (GC pause/alloc/safepoint), alert leading indicators.
+    
+- Trade-offs: Native Image (fast start, -20% throughput); vertical (ZGC big JVM) vs horizontal (G1 microservices).
+    
+- Harden: CI perf tests (JMH/Gatling), golden dashboards, post-mortem docs (flags+results).
+    
+
+## 60-Second Recap
+
+- Tuning playbook: Measure (JFR/async-profiler) → code/GC/JIT fixes → verify (JMH/load); G1/ZGC/Shenandoah per workload.
+    
+- Tools: JFR/JMC (prod), JITWatch/JOL (analysis), Micrometer/Grafana (alerts); Graal Native for startup.
+    
+- Architect: Container-aware, empirical (baselines/SLOs), ROI (cost/req); low-pause GCs for tail latency.[developersvoice](https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/)​
+    
+
+Reference: [https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/](https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/)[developersvoice](https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/)​
+
+1. [https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/](https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/)
+
+
+
+
 ### **Java Performance Tuning Playbook**
 **Source:** [Java Performance Tuning Playbook: JVM, GC & JIT](https://developersvoice.com/blog/java/java-performance-tuning-playbook-jvm-gc-jit/)
 
@@ -195,7 +306,8 @@
 **Source Reference:** [docs.gigaspaces.com/16.2/production/production-jvm-tuning.html](https://docs.gigaspaces.com/16.2/production/production-jvm-tuning.html)
 
 ### **Uber's JVM Tuning for Garbage Collection**
-**Source:** [Uber's JVM Tuning for Garbage Collection](https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/)
+**Source:** [Uber's JVM Tuning for Garbage 
+Collection](https://www.uber.com/en-IN/blog/jvm-tuning-garbage-collection/)
 
 ---
 

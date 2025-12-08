@@ -1,3 +1,170 @@
+
+## Key-Value Database Interview Checklist
+
+- **Core Architecture**
+    
+    - **Hash Table Model:** Unique key (string) → opaque value (string/JSON/BLOB/list).[influxdata](https://www.influxdata.com/key-value-database/)​
+        
+    - **No Schema:** Values untyped/opaque; access only by exact key match.
+        
+    - **O(1) Operations:** Average constant time lookups due to hashing.
+        
+- **Performance Strengths**
+    
+    |Workload|Advantage|
+    |---|---|
+    |**High TPS**|Millions ops/sec (Redis)|
+    |**Low Latency**|Sub-ms (in-memory stores)|
+    |**Simple CRUD**|Get/set/delete by key|
+    
+- **Primary Use Cases**
+    
+    - **Caching:** Accelerate DB/API responses (Redis cache layer).
+        
+    - **Session Store:** User sessions at scale (web apps).
+        
+    - **Leaderboards:** Real-time rankings (gaming).
+        
+    - **Configuration:** Feature flags, app settings.
+        
+    - **Rate Limiting:** Per-user quotas.
+        
+- **Scaling Patterns**
+    
+    - **In-Memory:** Redis (eviction policies: LRU, LFU).
+        
+    - **Persistent:** DynamoDB (managed), RocksDB (embedded).
+        
+    - **Sharding:** Consistent hashing across nodes.
+        
+    - **Replication:** Master-slave, multi-master geo-replication.
+        
+- **Limitations & Trade-offs**
+    
+    |❌ Weakness|Mitigation|
+    |---|---|
+    |**No Queries**|Use Document/Relational for search|
+    |**No Relationships**|Application-level joins|
+    |**Value Scanning**|Keep values small/simple|
+    
+- **Tools & Frameworks**
+    
+    |Store|Type|Best For|
+    |---|---|---|
+    |**Redis**|In-memory|Cache, sessions, pub/sub|
+    |**DynamoDB**|Managed|Serverless apps|
+    |**Aerospike**|Hybrid|Real-time analytics|
+    |**Riak**|Distributed|Fault-tolerant apps|
+    
+
+## 60-Second Recap
+
+- **KV:** Key → opaque value; O(1) access, no queries/relationships.
+    
+- **Wins:** Caching, sessions, leaderboards; **millions TPS, sub-ms latency**.
+    
+- **Scaling:** Sharding + replication; Redis for speed, DynamoDB for managed.
+    
+- **Avoid:** Complex queries → Document/Graph/Relational.
+    
+- **Gold:** Redis (cache/sessions), DynamoDB (serverless scale).
+    
+
+**Reference**: [InfluxData Key-Value Guide](https://influxdata.com/key-value-database/)[influxdata](https://www.influxdata.com/key-value-database/)​
+
+1. [https://www.influxdata.com/key-value-database/](https://www.influxdata.com/key-value-database/)
+2. [https://docs.influxdata.com/influxdb/v1/concepts/key_concepts/](https://docs.influxdata.com/influxdb/v1/concepts/key_concepts/)
+3. [https://docs.influxdata.com/influxdb/v1/concepts/glossary/](https://docs.influxdata.com/influxdb/v1/concepts/glossary/)
+4. [https://en.wikipedia.org/wiki/InfluxDB](https://en.wikipedia.org/wiki/InfluxDB)
+5. [https://stackoverflow.com/questions/48856764/how-influxdb-leverages-the-underlying-key-value-store](https://stackoverflow.com/questions/48856764/how-influxdb-leverages-the-underlying-key-value-store)
+6. [https://dbdb.io/db/influxdb](https://dbdb.io/db/influxdb)
+7. [https://en.wikipedia.org/wiki/Key%E2%80%93value_database](https://en.wikipedia.org/wiki/Key%E2%80%93value_database)
+8. [https://blog.iron.io/key-value-stores-vs-relational-databases/](https://blog.iron.io/key-value-stores-vs-relational-databases/)
+9. [https://github.com/influxdata/influxdb](https://github.com/influxdata/influxdb)
+10. [https://memgraph.com/blog/what-is-a-key-value-database](https://memgraph.com/blog/what-is-a-key-value-database)
+11. [https://aerospike.com/glossary/what-is-a-key-value-store/](https://aerospike.com/glossary/what-is-a-key-value-store/)
+12. [https://stackoverflow.com/questions/44971676/influxdb-data-structure-database-model](https://stackoverflow.com/questions/44971676/influxdb-data-structure-database-model)
+13. [https://aws.amazon.com/nosql/key-value/](https://aws.amazon.com/nosql/key-value/)
+14. [https://db-engines.com/en/ranking/key-value+store](https://db-engines.com/en/ranking/key-value+store)
+15. [https://www.youtube.com/watch?v=1Iw_0J5UkYs](https://www.youtube.com/watch?v=1Iw_0J5UkYs)
+16. [https://www.dragonflydb.io/guides/key-value-databases](https://www.dragonflydb.io/guides/key-value-databases)
+17. [https://www.reddit.com/r/influxdb/comments/1ebnrrm/how_does_influxdb_store_data/](https://www.reddit.com/r/influxdb/comments/1ebnrrm/how_does_influxdb_store_data/)
+18. [https://redis.io/nosql/key-value-databases/](https://redis.io/nosql/key-value-databases/)
+19. [https://thectoclub.com/tools/best-key-value-database/](https://thectoclub.com/tools/best-key-value-database/)
+20. [https://www.sqlpac.com/en/documents/influxdb-v1.7-architecture-setup-configuration-usage.html](https://www.sqlpac.com/en/documents/influxdb-v1.7-architecture-setup-configuration-usage.html)
+## Key-Value Database Interview Checklist
+
+- **Core Model**
+    
+    - **Simple Structure:** Unique string key → arbitrary value (string, JSON, BLOB, list).[redis](https://redis.io/nosql/key-value-databases/)​
+        
+    - **No Query Language:** Access only by key; no relationships or complex queries.
+        
+    - **Hash Table Backend:** O(1) average lookups, excellent for simple retrieval.
+        
+- **Performance Characteristics**
+    
+    |Strength|Use Case|
+    |---|---|
+    |**High throughput**|Small/continuous reads/writes|
+    |**Low latency**|<1ms access (in-memory like Redis)|
+    |**Horizontal scaling**|Add nodes for linear capacity|
+    
+- **Optimal Use Cases**
+    
+    - **Session Management:** User sessions, auth tokens for large-scale apps.
+        
+    - **Caching:** Accelerate app responses (database query cache).
+        
+    - **Real-time Data:** Leaderboards, product recommendations.
+        
+    - **Gaming:** Player sessions in MMOGs.
+        
+    - **Configuration:** Simple user/profile data storage.
+        
+- **Comparison Matrix**
+    
+    |DB Type|KV|Relational|Document|Graph|
+    |---|---|---|---|---|
+    |**Querying**|Key only|SQL/JOINs|Field queries|Relationships|
+    |**Schema**|None|Rigid|Flexible|Node/edge|
+    |**Performance**|Highest|Medium|Good|Relationship-heavy|
+    |**Relationships**|❌|✅|Limited|✅|
+    
+- **Scaling & Availability**
+    
+    - **Horizontal Scaling:** Sharding across nodes/clusters.
+        
+    - **Replication:** Multi-node copies for HA.
+        
+    - **Redis Enterprise:** Active-Active geo-replication, 99.999% uptime.
+        
+- **Tools & Frameworks**
+    
+    |Database|Language Support|Key Features|
+    |---|---|---|
+    |**Redis**|All major|In-memory, pub/sub, lists/sets|
+    |**DynamoDB**|AWS SDKs|Fully managed, global tables|
+    |**Riak**|Erlang-based|Distributed, fault-tolerant|
+    |**Aerospike**|Enterprise|Hybrid memory, real-time|
+    
+
+## 60-Second Recap
+
+- **KV =** Key → opaque value; O(1) access, no queries/relationships.
+    
+- **Best:** Caching, sessions, leaderboards, simple lookups.
+    
+- **Scaling:** Horizontal sharding + replication for HA.
+    
+- **Redis:** In-memory leader; **DynamoDB:** Managed AWS option.
+    
+- **Avoid:** Complex queries → use Document/Relational instead.
+    
+
+**Reference**: [Redis Key-Value Databases](https://redis.io/nosql/key-value-databases/)[redis](https://redis.io/nosql/key-value-databases/)​
+
+1. [https://redis.io/nosql/key-value-databases/](https://redis.io/nosql/key-value-databases/)
 # **Cornell Notes: Key-Value Databases Deep Dive**
 
 **Sources:**

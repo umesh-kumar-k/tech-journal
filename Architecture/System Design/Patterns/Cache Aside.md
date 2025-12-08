@@ -1,3 +1,65 @@
+
+## Cache-Aside Pattern
+
+The Cache-Aside pattern loads data into a cache on demand from a data store to improve read performance while maintaining data consistency through cache invalidation.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)​
+
+- Application first checks cache; on miss, fetches from store and updates cache
+    
+- On writes, update store first then invalidate corresponding cache entry
+    
+- Suitable when cache lacks native read/write-through functionality or unpredictable data access
+    
+- Cache eviction policies and expiration must balance freshness vs hit rate
+    
+- Works well with relatively static or frequently read data; caution on sensitive data or session state[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)​
+    
+
+## Tools and Frameworks
+
+|Platform/Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|Azure|Azure Cache for Redis, Azure Managed Redis|Distributed cache with expiration, backed by Cosmos DB or SQL DB [learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)​|
+|.NET|StackExchange.Redis client|Thread-safe Redis client for cache-aside implementation|
+|Java|Redisson, Spring Cache Abstraction|Cache client libraries supporting cache-aside with Redis or Memcached|
+|AWS|ElastiCache, DynamoDB Accelerator (DAX)|In-memory cache layer for DynamoDB with custom cache logic|
+|Open Source|Redis, Memcached|Widely used fast key-value stores for cache-aside pattern|
+
+## Interview Checklist
+
+- Define: Application loads data on demand into cache; caches invalidated on updates[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)​
+    
+- Why: Boost read throughput, reduce load on data store without assuming supported cache operations
+    
+- How: Check cache → fetch from store on miss → update cache; on update: store first, then invalidate cache entry
+    
+- Considerations: Expiry policies, handling stale data, local vs distributed cache, eviction strategies
+    
+- Code sample: Use Redis client (StackExchange.Redis) lazy connection; JSON serialization; async get/set with expiration
+    
+- When to use: Unpredictable access, no native cache integration, read-heavy workloads
+    
+- Avoid when: Mostly write-heavy or data is sensitive/shared
+    
+- Alternatives: Write-through caches, write-behind, read-through caches with native support
+    
+
+## 60-Second Recap
+
+- **Core**: Lazy load cache on get misses; write updates go to store then invalidate cache[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)​
+    
+- **Why**: Boost reads; flexibility if cache lacks native read/write through ops
+    
+- **Patterns**: Expiry balancing freshness and hit rate; avoid stale data pitfalls
+    
+- **Tools**: Azure Managed Redis, StackExchange.Redis, Redis, Memcached, DAX (AWS)
+    
+- **Best practices**: Update DB before cache invalidation; monitor cache hit ratio and latency
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside](https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside)
+2. [https://learn.microsoft.com/en-us/azure/](https://learn.microsoft.com/en-us/azure/)
 # **Cache-Aside Pattern**
 
 ## **Core Thesis**

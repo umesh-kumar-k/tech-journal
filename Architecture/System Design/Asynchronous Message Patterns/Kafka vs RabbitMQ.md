@@ -1,3 +1,97 @@
+## Kafka vs RabbitMQ Interview Checklist
+
+- **Architecture & Model**
+    
+    |Feature|Kafka|RabbitMQ|
+    |---|---|---|
+    |**Type**|Distributed log/streaming platform|Traditional message broker|
+    |**Persistence**|Append-only immutable logs|Acknowledgment-based queues|
+    |**Delivery**|Dumb broker/smart consumer (pull)|Smart broker/dumb consumer (push)|
+    |**Durability**|Messages retained by policy (days)|Deleted after ack|
+    
+- **Performance Characteristics**
+    
+    |Metric|Kafka|RabbitMQ|
+    |---|---|---|
+    |**Throughput**|1M+ msg/sec|4K-10K msg/sec|
+    |**Latency**|Higher (batch processing)|Lower (immediate delivery)|
+    |**Scaling**|Horizontal (partitions/brokers)|Clustering/mirroring|
+    
+- **Message Handling**
+    
+    - **Kafka:** Partitioned topics, key-based ordering within partitions, no priorities.
+        
+    - **RabbitMQ:** Priority queues, 15+ protocols (AMQP/STOMP/MQTT), complex routing (direct/fanout/topic).
+        
+- **Use Case Decision Matrix**
+    
+    |Use Case|Winner|Why|
+    |---|---|---|
+    |**High-throughput streaming**|Kafka|Big data, logs, analytics|
+    |**Low-latency RPC**|RabbitMQ|Task queues, microservices|
+    |**Complex routing**|RabbitMQ|Multiple protocols, priorities|
+    |**Event sourcing**|Kafka|Immutable log replay|
+    |**Real-time analytics**|Kafka|Continuous streams|
+    
+- **Reliability & Ordering**
+    
+    - **Kafka:** Strict ordering within partitions, at-least-once semantics.
+        
+    - **RabbitMQ:** Queue-level ordering, competing consumers may disorder.
+        
+- **Ecosystem & Operations**
+    
+    |Aspect|Kafka|RabbitMQ|
+    |---|---|---|
+    |**Ops Complexity**|High (ZooKeeper, brokers)|Lower (clustering)|
+    |**Monitoring**|Kafka Manager, Confluent|RabbitMQ Management UI|
+    |**Cloud**|Confluent Cloud, MSK|CloudAMQP, AWS MQ|
+    
+- **Tools & Frameworks**
+    
+    |Integration|Kafka Clients|RabbitMQ Clients|
+    |---|---|---|
+    |**Java**|Kafka Streams, Spring Kafka|Spring AMQP|
+    |**Python**|Faust, kafka-python|Pika, Celery|
+    |**Go**|Sarama|Streadway/amqp|
+    
+
+## 60-Second Recap
+
+- **Kafka:** High-throughput streaming, logs/analytics, dumb broker (pull), partitions.
+    
+- **RabbitMQ:** Low-latency messaging, complex routing, smart broker (push), queues.
+    
+- **Choose Kafka:** Big data, event sourcing, millions msg/sec.
+    
+- **Choose RabbitMQ:** RPC, task queues, priorities, multiple protocols.
+    
+- **Gold:** Kafka for streams, RabbitMQ for traditional messaging; hybrid common.
+    
+
+**Reference**: [Kafka vs RabbitMQ Guide](https://levelup.gitconnected.com/kafka-vs-rabbitmq-choosing-the-right-messaging-system-10ea83e75567)[aws.amazon](https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/)​
+
+1. [https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/](https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/)
+2. [https://www.simplilearn.com/kafka-vs-rabbitmq-article](https://www.simplilearn.com/kafka-vs-rabbitmq-article)
+3. [https://stackoverflow.com/questions/42151544/when-to-use-rabbitmq-over-kafka](https://stackoverflow.com/questions/42151544/when-to-use-rabbitmq-over-kafka)
+4. [https://www.confluent.io/blog/kafka-fastest-messaging-system/](https://www.confluent.io/blog/kafka-fastest-messaging-system/)
+5. [https://www.datacamp.com/blog/kafka-vs-rabbitmq](https://www.datacamp.com/blog/kafka-vs-rabbitmq)
+6. [https://www.devzery.com/post/kafka-vs-rabbitmq-complete-guide](https://www.devzery.com/post/kafka-vs-rabbitmq-complete-guide)
+7. [https://double.cloud/blog/posts/2023/03/apache-kafka-vs-rabbitmq/](https://double.cloud/blog/posts/2023/03/apache-kafka-vs-rabbitmq/)
+8. [https://www.logicmonitor.com/blog/rabbitmq-vs-kafka](https://www.logicmonitor.com/blog/rabbitmq-vs-kafka)
+9. [https://intellisoft.io/rabbitmq-vs-kafka-choosing-the-right-messaging-system-for-your-needs/](https://intellisoft.io/rabbitmq-vs-kafka-choosing-the-right-messaging-system-for-your-needs/)
+10. [https://www.iotforall.com/rabbitmq-vs-kafka-6-key-differences-leading-use-cases](https://www.iotforall.com/rabbitmq-vs-kafka-6-key-differences-leading-use-cases)
+11. [https://www.site24x7.com/learn/kafka-vs-rabbitmq.html](https://www.site24x7.com/learn/kafka-vs-rabbitmq.html)
+12. [https://www.pubnub.com/blog/kafka-vs-rabbitmq-choosing-the-right-messaging-broker/](https://www.pubnub.com/blog/kafka-vs-rabbitmq-choosing-the-right-messaging-broker/)
+13. [https://www.openlogic.com/blog/kafka-vs-rabbitmq](https://www.openlogic.com/blog/kafka-vs-rabbitmq)
+14. [https://www.confluent.io/learn/rabbitmq-vs-apache-kafka/](https://www.confluent.io/learn/rabbitmq-vs-apache-kafka/)
+15. [https://www.instaclustr.com/blog/rabbitmq-vs-kafka/](https://www.instaclustr.com/blog/rabbitmq-vs-kafka/)
+16. [https://www.cloudamqp.com/blog/when-to-use-rabbitmq-or-apache-kafka.html](https://www.cloudamqp.com/blog/when-to-use-rabbitmq-or-apache-kafka.html)
+17. [https://www.reddit.com/r/programming/comments/8muszb/apache_kafka_vs_rabbitmq/](https://www.reddit.com/r/programming/comments/8muszb/apache_kafka_vs_rabbitmq/)
+18. [https://quix.io/blog/apache-kafka-vs-rabbitmq-comparison](https://quix.io/blog/apache-kafka-vs-rabbitmq-comparison)
+19. [https://www.redpanda.com/guides/kafka-tutorial-rabbitmq-vs-kafka](https://www.redpanda.com/guides/kafka-tutorial-rabbitmq-vs-kafka)
+20. [https://www.reddit.com/r/devops/comments/tdcvq5/kafka_vs_rabbitmq/](https://www.reddit.com/r/devops/comments/tdcvq5/kafka_vs_rabbitmq/)
+
 # **Kafka vs RabbitMQ - Quick Reference**
 
 **Source:** Level Up Coding, "Kafka vs RabbitMQ: Choosing the Right Messaging System"  

@@ -1,4 +1,112 @@
 
+## Microservices API Design Interview Checklist
+
+- **API Types**
+    
+    - **Public APIs:** REST over HTTP with JSON, designed for external clients like browsers and mobile apps.
+        
+    - **Backend APIs:** Use efficient binary protocols like gRPC, Apache Avro, or Thrift for inter-service communication to reduce network overhead.
+        
+- **REST vs RPC**
+    
+    - REST models resources with uniform HTTP verbs; promotes statelessness and better scalability.
+        
+    - RPC centers on operations/commands, can be chatty but offers more direct function call style.
+        
+- **Efficiency Considerations**
+    
+    - Binary serialization (Protocol Buffers) is faster and smaller than JSON.
+        
+    - IDLs like OpenAPI for REST, protobuf for gRPC enable code generation, documentation, and testing.
+        
+- **Domain-Driven Design (DDD) to REST Mapping**
+    
+    - Aggregates → Resources
+        
+    - Entities → URLs (unique identifiers)
+        
+    - Value Objects → Immutable, updated via PUT/PATCH
+        
+    - Repositories → Collections
+        
+    - Child Entities → Navigation via hypermedia links (HATEOAS)
+        
+- **Idempotency and Side Effects**
+    
+    - PUT, DELETE, and GET are idempotent to enable safe retries.
+        
+    - POST is non-idempotent, generally used for creating new resources.
+        
+    - Use PUT to create or update resources at a known URL.
+        
+- **API Versioning**
+    
+    - Support semantic versioning; maintain backward compatibility.
+        
+    - Use side-by-side deployment or multiple versions in one service with routing.
+        
+    - Deprecate old versions promptly to reduce maintenance overhead.
+        
+- **Tools & Frameworks**
+    
+    - OpenAPI (Swagger) for RESTful API schema.
+        
+    - gRPC with Protocol Buffers for efficient binary RPC.
+        
+    - API Gateways (Kong, Ambassador, Azure API Management) for protocol translation, authentication, rate-limiting.
+        
+    - Testing tools: Postman, Pact, Spring Cloud Contract.
+        
+- **Common Architectural Patterns**
+    
+    - Backends for Frontends (BFF) to tailor APIs to client needs.
+        
+    - Async operations using HTTP 202 Accepted for long-running tasks.
+        
+    - Favor coarse-grained APIs over fine-grained to reduce chatty calls.
+        
+    - Avoid leaking internal database structure in API design.
+        
+- **Performance & Monitoring**
+    
+    - Perform early load and performance testing.
+        
+    - Monitor latency, error rates, and contract compliance.
+        
+    - Integrate metrics and logging in API gateways and services.
+        
+- **Architectural Trade-offs**
+    
+    - REST ensures broad compatibility and minimal client coupling.
+        
+    - gRPC offers performance and contract safety but requires client stubs and might complicate browser clients.
+        
+    - Hybrid approach common: public REST APIs and internal binary RPC.
+        
+
+---
+
+## 60-Second Recap
+
+- **Microservices APIs** split by use: public REST/JSON, internal gRPC/binary.
+    
+- **DDD concepts** reflected in API design: aggregates as resources, entities as URLs, navigable child entities.
+    
+- Use **idempotent HTTP methods** for resiliency and safe retries.
+    
+- Adopt **semantic versioning** with clear upgrade & deprecation paths.
+    
+- Tools: OpenAPI, gRPC/protobuf, API gateways, and contract testing frameworks.
+    
+- Architect for **low-latency, low-chattiness** APIs; use Backends-for-Frontends.
+    
+- Early **performance testing** and monitoring are critical to avoid surprises in production.
+    
+
+**Reference**: [Azure Microservices API Design](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/api-design)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/api-design)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/microservices/design/api-design](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/api-design)
+
 **Source:** Microsoft Azure Architecture Center | [API Design](https://learn.microsoft.com/en-us/azure/architecture/microservices/design/api-design)
 
 **Main Idea:** In microservices, APIs are the **contracts that define service boundaries**. Good API design is critical for achieving loose coupling, enabling independent evolution, and ensuring system stability. Design must focus on the **consumer's needs**, anticipate change, and prioritize clarity and consistency.

@@ -1,3 +1,55 @@
+## Key Topics
+
+- **Layers vs Tiers**: Layers separate responsibilities (presentation → business → data); tiers are physical separations on VMs/subnets for scalability/security; higher layers call lower only (closed) or any lower (open).
+    
+- **Communication**: Strict (sequential tier traversal, higher latency) vs relaxed (skipping tiers, more coupling); sync direct calls or async messaging (queues) between tiers.
+    
+- **Tools/Frameworks Examples**:
+    
+    - Compute: Azure VM Scale Sets (autoscaling), App Service/Container Apps (managed).
+        
+    - Networking: Load Balancers per tier, NSGs (tier isolation), WAF (front-end), Azure Bastion (secure admin).
+        
+    - Data: SQL Server Always On (HA), Cassandra (replication), Redis (caching).
+        
+    - Hybrid: Site-to-site VPN/ExpressRoute for on-prem.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier)​
+        
+- **Deployment**: Perimeter network (NVAs/firewalls) → web tier (stateless VMs) → business tier → data tier (replicated DB); each tier in separate subnet.
+    
+- **Best Practices**: Autoscaling, caching frequent data, async decoupling, DB HA, tier-specific NSG rules (data tier only from business).
+    
+
+## Interview Checklist
+
+- Clarify scope: Evolving requirements? On-prem migration? Hybrid cloud? Tier count (3+ for complex).
+    
+- Diagram flow: Internet → WAF/NVA → web LB → web tier → business tier → data tier; highlight stateless tiers.
+    
+- Layer/tier separation: Presentation (UI), business (logic), data (storage); justify physical tiers for scale/security.
+    
+- Security/scaling: NSGs per subnet, VMSS autoscaling, Bastion (no RDP/SSH), multi-VM HA.
+    
+- Trade-offs: Portability/low refactor vs monolithic deployment, latency from tiers, testing complexity.
+    
+- Migration path: VMs for minimal change, managed services (App Service) for modernization.
+    
+- Observability: End-to-end tracing across tiers, tier-specific metrics/alerts.
+    
+- Example: E-commerce (web: React → business: order logic → data: SQL HA).
+    
+
+## 60-Second Recap
+
+- N-tier: Logical layers (presentation/business/data) on physical tiers (VMs/subnets) for separation/scalability.
+    
+- Flow: WAF → web tier → business → data; tools: VMSS, NSGs, Always On DB, async queues.
+    
+- Pros: Portable/migration-friendly; cons: Latency/monolithic; secure with perimeters/Bastion.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier)​
+    
+
+Reference: [https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier)
 
 **Source:** Microsoft Azure Architecture Center | [N-Tier](https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/n-tier)
 

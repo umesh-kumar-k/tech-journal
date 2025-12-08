@@ -1,3 +1,45 @@
+## Spring Framework Observability Interview Checklist
+
+- **Core Concept**: Micrometer Observation API enables metrics (timers/gauges/counters for runtime stats) and traces (end-to-end request paths across services) via ObservationRegistry.[spring](https://docs.spring.io/spring-framework/reference/integration/observability.html)​
+    
+- **Produced Observations**: HTTP server/client (http.server.requests/requests), JMS messaging (jms.message.publish/process), @Scheduled tasks; auto-instruments Spring components when registry configured.
+    
+- **KeyValues Metadata**: Low cardinality (method, status, outcome for metrics); high cardinality (URI for traces); customizable via ObservationConvention implementations.
+    
+- **HTTP Server Setup**: Servlet uses ServerHttpObservationFilter; Reactive via WebHttpHandlerBuilder.observationRegistry(); records unhandled exceptions, supports OTel semantic conventions.
+    
+- **HTTP Client Setup**: Configure ObservationRegistry on RestTemplate/RestClient/WebClient builders (Spring Boot auto-configures); measures full exchange (connect to deserialize).
+    
+- **JMS Instrumentation**: Micrometer-jakarta9 for publish/process; set registry on JmsTemplate or JmsListenerContainerFactory; propagates trace context via headers.
+    
+- **@Scheduled Tasks**: Implement SchedulingConfigurer to set registry on ScheduledTaskRegistrar; uses DefaultScheduledTaskObservationConvention with KeyValues like task name/class.
+    
+- **Customization**: Extend Default*ObservationConvention for extra KeyValues; use ObservationFilter for post-processing; global config via ObservationRegistry.observationConfig().
+    
+- **Tools/Frameworks**: Micrometer (facade), OpenTelemetry (semantics/bridge), Prometheus/Grafana (metrics viz), Jaeger/Zipkin (traces), ELK (logs correlation).
+    
+- **Distributed Context**: Use ContextPropagatingTaskDecorator for @Async/@EventListener to propagate trace/ThreadLocal across threads; requires micrometer-context-propagation.
+    
+- **Architect Trade-offs**: Zero-code via conventions vs custom for business metrics; sampling for high-volume traces; OTel migration path from Micrometer legacy.
+    
+- **Testing/Monitoring**: Assert observations in tests; expose via Actuator; SLOs on request latency/error rates.
+    
+
+## 60-Second Recap
+
+- Micrometer Observation = metrics+traces via registry; auto-instruments HTTP/JMS/@Scheduled in Spring.
+    
+- Setup: Filter/Builder/Container configs; customize Convention/Filter for KeyValues (low/high cardinality).
+    
+- Tools: Micrometer+OTel → Prometheus/Grafana+Jaeger; propagate context for async/distributed.
+    
+- Gold: Semantic conventions, zero-code first, custom business telemetry, end-to-end SLOs.
+    
+
+**Reference**: [Spring Framework Observability](https://docs.spring.io/spring-framework/reference/integration/observability.html)[spring](https://docs.spring.io/spring-framework/reference/integration/observability.html)​
+
+1. [https://docs.spring.io/spring-framework/reference/integration/observability.html](https://docs.spring.io/spring-framework/reference/integration/observability.html)
+
 # **Spring Observability Summary**
 
 **Source:** https://docs.spring.io/spring-framework/reference/integration/observability.html

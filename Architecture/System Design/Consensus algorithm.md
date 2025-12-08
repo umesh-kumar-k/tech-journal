@@ -1,3 +1,75 @@
+## Consensus Algorithms Interview Checklist
+
+- **Core Properties**
+    
+    |Property|Definition|
+    |---|---|
+    |**Safety**|No two correct nodes decide different values|
+    |**Liveness**|Some value is eventually decided|
+    |**Fault Tolerance**|Tolerates f failures in N=2f+1 nodes|
+    |**Termination**|Finite steps to agreement|
+    
+- **Key Algorithms**
+    
+    |Algorithm|Phases|Leader?|Fault Tolerance|Limitations|
+    |---|---|---|---|---|
+    |**2PC**|Prepare/Commit|Coordinator|Coordinator failure blocks|Blocking|
+    |**3PC**|Prepare/Pre-commit/Commit|Coordinator|Better than 2PC|Network partition issues|
+    |**Paxos**|Prepare/Accept|No fixed|Byzantine tolerant|Complex|
+    |**Raft**|Leader election/Log replication|Yes|Crash faults|Leader bottleneck|
+    
+- **Raft Protocol States**
+    
+    - **Leader:** Handles client requests, replicates to followers
+        
+    - **Follower:** Replicates leader logs
+        
+    - **Candidate:** During leader election
+        
+- **Real-World Applications**
+    
+    |System|Consensus Use|
+    |---|---|
+    |**etcd**|Distributed KV store coordination|
+    |**Kubernetes**|Leader election for control plane|
+    |**Cloud Foundry Diego**|Scheduling/management|
+    |**Chubby (Google)**|Distributed locks/leases|
+    
+- **Decision Framework**
+    
+    |Scenario|Best Algorithm|
+    |---|---|
+    |**Transactions**|2PC/3PC|
+    |**Leader Election**|Raft|
+    |**High Fault Tolerance**|Paxos|
+    |**Replication**|Raft/Paxos|
+    
+- **Tools & Implementations**
+    
+    |Tool|Consensus|Language|
+    |---|---|---|
+    |**etcd**|Raft|Go|
+    |**Consul**|Raft|Go|
+    |**TiKV**|Raft|Rust|
+    |**CockroachDB**|Raft|Go|
+    
+
+## 60-Second Recap
+
+- **Properties:** Safety (no conflicts), Liveness (progress), Termination (finite steps).
+    
+- **2PC/3PC:** Coordinator-driven txns, blocking risks.
+    
+- **Paxos:** Complex, leaderless, Byzantine tolerant.
+    
+- **Raft:** Understandable, leader-based, log replication.
+    
+- **Gold:** Raft for most cases (etcd, K8s), N=2f+1 quorum.
+    
+
+**Reference**: [Consensus Algorithms System Design](https://www.educative.io/blog/consensus-algorithms-in-system-design)[educative](https://www.educative.io/blog/consensus-algorithms-in-system-design)​
+
+1. [https://www.educative.io/blog/consensus-algorithms-in-system-design](https://www.educative.io/blog/consensus-algorithms-in-system-design)
 # **Consensus Algorithms - Quick Reference**
 
 **Source:** Educative, "Consensus Algorithms in System Design"  

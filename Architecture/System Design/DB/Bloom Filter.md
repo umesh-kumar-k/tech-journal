@@ -1,3 +1,80 @@
+## Bloom Filter Interview Checklist
+
+- **Core Concept**
+    
+    - **Probabilistic Data Structure:** Tests set membership with fixed memory; **no false negatives**, possible **false positives**.[redis](https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/)​
+        
+    - **Hash-Based:** Multiple hash functions set bits in bit array; query checks all hashes.
+        
+- **Key Parameters**
+    
+    |Parameter|Impact|
+    |---|---|
+    |**Error Rate** (0.001 = 0.1%)|Memory vs accuracy trade-off|
+    |**Capacity**|Expected items before auto-scaling|
+    |**Expansion** (default=2)|Sub-filter growth rate|
+    |**Hash Functions**|~10 for 0.1% error|
+    
+- **Redis Commands**
+    
+    text
+    
+    `BF.RESERVE key 0.001 1000000    # Create filter BF.ADD key item                 # Add item BF.EXISTS key item              # Check membership BF.MADD key item1 item2...      # Multi-add`
+    
+- **Use Cases**
+    
+    - **Fraud Detection:** "Has this card/location been seen?" (finance).
+        
+    - **Ad Targeting:** "Has user seen this ad?" (retail).
+        
+    - **Username Check:** "Is username taken?" (SaaS).
+        
+    - **Cache Miss Prevention:** Check before expensive DB query.
+        
+- **Memory Efficiency**
+    
+    |Error Rate|Bits/Item|Hash Functions|
+    |---|---|---|
+    |**1%**|9.6|7|
+    |**0.1%**|14.4|10|
+    |**0.01%**|19.2|14|
+    |**Redis Set**|~320|N/A|
+    
+- **Scaling & Operations**
+    
+    - **Auto-Scaling:** Stacks sub-filters when capacity reached.
+        
+    - **Performance:** O(K) insert/query (K=hash functions).
+        
+    - **No Deletion:** Use Cuckoo filter instead.
+        
+- **Tools & Frameworks**
+    
+    |Language|Redis Client|
+    |---|---|
+    |**Python**|redis-py (bf() module)|
+    |**Java**|Jedis (BF commands)|
+    |**Node.js**|ioredis|
+    |**Go**|go-redis|
+    
+
+## 60-Second Recap
+
+- **Bloom Filter:** Probabilistic membership; no false negatives, ~0.1% false positives.
+    
+- **Memory:** 14 bits/item (vs 320+ for sets); auto-scales via sub-filters.
+    
+- **Use:** Pre-filter expensive ops (DB queries, fraud checks, ad targeting).
+    
+- **Redis:** `BF.RESERVE`, `BF.ADD`, `BF.EXISTS`; O(K) time.
+    
+- **Gold:** 0.1% error, capacity=10x expected items, expansion=2.
+    
+
+**Reference**: [Redis Bloom Filter](https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/)[redis](https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/)​
+
+1. [https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/](https://redis.io/docs/latest/develop/data-types/probabilistic/bloom-filter/)
+
 # **Cornell Notes: Bloom Filters - Probabilistic Data Structures**
 
 **Sources:**

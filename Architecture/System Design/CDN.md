@@ -1,3 +1,77 @@
+
+## CDN System Design Interview Checklist
+
+- **Core Components**
+    
+    |Component|Role|
+    |---|---|
+    |**PoP**|Physical locations with edge servers|
+    |**Edge Server**|Caches/serves content near users|
+    |**Origin Server**|Source of truth for original content|
+    
+- **Key Mechanisms**
+    
+    |Mechanism|Purpose|
+    |---|---|
+    |**Anycast Routing**|Directs to nearest PoP by network topology|
+    |**Cache Warming**|Pre-populate popular content|
+    |**TTL**|Cache expiration time|
+    |**Cache Invalidation**|Remove/update stale content|
+    |**Cache Purging**|Force remove specific content|
+    
+- **Routing Strategies**
+    
+    |Strategy|How It Works|
+    |---|---|
+    |**DNS-based**|Returns optimal edge IP|
+    |**GeoIP**|Routes by user location|
+    |**Anycast**|Shared IP → network routes nearest|
+    
+- **Network Topologies**
+    
+    |Topology|Characteristics|
+    |---|---|
+    |**Flat**|All edges → origin (simple, doesn't scale)|
+    |**Hierarchical**|Tiered caching (edge → parent → origin)|
+    |**Mesh**|Edges peer/share content|
+    |**Hybrid**|Mix for optimization|
+    
+- **Benefits Quantified**
+    
+    - **Latency:** 50-80% reduction via edge proximity
+        
+    - **Origin Offload:** 70-90% traffic reduction
+        
+    - **Availability:** Multi-PoP redundancy
+        
+    - **Security:** DDoS/WAF at edge
+        
+- **Popular CDNs & Features**
+    
+    |CDN|Key Features|
+    |---|---|
+    |**Cloudflare**|Anycast, WAF, edge compute|
+    |**Akamai**|Enterprise, video streaming|
+    |**AWS CloudFront**|S3 integration, Lambda@Edge|
+    |**Fastly**|Real-time purging, VCL|
+    
+
+## 60-Second Recap
+
+- **CDN Flow:** User → Anycast/DNS → Edge (cache hit/miss) → Origin → Cache → User.
+    
+- **Key Tech:** PoPs (global), TTL/invalidation, anycast routing.
+    
+- **Topologies:** Hierarchical/mesh for scale.
+    
+- **Benefits:** Latency ↓, origin offload, DDoS protection.
+    
+- **Gold:** CloudFront + Lambda@Edge + cache warming.
+    
+
+**Reference**: [CDN System Design Basics](https://www.designgurus.io/blog/content-delivery-network-cdn-system-design-basics)[designgurus](https://www.designgurus.io/blog/content-delivery-network-cdn-system-design-basics)​
+
+1. [https://www.designgurus.io/blog/content-delivery-network-cdn-system-design-basics](https://www.designgurus.io/blog/content-delivery-network-cdn-system-design-basics)
 ### **Cornell Notes: Content Delivery Network (CDN) System Design Basics**
 
 **Source:** Design Gurus Blog | [Content Delivery Network (CDN) System Design Basics](https://www.designgurus.io/blog/content-delivery-network-cdn-system-design-basics)

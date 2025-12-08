@@ -1,3 +1,52 @@
+**Spring AOP Proxy:** Runtime proxying via JDK dynamic (interface-based) or CGLIB (subclass); intercepts calls to apply aspects but bypasses self-invocation (`this.method()`).
+
+**Key Components & Examples:**
+
+- Proxy Selection: Interface(s) → JDK proxy; no interfaces → CGLIB subclass; force CGLIB via `proxy-target-class="true"` or `@EnableAspectJAutoProxy(proxyTargetClass=true)`.
+    
+- CGLIB Limits: No `final` classes/methods, no `private` methods, package-private inheritance issues, Java module `--add-opens` needed.
+    
+- Self-Invocation Problem: `this.bar()` inside proxied `foo()` bypasses proxy → no advice executes.
+    
+- Solutions:
+    
+    |Fix|Pros|Cons|
+    |---|---|---|
+    |Refactor (avoid self-call)|Cleanest|Code changes|
+    |`@Autowired` self-proxy|Spring-native|Circular deps|
+    |`AopContext.currentProxy()`|Works|AOP coupling, `exposeProxy=true`|
+    
+- New Spring 7.0: `@Proxyable(INTERFACES)` or `@Proxyable(TARGET_CLASS)` per-bean override.
+    
+
+**Interview Checklist:**
+
+- Selection: "Interfaces=JDK proxy, classes=CGLIB; force via `proxyTargetClass=true`".
+    
+- Pitfalls: "`final`/private no proxy; self-invocation bypasses advice".
+    
+- Fixes: "Refactor first, self-injection second, AopContext last resort".
+    
+- Config: "`@EnableAspectJAutoProxy(proxyTargetClass=true)` global; `@Proxyable` per-bean".
+    
+- Arch: "AspectJ weaving avoids proxy limits entirely".
+    
+
+**60-Second Recap:**
+
+- JDK (interfaces) vs CGLIB (classes); `proxy-target-class=true` forces CGLIB.
+    
+- Self-invocation (`this.method()`) bypasses proxy → refactor or self-inject.
+    
+- Limits: `final`/private no-go; Spring 7 `@Proxyable` granular control.
+    
+- AspectJ weaving = no proxy problems.
+    
+
+**Reference:** [https://docs.spring.io/spring-framework/reference/core/aop/proxying.html](https://docs.spring.io/spring-framework/reference/core/aop/proxying.html)
+
+1. [https://docs.spring.io/spring-framework/reference/core/aop/proxying.html](https://docs.spring.io/spring-framework/reference/core/aop/proxying.html)
+
 # **Spring AOP Proxying Mechanism Summary**
 
 **Source:** https://docs.spring.io/spring-framework/reference/core/aop/proxying.html

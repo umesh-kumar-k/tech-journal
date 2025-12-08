@@ -1,3 +1,74 @@
+## SQL vs NoSQL Interview Checklist
+
+- **Core Differences**
+    
+    |Aspect|SQL (Relational)|NoSQL|
+    |---|---|---|
+    |**Schema**|Fixed/rigid|Flexible/dynamic|
+    |**Data Model**|Tables, rows, columns|Documents, key-value, graphs|
+    |**Relationships**|JOINs, foreign keys|Embedding/denormalization|
+    |**Consistency**|ACID transactions|BASE (eventual)|
+    |**Scaling**|Vertical + read replicas|Horizontal sharding|
+    
+- **Data Types & Structure**
+    
+    |Data Type|SQL|NoSQL|
+    |---|---|---|
+    |**Structured**|✅ Financial txns, inventory|✅|
+    |**Semi-structured**|❌ JSON in columns|✅ Documents|
+    |**Unstructured**|❌ Blobs/files|✅ Native (images, video)|
+    
+- **NoSQL Categories**
+    
+    |Type|Example|Use Case|
+    |---|---|---|
+    |**Document**|MongoDB, CouchDB|User profiles, content|
+    |**Key-Value**|Redis, DynamoDB|Sessions, caching|
+    |**Column-Family**|Cassandra, BigTable|Time-series, analytics|
+    |**Graph**|Neo4j, ArangoDB|Social networks, fraud|
+    
+- **Scaling Patterns**
+    
+    |Pattern|SQL|NoSQL|
+    |---|---|---|
+    |**Read Scale**|Read replicas|Replica sets|
+    |**Write Scale**|Sharding (Vitess)|Native partitioning|
+    |**Global**|Cross-region sync|Multi-region native|
+    
+- **Decision Framework**
+    
+    |Choose SQL When|Choose NoSQL When|
+    |---|---|
+    |Complex JOINs, transactions|Schema evolution, high writes|
+    |ACID compliance|Horizontal scale, unstructured|
+    |Mature tooling|Rapid prototyping, big data|
+    
+- **Tools & Frameworks**
+    
+    |Category|SQL|NoSQL|
+    |---|---|---|
+    |**Databases**|PostgreSQL, MySQL|MongoDB, Cassandra|
+    |**ORMs**|Prisma, Hibernate|Mongoose, Spring Data|
+    |**Query**|SQLAlchemy|Cypher (graphs)|
+    
+
+## 60-Second Recap
+
+- **SQL:** Fixed schema, ACID, JOINs → transactions, reporting.
+    
+- **NoSQL:** Flexible schema, BASE, denormalized → scale, unstructured.
+    
+- **Types:** Document (Mongo), KV (Redis), Column (Cassandra), Graph (Neo4j).
+    
+- **Scale:** SQL vertical+replicas; NoSQL horizontal sharding.
+    
+- **Gold:** Polyglot persistence—SQL for txns + NoSQL for scale.
+    
+
+**Reference**: [MongoDB SQL vs NoSQL](https://www.mongodb.com/resources/basics/databases/nosql-explained/nosql-vs-sql)[mongodb](https://www.mongodb.com/resources/basics/databases/nosql-explained/nosql-vs-sql)​
+
+1. [https://www.mongodb.com/resources/basics/databases/nosql-explained/nosql-vs-sql](https://www.mongodb.com/resources/basics/databases/nosql-explained/nosql-vs-sql)
+
 # **SQL vs. NoSQL Databases (MongoDB.com)**
 
 ## **1. Essential Question**

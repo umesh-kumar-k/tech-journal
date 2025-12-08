@@ -1,3 +1,87 @@
+## Background Jobs Interview Checklist
+
+- **Background Job Types**
+    
+    - CPU-intensive (e.g., calculations, model analysis)
+        
+    - I/O-intensive (e.g., batch storage ops, indexing)
+        
+    - Batch jobs (e.g., nightly data processing)
+        
+    - Long-running workflows (e.g., order fulfillment)
+        
+    - Sensitive-data isolation (using patterns like Gatekeeper)
+        
+- **Triggers**
+    
+    |Trigger Type|Description|Examples|
+    |---|---|---|
+    |**Event-driven**|Triggered by events/messages|Queue message arrival, API calls|
+    |**Schedule-driven**|Triggered by timers|Cron jobs, Azure Logic Apps|
+    
+- **Result Handling**
+    
+    - Fire-and-forget: UI does not wait
+        
+    - Mechanisms for status: Database flags, reply queues, callbacks, API polling
+        
+- **Hosting Options**
+    
+    |Service|Use Case|Notes|
+    |---|---|---|
+    |**Azure WebJobs**|Continuous or triggered jobs inside Web Apps|Runs in app sandbox, automatic restarts|
+    |**Azure Functions**|Short-lived, event-driven, serverless|Timeout limits, consumption plans|
+    |**Azure VMs**|Legacy apps, full control|Higher management overhead|
+    |**Azure Batch**|HPC, large-scale parallel tasks|Auto-scale compute pools|
+    |**Azure Kubernetes Service**|Containers orchestration|Requires k8s expertise|
+    |**Azure Container Apps**|Serverless containers|Event-driven, microservices|
+    
+- **Design Considerations**
+    
+    - Availability can be lower than UI, tolerate retries/delays
+        
+    - Scale background jobs independently of UI
+        
+    - Isolate security contexts when needed
+        
+    - Manage lifecycle and deployment separately
+        
+    - Prevent conflicts like resource contention using locking or singleton jobs
+        
+    - Use checkpointing and state persistence for resilience
+        
+    - Design idempotent jobs to handle retrials and duplicates
+        
+    - Use queues for buffering and load leveling
+        
+    - Monitor and alert on job health and failures
+        
+- **Common Patterns**
+    
+    |Pattern|Use Case|
+    |---|---|
+    |**Pipes and Filters**|Modular reusable steps|
+    |**Scheduler Agent Supervisor**|Manage execution order, retries|
+    |**Compensating Transaction**|Undo steps on failure|
+    
+
+## 60-Second Recap
+
+- **Types:** CPU/I/O-intensive, batch, long-running, sensitive data.
+    
+- **Triggers:** Event-driven (queues/events), schedule-driven (timers).
+    
+- **Host:** Azure WebJobs (in-app), Azure Functions (serverless), VMs, Batch, AKS, Container Apps.
+    
+- **Design:** Idempotency, checkpointing, locking, monitoring.
+    
+- **Gold:** Queue-based load leveling, singleton jobs, auto-scaling hosting.
+    
+
+**Reference**: [Azure Background Jobs](https://learn.microsoft.com/en-us/azure/architecture/best-practices/background-jobs)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/best-practices/background-jobs)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/best-practices/background-jobs](https://learn.microsoft.com/en-us/azure/architecture/best-practices/background-jobs)
+
 ### **Background Jobs Pattern (Microsoft Azure)**
 
 **Source:** Microsoft Azure Architecture Center | [Background Jobs](https://learn.microsoft.com/en-us/azure/architecture/best-practices/background-jobs)

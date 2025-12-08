@@ -1,3 +1,59 @@
+## Circuit Breaker Pattern
+
+The Circuit Breaker pattern prevents cascading failures by monitoring remote service calls and blocking access to failing services after failure thresholds, allowing recovery time.[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​
+
+- Acts as proxy with states: Closed (normal, count failures), Open (fail fast), Half-Open (test recovery)
+    
+- Failure threshold in time window trips to Open; timeout transitions to Half-Open for limited probes
+    
+- Combines with Retry (retry only when Closed); provides graceful degradation/fallbacks[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​
+    
+
+## Tools and Frameworks
+
+|Language/Ecosystem|Tools/Frameworks|Example Use Case|
+|---|---|---|
+|.NET|Polly CircuitBreakerPolicy|Async HTTP calls to APIs with failure ratio thresholds [ prior]|
+|Java|Resilience4j CircuitBreaker|Reactive streams with adaptive thresholds, metrics export|
+|Node.js|opossum, hystrixjs|Express middleware for microservices fault isolation|
+|Go|Heinrich (gobreaker fork)|gRPC/HTTP clients with state machine implementation|
+|Cloud|Azure App Service + Cosmos DB, Istio Service Mesh|Cosmos 429 throttling protection; Envoy sidecar breakers [learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​|
+
+## Interview Checklist
+
+- Define: Proxy prevents repeated calls to failing services via Closed/Open/Half-Open states[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​
+    
+- States: Closed (failure counting), Open (fail-fast), Half-Open (probe recovery) with configurable thresholds
+    
+- Why: Avoid resource exhaustion from timeouts; enable self-healing vs endless retries
+    
+- Metrics: Track failure ratio/time window, success probes; expose via metrics/events[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​
+    
+- Implementation: Per-service breakers; adaptive thresholds (AI/ML); manual override
+    
+- Gotchas: Exception types matter (timeouts vs crashes), concurrency safety, multiregion failover
+    
+- Pair with: Retry (Closed only), Bulkhead (concurrency limits), Health checks (probe endpoint)
+    
+- Alternatives: Timeouts alone, service mesh (Istio), infrastructure-level (load balancers)
+    
+
+## 60-Second Recap
+
+- **Core**: Closed→Open (fail threshold)→Half-Open (probe)→Closed; fail-fast protection[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​
+    
+- **Why**: Stop cascades; free resources vs blocking timeouts/repeated failures
+    
+- **Ex**: Polly (.NET), Resilience4j (Java), Istio Envoy for Cosmos 429 throttling[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​
+    
+- **Tools**: Polly, Resilience4j, opossum, Heinrich, service mesh sidecars
+    
+- **Wins**: Graceful degradation, self-healing, metrics-driven; monitor state transitions
+    
+
+**Reference**: [https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)[learn.microsoft](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)​
+
+1. [https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)
 # **Circuit Breaker Pattern**
 
 ## **Core Thesis**

@@ -1,3 +1,87 @@
+## Message Bus vs Queue Interview Checklist
+
+- **Core Differences**
+    
+    |Aspect|**Queue**|**Message Bus**|
+    |---|---|---|
+    |**Coupling**|1:1 (single consumer)|1:N (multiple subscribers)|
+    |**Delivery**|Pull-based, ordered (FIFO/time)|Push-based, real-time|
+    |**Scheduling**|Delayed jobs, future execution|Immediate delivery only|
+    |**Semantics**|Task processing|Event distribution|
+    
+- **Queue Characteristics**
+    
+    - **Ordering:** FIFO or time-based (schedule jobs for future).
+        
+    - **Single Worker:** Message consumed once by one process.
+        
+    - **Retries:** Built-in exponential backoff, dead letter queues.
+        
+    - **Use Cases:** Background jobs, email sending, image processing.
+        
+- **Message Bus Characteristics**
+    
+    - **Fan-out:** Single event → multiple subscribers.
+        
+    - **Delivery Guarantees:** At-most-once, at-least-once, exactly-once.
+        
+    - **Real-time:** No scheduling capabilities.
+        
+    - **Use Cases:** Pub/sub, event sourcing, real-time notifications.
+        
+- **Decision Matrix**
+    
+    |Need|Choose Queue|Choose Message Bus|
+    |---|---|---|
+    |**Delayed jobs**|✅|❌|
+    |**Multiple consumers**|❌|✅|
+    |**Real-time fan-out**|❌|✅|
+    |**Single task processing**|✅|✅|
+    
+- **Hybrid Architecture**
+    
+    - **Common Pattern:** Bus → Queue → Workers (fan-out to scheduled tasks).
+        
+    - **Event → Processing:** Bus distributes events, queues handle heavy work.
+        
+    - **Inngest Example:** HTTP events → broker → scheduled queue functions.
+        
+- **Tools & Frameworks**
+    
+    |Type|Tools|
+    |---|---|
+    |**Queues**|Celery, BullMQ, SQS, RQ|
+    |**Buses**|Kafka, NATS, Redis Pub/Sub, RabbitMQ Topics|
+    |**Hybrid**|Inngest, Temporal, AWS Step Functions|
+    
+- **Architectural Guidelines**
+    
+    - **Queues:** Business-critical async tasks needing reliability/ordering.
+        
+    - **Buses:** System-wide event distribution, real-time coordination.
+        
+    - **Combine:** Use both; buses for events, queues for scheduled work.
+        
+    - **Idempotency:** Required for at-least-once delivery scenarios.
+        
+
+## 60-Second Recap
+
+- **Queue:** 1:1 ordered tasks, delayed execution, single worker.
+    
+- **Bus:** 1:N real-time events, fan-out, no scheduling.
+    
+- **Use Queue:** Background jobs, retries, ordering.
+    
+- **Use Bus:** Pub/sub, event streams, multiple consumers.
+    
+- **Gold:** Hybrid (bus → queue) for complete async architecture.
+    
+
+**Reference**: [Message Bus vs Queues](https://www.inngest.com/blog/message-bus-vs-queues)[inngest](https://www.inngest.com/blog/message-bus-vs-queues)​
+
+1. [https://www.inngest.com/blog/message-bus-vs-queues](https://www.inngest.com/blog/message-bus-vs-queues)
+
 # **Message Bus vs Message Queues - Quick Reference**
 
 **Source:** Inngest, "Message Bus vs Queues"  

@@ -1,3 +1,101 @@
+## Microservices vs Monolith Interview Checklist
+
+- **Core Definitions**
+    
+    - **Monolith:** Single codebase, single deployment unit, shared database; simple initial development.
+        
+    - **Microservices:** Independent services per business capability, separate repos/databases/deployments.
+        
+- **Development Trade-offs**
+    
+    |Aspect|Monolith ✅|Microservices ✅|
+    |---|---|---|
+    |**Simplicity**|Easy to start, single codebase|Complex distributed systems|
+    |**Team Size**|Small teams (2-9)|Large, independent teams|
+    |**Feature Velocity**|Fast initially, slows with size|Independent releases per service|
+    |**Tech Stack**|Single technology|Polyglot per service|
+    
+- **Operational Trade-offs**
+    
+    |Aspect|Monolith|Microservices|
+    |---|---|---|
+    |**Deployment**|Full redeploy for changes|Independent service deploys|
+    |**Scaling**|Scale entire app|Scale individual services|
+    |**Fault Isolation**|Single failure crashes all|Isolated failures|
+    |**Monitoring**|Simple centralized|Distributed tracing needed|
+    |**Cost**|Low initially, high at scale|High ops overhead, efficient scaling|
+    
+- **When to Choose Monolith**
+    
+    - **Startups/Prototypes:** Rapid iteration, small teams, <50 engineers.
+        
+    - **Simple Domains:** Low transaction volume, few integrations.
+        
+    - **Tight Coupling:** Services too interdependent for independent scaling.
+        
+    - **Limited DevOps:** Teams lack distributed systems expertise.
+        
+- **When to Choose Microservices**
+    
+    - **High Scale:** Millions of users, independent scaling needs.
+        
+    - **Large Teams:** >50 engineers, multiple autonomous teams.
+        
+    - **Diverse Requirements:** Different services need different tech/scaling.
+        
+    - **Regulatory:** Independent compliance/audit per service.
+        
+- **Migration Path**
+    
+    - **Strangler Fig Pattern:** Gradually extract services from monolith.
+        
+    - **Modular Monolith First:** Internal modules → extract to services.
+        
+    - **Event-Driven Refactor:** Use events to decouple monolith modules.
+        
+- **Tools & Frameworks**
+    
+    |Monolith|Microservices|
+    |---|---|
+    |**Rails/Django**|Spring Boot, Quarkus|
+    |**Single DB**|Polyglot (Postgres + Redis + Cassandra)|
+    |**Simple CI/CD**|GitOps (ArgoCD), Service Mesh (Istio)|
+    
+
+## 60-Second Recap
+
+- **Monolith:** Simple start, single deploy, scales poorly; ideal for startups <50 engineers.
+    
+- **Microservices:** Independent scaling/releases, high ops complexity; for large scale/teams.
+    
+- **Decision:** Start monolith, migrate via Strangler Fig when pain points emerge.
+    
+- **Gold:** Modular monolith → microservices; validate with Conway's Law/team size.
+    
+
+**Reference**: [Microservices vs Monoliths Operational Comparison](https://thenewstack.io/microservices/microservices-vs-monoliths-an-operational-comparison/)[atlassian](https://www.atlassian.com/microservices/microservices-architecture/microservices-vs-monolith)​
+
+1. [https://www.atlassian.com/microservices/microservices-architecture/microservices-vs-monolith](https://www.atlassian.com/microservices/microservices-architecture/microservices-vs-monolith)
+2. [https://www.reddit.com/r/softwarearchitecture/comments/1eflqzl/monolith_vs_microservices_whats_your_take/](https://www.reddit.com/r/softwarearchitecture/comments/1eflqzl/monolith_vs_microservices_whats_your_take/)
+3. [https://aws.amazon.com/compare/the-difference-between-monolithic-and-microservices-architecture/](https://aws.amazon.com/compare/the-difference-between-monolithic-and-microservices-architecture/)
+4. [https://www.ibm.com/think/topics/monolithic-vs-microservices](https://www.ibm.com/think/topics/monolithic-vs-microservices)
+5. [https://www.cortex.io/post/monoliths-vs-microservices-whats-the-difference](https://www.cortex.io/post/monoliths-vs-microservices-whats-the-difference)
+6. [https://www.fromjimmy.com/blog/monolithic-microservices-tradeoffs](https://www.fromjimmy.com/blog/monolithic-microservices-tradeoffs)
+7. [https://www.n-ix.com/microservices-vs-monolith-which-architecture-best-choice-your-business/](https://www.n-ix.com/microservices-vs-monolith-which-architecture-best-choice-your-business/)
+8. [https://konghq.com/blog/learning-center/monolith-vs-microservices](https://konghq.com/blog/learning-center/monolith-vs-microservices)
+9. [https://vivasoftltd.com/trade-offs-for-monoliths-and-microservices/](https://vivasoftltd.com/trade-offs-for-monoliths-and-microservices/)
+10. [https://catalyst.zoho.com/solutions/monlith-vs-microservices.html](https://catalyst.zoho.com/solutions/monlith-vs-microservices.html)
+11. [https://www.freecodecamp.org/news/microservices-vs-monoliths-explained/](https://www.freecodecamp.org/news/microservices-vs-monoliths-explained/)
+12. [https://blog.dreamfactory.com/microservices-vs-monolithic](https://blog.dreamfactory.com/microservices-vs-monolithic)
+13. [https://www.elsner.com/monolith-vs-microservices-choosing-the-right-architecture-for-your-project/](https://www.elsner.com/monolith-vs-microservices-choosing-the-right-architecture-for-your-project/)
+14. [https://www.geeksforgeeks.org/software-engineering/monolithic-vs-microservices-architecture/](https://www.geeksforgeeks.org/software-engineering/monolithic-vs-microservices-architecture/)
+15. [https://fullscale.io/blog/microservices-vs-monolithic-architecture/](https://fullscale.io/blog/microservices-vs-monolithic-architecture/)
+16. [https://dev.to/jhonifaber/microservices-vs-monoliths-how-to-choose-the-right-architecture-for-your-project-2bep](https://dev.to/jhonifaber/microservices-vs-monoliths-how-to-choose-the-right-architecture-for-your-project-2bep)
+17. [https://dzone.com/articles/microservices-vs-monolith-at-startup-making-the-ch](https://dzone.com/articles/microservices-vs-monolith-at-startup-making-the-ch)
+18. [https://martinfowler.com/articles/microservice-trade-offs.html](https://martinfowler.com/articles/microservice-trade-offs.html)
+19. [https://www.youtube.com/watch?v=NdeTGlZ__Do](https://www.youtube.com/watch?v=NdeTGlZ__Do)
+20. [https://www.reddit.com/r/programming/comments/1fbzk5b/microservices_vs_monoliths_why_startups_are/](https://www.reddit.com/r/programming/comments/1fbzk5b/microservices_vs_monoliths_why_startups_are/)
+
 **Source:** The New Stack | [https://thenewstack.io/microservices/microservices-vs-monoliths-an-operational-comparison/](https://thenewstack.io/microservices/microservices-vs-monoliths-an-operational-comparison/)
 
 **Main Idea:** The choice between microservices and monoliths is an **operational trade-off**, not just an architectural one. Microservices introduce operational complexity for potential gains in scalability, team autonomy, and resilience. The "right" choice depends heavily on team size, expertise, and business stage.

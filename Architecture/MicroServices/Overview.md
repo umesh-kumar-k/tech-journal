@@ -1,3 +1,87 @@
+## Microservices Overview Interview Checklist
+
+- **Definition**
+    
+    - Architectural style for building applications as a collection of small, autonomous services.
+        
+    - Each service manages a **single business capability** with its own data store and deploys independently.
+        
+- **Key Characteristics**
+    
+    - **Decentralized Data Management:** Each service owns private database/schema.
+        
+    - **Independent Deployability:** Enables frequent, low-risk releases.
+        
+    - **Technology Diversity:** Different services can use different languages, frameworks.
+        
+    - **Resiliency:** Failure in one service doesn’t bring down the whole system.
+        
+    - **Communication:** Services communicate via lightweight protocols (REST/gRPC/events).
+        
+- **Benefits**
+    
+    - **Scalability:** Services scale independently based on demand.
+        
+    - **Agility:** Smaller codebases, focused teams, rapid feature delivery.
+        
+    - **Flexibility:** Polyglot architecture tailored to service needs.
+        
+- **Challenges**
+    
+    - **Complexity:** Distributed debugging, service discovery, data consistency.
+        
+    - **Deployment:** Requires robust CI/CD and infrastructure automation.
+        
+    - **Operational Overhead:** Monitoring, logging, network traffic management.
+        
+    - **Data Consistency:** Embrace eventual consistency; use Saga patterns.
+        
+- **Common Patterns**
+    
+    - **API Gateways** for client routing and cross-cutting concerns.
+        
+    - **Service Meshes** (Istio, Linkerd) for service-to-service security and observability.
+        
+    - **Event-Driven Architectures** for decoupled services and asynchronous communication.
+        
+- **Tools & Frameworks**
+    
+    |Category|Examples|
+    |---|---|
+    |**Orchestration**|Kubernetes (AKS), Docker Swarm|
+    |**Messaging**|Kafka, RabbitMQ, Azure Service Bus|
+    |**API Management**|Kong, Azure API Management|
+    |**Monitoring**|Prometheus, Grafana, OpenTelemetry|
+    |**Service Mesh**|Istio, Linkerd|
+    
+- **Architectural Guidance**
+    
+    - Start with domain-driven design (DDD) to identify service boundaries.
+        
+    - Build observability early (logging, metrics, tracing).
+        
+    - Use CI/CD pipelines for automated testing and deployment.
+        
+    - Plan for fault tolerance with retries, circuit breakers, and bulkheads.
+        
+
+## 60-Second Recap
+
+- **Microservices =** Small, independent services aligned to business domains.
+    
+- **Enablers:** Polyglot persistence, automated CI/CD, API gateways, service meshes.
+    
+- **Key Benefits:** Scalability, agility, resiliency.
+    
+- **Challenges:** Distributed complexity, data consistency, ops overhead.
+    
+- **Gold Standard:** DDD, automation, observability, async messaging.
+    
+
+**Reference**: [The New Stack - What is Microservices Architecture?](https://thenewstack.io/microservices/what-is-microservices-architecture/)[vfunction](https://vfunction.com/blog/microservices-testing/)​
+
+1. [https://vfunction.com/blog/microservices-testing/](https://vfunction.com/blog/microservices-testing/)
+
 **Source:** The New Stack | [https://thenewstack.io/microservices/what-is-microservices-architecture/](https://thenewstack.io/microservices/what-is-microservices-architecture/)
 
 **Main Idea:** Microservices architecture is a **system design philosophy** that structures an application as a suite of loosely coupled, independently deployable services organized around business capabilities. It’s a response to the limitations of monolithic architectures for complex, evolving systems at scale, enabled by modern DevOps practices.
